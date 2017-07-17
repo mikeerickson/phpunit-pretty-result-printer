@@ -34,8 +34,8 @@ class PrinterTest extends PHPUnit_Framework_TestCase
   */
   public function testMethod1()
   {
-      $var = new Codedungeon\PHPUnitPrettyResultPrinter\Printer;
-      $this->assertTrue($var->method1("hey") == 'Hello World');
+      $printer = new Codedungeon\PHPUnitPrettyResultPrinter\Printer;
+      $this->assertTrue($printer->packageName() == 'PHPUnit Pretty Result Printer');
       unset($var);
   }
 }
