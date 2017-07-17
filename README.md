@@ -7,16 +7,16 @@ Extend the default PHPUnit Result Printer with a modern, pretty printer!
 Installation is provided via composer and can be done with the following command:
 
 ```bash
-$ composer require --dev codedungeon/cd-phpunit-printer:1.0.0
+$ composer require --dev codedungeon/phpunit-result-printer
 ```
 
 To activate the Printer for PHPUnit, just add it to your configuration XML:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit printerClass="PHPUnitPrettyResultPrinter\Printer">
- // ....
-</phpunit>
+  <phpunit printerClass="PHPUnitPrettyResultPrinter\Printer">
+    // ....
+  </phpunit>
 ```
 
 ### License

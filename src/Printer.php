@@ -51,7 +51,7 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
     {
         return "PHPUnit Pretty Result Printer";
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -112,6 +112,8 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
                 break;
         }
 
+        $buffer .= ' ';
+        
         echo parent::formatWithColor($color, $buffer);
         $this->column++;
     }
