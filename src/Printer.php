@@ -113,7 +113,6 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
         }
 
         $buffer .= ' ';
-        
         echo parent::formatWithColor($color, $buffer);
         $this->column++;
     }
