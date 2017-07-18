@@ -35,4 +35,7 @@ Twitter: [@codedungeon](http://twitter.com/codedungeon)
 
 Webiste: [codedungeon.org](http://codedungeon.org)
 
-[sample]: https://github.com/mikeerickson/phpunit-pretty-result-printer/blob/master/sample.png "Sample"
+
+### Screenshot
+
+![Screenshot](https://github.com/mikeerickson/phpunit-pretty-result-printer/blob/master/sample.png)
