@@ -96,7 +96,7 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
         switch (strtoupper($buffer)) {
             case '.':
                 $color = 'fg-green,bold';
-                $buffer = mb_convert_encoding("\x27\x13", 'UTF-8', 'UTF-16BE');
+                $buffer = mb_convert_encoding("\x27\x14", 'UTF-8', 'UTF-16BE');
                 break;
             case 'S':
                 $color = 'fg-magenta,bold';

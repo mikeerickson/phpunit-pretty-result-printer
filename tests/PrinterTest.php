@@ -10,7 +10,6 @@
 */
 class PrinterTest extends PHPUnit_Framework_TestCase
 {
-
   public function testIsThereAnySyntaxError()
   {
       $var = new Codedungeon\PHPUnitPrettyResultPrinter\Printer;
