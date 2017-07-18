@@ -1,4 +1,4 @@
-# CD PHPUnit Pretty Printer
+# CD PHPUnit Pretty Result Printer
 
 Extend the default PHPUnit Result Printer with a modern, pretty printer!
 
@@ -14,7 +14,7 @@ To activate the Printer for PHPUnit, just add it to your configuration XML:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-  <phpunit printerClass="PHPUnitPrettyResultPrinter\Printer">
+  <phpunit printerClass="Codedungeon\PHPUnitPrettyResultPrinter\Printer">
     // ....
   </phpunit>
 ```
@@ -35,4 +35,4 @@ Twitter: [@codedungeon](http://twitter.com/codedungeon)
 
 Webiste: [codedungeon.org](http://codedungeon.org)
 
-***
+[sample]: https://github.com/mikeerickson/phpunit-pretty-result-printer/raw/master/sample.png "Sample"
