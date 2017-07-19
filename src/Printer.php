@@ -57,12 +57,9 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
      */
     protected function writeProgress($progress)
     {
-        if ($this->debug) {
-            parent::writeProgress($progress);
-            return;
+        if (! $this->debug) {
+            $this->printClassName();
         }
-
-        $this->printClassName();
 
         $this->printTestCaseStatus('', $progress);
     }
@@ -72,11 +69,12 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
      */
     protected function writeProgressWithColor($color, $buffer)
     {
-        if ($this->debug) {
-            parent::writeProgressWithColor($color, $buffer);
-        }
+//        if ($this->debug) {
+//            parent::writeProgressWithColor($color, $buffer);
+//            return;
+//        }
 
-        $this->printClassName();
+//        $this->printClassName();
         $this->printTestCaseStatus($color, $buffer);
     }
 
@@ -97,24 +95,42 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
             case '.':
                 $color = 'fg-green,bold';
                 $buffer = mb_convert_encoding("\x27\x14", 'UTF-8', 'UTF-16BE');
+                $buffer .= (!$this->debug) ? '' : $this->appendLabel('Passed');
                 break;
             case 'S':
-                $color = 'fg-magenta,bold';
-                $buffer = mb_convert_encoding("\x27\x6F", 'UTF-8', 'UTF-16BE');
+                $color = 'fg-yellow,bold';
+                $buffer = '►';
+//                $buffer = mb_convert_encoding("\x27\x6F", 'UTF-8', 'UTF-16BE');
+                $buffer .= (!$this->debug) ? '' : $this->appendLabel('Skipped');
+
                 break;
             case 'I':
                 $color = 'fg-blue,bold';
-                $buffer = mb_convert_encoding("\x27\x5A", 'UTF-8', 'UTF-16BE');
+//                $buffer = mb_convert_encoding("\x27\x5A", 'UTF-8', 'UTF-16BE');
+                $buffer .= (!$this->debug) ? '' : $this->appendLabel('Incomplete');
                 break;
             case 'F':
                 $color = 'fg-red,bold';
                 $buffer = mb_convert_encoding("\x27\x16", 'UTF-8', 'UTF-16BE');
+                $buffer .= (!$this->debug) ? '' : $this->appendLabel('Fail');
+                break;
+            case 'E':
+                $color = 'fg-red,bold';
+                $buffer = '⚈';
+                $buffer .= (!$this->debug) ? '' : $this->appendLabel('Error');
                 break;
         }
 
         $buffer .= ' ';
         echo parent::formatWithColor($color, $buffer);
+        if($this->debug) {
+            $this->writeNewLine();
+        }
         $this->column++;
+    }
+
+    private function appendLabel($label) {
+        return ' ' . $label;
     }
 
     /**
