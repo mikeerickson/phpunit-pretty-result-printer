@@ -95,29 +95,29 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
             case '.':
                 $color = 'fg-green,bold';
                 $buffer = mb_convert_encoding("\x27\x14", 'UTF-8', 'UTF-16BE');
-                $buffer .= (!$this->debug) ? '' : $this->appendLabel('Passed');
+                $buffer .= (!$this->debug) ? '' : ' Passed';
                 break;
             case 'S':
                 $color = 'fg-yellow,bold';
                 $buffer = '►';
 //                $buffer = mb_convert_encoding("\x27\x6F", 'UTF-8', 'UTF-16BE');
-                $buffer .= (!$this->debug) ? '' : $this->appendLabel('Skipped');
+                $buffer .= (!$this->debug) ? '' : ' Skipped';
 
                 break;
             case 'I':
                 $color = 'fg-blue,bold';
 //                $buffer = mb_convert_encoding("\x27\x5A", 'UTF-8', 'UTF-16BE');
-                $buffer .= (!$this->debug) ? '' : $this->appendLabel('Incomplete');
+                $buffer .= (!$this->debug) ? '' : ' Incomplete';
                 break;
             case 'F':
                 $color = 'fg-red,bold';
                 $buffer = mb_convert_encoding("\x27\x16", 'UTF-8', 'UTF-16BE');
-                $buffer .= (!$this->debug) ? '' : $this->appendLabel('Fail');
+                $buffer .= (!$this->debug) ? '' : ' Fail';
                 break;
             case 'E':
                 $color = 'fg-red,bold';
                 $buffer = '⚈';
-                $buffer .= (!$this->debug) ? '' : $this->appendLabel('Error');
+                $buffer .= (!$this->debug) ? '' : ' Error';
                 break;
         }
 
@@ -152,7 +152,7 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
         }
 
         echo PHP_EOL;
-        $className = $this->formatClassName($this->className);
+        $className = '==> ' .$this->formatClassName($this->className);
         if ($this->colors === true) {
             $this->writeWithColor('fg-cyan', $className, false);
         } else {
