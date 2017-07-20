@@ -32,21 +32,25 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
     private $maxNumberOfColumns;
 
     /**
+     * @var
+     */
+    private $hideClassName;
+
+    /**
      * {@inheritdoc}
      */
-    public function __construct(
-        $out = null,
-        $verbose = false,
-        $colors = self::COLOR_DEFAULT,
-        $debug = false,
-        $numberOfColumns = 80
-    ) {
+    public function __construct($out = null, $verbose = false, $colors = self::COLOR_DEFAULT, $debug = false, $numberOfColumns = 80)
+    {
         parent::__construct($out, $verbose, $colors, $debug, $numberOfColumns);
 
         $this->maxNumberOfColumns = $numberOfColumns;
         $this->maxClassNameLength = intval($numberOfColumns * 0.5);
+        $this->hideClassName      = getenv('CD_PRINTER_HIDE_CLASS');
     }
 
+    /**
+     * @return string
+     */
     public function packageName()
     {
         return "PHPUnit Pretty Result Printer";
@@ -69,12 +73,6 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
      */
     protected function writeProgressWithColor($color, $buffer)
     {
-//        if ($this->debug) {
-//            parent::writeProgressWithColor($color, $buffer);
-//            return;
-//        }
-
-//        $this->printClassName();
         $this->printTestCaseStatus($color, $buffer);
     }
 
@@ -94,19 +92,18 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
         switch (strtoupper($buffer)) {
             case '.':
                 $color = 'fg-green,bold';
-                $buffer = mb_convert_encoding("\x27\x14", 'UTF-8', 'UTF-16BE');
+                $buffer = mb_convert_encoding("\x27\x13", 'UTF-8', 'UTF-16BE');
                 $buffer .= (!$this->debug) ? '' : ' Passed';
                 break;
             case 'S':
                 $color = 'fg-yellow,bold';
-                $buffer = '►';
-//                $buffer = mb_convert_encoding("\x27\x6F", 'UTF-8', 'UTF-16BE');
+                $buffer = mb_convert_encoding("\x27\xA6", 'UTF-8', 'UTF-16BE');
                 $buffer .= (!$this->debug) ? '' : ' Skipped';
 
                 break;
             case 'I':
                 $color = 'fg-blue,bold';
-//                $buffer = mb_convert_encoding("\x27\x5A", 'UTF-8', 'UTF-16BE');
+                $buffer = 'ℹ';
                 $buffer .= (!$this->debug) ? '' : ' Incomplete';
                 break;
             case 'F':
@@ -123,14 +120,10 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
 
         $buffer .= ' ';
         echo parent::formatWithColor($color, $buffer);
-        if($this->debug) {
+        if ($this->debug) {
             $this->writeNewLine();
         }
         $this->column++;
-    }
-
-    private function appendLabel($label) {
-        return ' ' . $label;
     }
 
     /**
@@ -147,19 +140,20 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
      */
     protected function printClassName()
     {
+        if ($this->hideClassName) {
+            return;
+        }
         if ($this->lastClassName === $this->className) {
             return;
         }
 
         echo PHP_EOL;
-        $className = '==> ' .$this->formatClassName($this->className);
-        if ($this->colors === true) {
-            $this->writeWithColor('fg-cyan', $className, false);
-        } else {
-            $this->write($className);
-        }
+        $className = ' ==> ' .$this->formatClassName($this->className);
+
+        ($this->colors) ? $this->writeWithColor('fg-cyan', $className, false) : $this->write($className);
+
         $this->column += strlen($className) + 4;
-        echo "\t";
+//        echo "\t";
 
         $this->lastClassName = $this->className;
     }
@@ -185,4 +179,5 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
     {
         return str_pad($className, $this->maxClassNameLength);
     }
+
 }
