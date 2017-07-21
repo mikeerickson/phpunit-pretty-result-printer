@@ -24,7 +24,7 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
     /**
      * @var int
      */
-    private $maxClassNameLength = 40;
+    private $maxClassNameLength = 35;
 
     /**
      * @var int
@@ -37,6 +37,12 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
     private $hideClassName;
 
     /**
+     * @var
+     */
+    private $simpleOutput;
+
+
+    /**
      * {@inheritdoc}
      */
     public function __construct($out = null, $verbose = false, $colors = self::COLOR_DEFAULT, $debug = false, $numberOfColumns = 80)
@@ -45,7 +51,9 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
 
         $this->maxNumberOfColumns = $numberOfColumns;
         $this->maxClassNameLength = intval($numberOfColumns * 0.5);
-        $this->hideClassName      = getenv('CD_PRINTER_HIDE_CLASS');
+
+        $this->hideClassName      = getenv('CD_PRINTER_HIDE_CLASS') || $this->composerGetConfig('cd-printer-hide-class');
+        $this->simpleOutput       = getenv('CD_PRINTER_SIMPLE')     || $this->composerGetConfig('cd-printer-simple-output');
     }
 
     /**
@@ -97,13 +105,13 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
                 break;
             case 'S':
                 $color = 'fg-yellow,bold';
-                $buffer = mb_convert_encoding("\x27\xA6", 'UTF-8', 'UTF-16BE');
+                $buffer = ($this->simpleOutput) ? 'S' : mb_convert_encoding("\x27\xA6", 'UTF-8', 'UTF-16BE');
                 $buffer .= (!$this->debug) ? '' : ' Skipped';
 
                 break;
             case 'I':
                 $color = 'fg-blue,bold';
-                $buffer = 'ℹ';
+                $buffer = ($this->simpleOutput) ? 'I' : 'ℹ';
                 $buffer .= (!$this->debug) ? '' : ' Incomplete';
                 break;
             case 'F':
@@ -113,7 +121,7 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
                 break;
             case 'E':
                 $color = 'fg-red,bold';
-                $buffer = '⚈';
+                $buffer = ($this->simpleOutput) ? 'E' : '⚈';
                 $buffer .= (!$this->debug) ? '' : ' Error';
                 break;
         }
@@ -168,7 +176,12 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
             return $this->fillWithWhitespace($className);
         }
 
-        return '...' . substr($className, strlen($className) - $this->maxClassNameLength, $this->maxClassNameLength);
+        // maxLength of class, minus leading (...) and trailing space
+        $maxLength = $this->maxClassNameLength - 4;
+
+        // substring class name, providing space for ellipsis and one space at end
+        // this result should be combined to equal $this->maxClassNameLength
+        return '...' . substr($className, (strlen($className) - $maxLength), $maxLength). ' ';
     }
 
     /**
@@ -180,4 +193,18 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
         return str_pad($className, $this->maxClassNameLength);
     }
 
+    private function composerGetConfig($key)
+    {
+        $value  = false;
+        $data   = file_get_contents("./composer.json");
+        $config = json_decode($data, true);
+
+        if (array_key_exists("config", $config)) {
+            if (array_key_exists($key, $config["config"])) {
+                $value = $config["config"][$key];
+            }
+        }
+
+        return $value;
+    }
 }
