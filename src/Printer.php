@@ -52,8 +52,8 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
         $this->maxNumberOfColumns = $numberOfColumns;
         $this->maxClassNameLength = intval($numberOfColumns * 0.5);
 
-        $this->hideClassName      = getenv('CD_PRINTER_HIDE_CLASS') || $this->composerGetConfig('cd-printer-hide-class');
-        $this->simpleOutput       = getenv('CD_PRINTER_SIMPLE')     || $this->composerGetConfig('cd-printer-simple-output');
+        $this->hideClassName      = getenv('CD_PRINTER_HIDE_CLASS')    || $this->config('cd-printer-hide-class');
+        $this->simpleOutput       = getenv('CD_PRINTER_SIMPLE_OUTPUT') || $this->config('cd-printer-simple-output');
     }
 
     /**
@@ -158,7 +158,7 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
         echo PHP_EOL;
         $className = ' ==> ' .$this->formatClassName($this->className);
 
-        ($this->colors) ? $this->writeWithColor('fg-cyan', $className, false) : $this->write($className);
+        ($this->colors) ? $this->writeWithColor('fg-cyan,bold', $className, false) : $this->write($className);
 
         $this->column += strlen($className) + 4;
 //        echo "\t";
@@ -182,6 +182,7 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
         // substring class name, providing space for ellipsis and one space at end
         // this result should be combined to equal $this->maxClassNameLength
         return '...' . substr($className, (strlen($className) - $maxLength), $maxLength). ' ';
+
     }
 
     /**
@@ -193,18 +194,80 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
         return str_pad($className, $this->maxClassNameLength);
     }
 
-    private function composerGetConfig($key)
+    /**
+     * @param $key
+     * @return bool
+     */
+    private function config($key)
     {
-        $value  = false;
+        $result = null;
+
+        // config/printer.php
+        $result = (! is_null($result)) ?: $this->configGetValue($key, $result);
+
+        // .printerrc
+        $result = (is_null($result)) ?: $this->rcGetValue($key, $result);
+
+        // composer.json
+        $result = (is_null($result)) ?: $this->composerGetValue($key, $result);
+
+        // phpunit.xml
+        $result = (is_null($result)) ?: $this->phpunitGetValue($key, $result);
+
+        return $result;
+    }
+
+    private function configGetValue($key = "", $currValue = null)
+    {
+        if(file_exists('config/printer.php')) {
+            $configs = include('config/printer.php');
+            if(array_key_exists($key, $configs)) {
+                return $configs[$key];
+            }
+        } else {
+            return $currValue;
+        }
+
+        return null;
+    }
+
+    private function rcGetValue($key = "", $currValue = null)
+    {
+        if (file_exists(".printerrc")) {
+            $data   = file_get_contents(".printerrc");
+            $config = json_decode($data, true);
+            if (array_key_exists("config", $config)) {
+                if (array_key_exists($key, $config["config"])) {
+                    return $config["config"][$key];
+                }
+            }
+            return $currValue;
+        } else {
+            return $currValue;
+        }
+    }
+
+    /**
+     * @param $key
+     * @return bool
+     */
+    private function composerGetValue($key = "", $currValue = null)
+    {
         $data   = file_get_contents("./composer.json");
         $config = json_decode($data, true);
 
         if (array_key_exists("config", $config)) {
             if (array_key_exists($key, $config["config"])) {
-                $value = $config["config"][$key];
+                $currValue = $config["config"][$key];
             }
         }
 
-        return $value;
+        return $currValue;
+    }
+
+    private function phpunitGetValue($key = "", $currValue = null)
+    {
+        $key = str_replace("-", "_", strtoupper($key));
+        return getenv($key) ? getenv($key) : $currValue;
     }
 }
