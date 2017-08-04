@@ -1,0 +1,4 @@
+options:
+  cd-printer-hide-class: true
+  cd-printer-simple-output: true
+  cd-printer-quiet-output: true

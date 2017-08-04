@@ -2,7 +2,9 @@
 
 namespace Codedungeon\PHPUnitPrettyResultPrinter;
 
+use Noodlehaus\Config;
 use PHPUnit_Framework_Test;
+use Bakyt\Console\Phanybar;
 
 /**
  * Class Printer
@@ -41,6 +43,27 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
      */
     private $simpleOutput;
 
+    /**
+     * @var mixed|null
+     */
+    private $quiteOutput;
+
+    /**
+     * @var anybar
+     */
+    private $anybar;
+
+    /**
+     * @var Config
+     */
+    private $configuration;
+
+    /**
+     * @var string
+     */
+    private $configFileName = "";
+
+    private $printerOptions;
 
     /**
      * {@inheritdoc}
@@ -49,11 +72,26 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
     {
         parent::__construct($out, $verbose, $colors, $debug, $numberOfColumns);
 
+        $this->configFileName     = $this->getConfigurationFile("phpunit-printer.yml");
+        $this->anybar             = new Phanybar;
+        $this->configuration      = new Config($this->configFileName);
+
         $this->maxNumberOfColumns = $numberOfColumns;
         $this->maxClassNameLength = intval($numberOfColumns * 0.5);
 
-        $this->hideClassName      = getenv('CD_PRINTER_HIDE_CLASS')    || $this->config('cd-printer-hide-class');
-        $this->simpleOutput       = getenv('CD_PRINTER_SIMPLE_OUTPUT') || $this->config('cd-printer-simple-output');
+        // setup module options
+        $this->printerOptions     = $this->configuration->all();
+        $this->hideClassName      = $this->configuration->get('options.cd-printer-hide-class');
+        $this->simpleOutput       = $this->configuration->get('options.cd-printer-simple-output');
+        $this->quiteOutput        = $this->configuration->get('options.cd-printer-quiet-output');
+
+        if (! $this->quiteOutput) {
+            echo PHP_EOL;
+            echo "PHPUnit Printer Configuration: ". PHP_EOL;
+            echo $this->configFileName;
+            echo PHP_EOL .PHP_EOL;
+        }
+
     }
 
     /**
@@ -102,27 +140,35 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
                 $color = 'fg-green,bold';
                 $buffer = mb_convert_encoding("\x27\x13", 'UTF-8', 'UTF-16BE');
                 $buffer .= (!$this->debug) ? '' : ' Passed';
+                $this->anybar->send('green');
                 break;
             case 'S':
                 $color = 'fg-yellow,bold';
                 $buffer = ($this->simpleOutput) ? 'S' : mb_convert_encoding("\x27\xA6", 'UTF-8', 'UTF-16BE');
                 $buffer .= (!$this->debug) ? '' : ' Skipped';
+                $this->anybar->send('yellow');
 
                 break;
             case 'I':
                 $color = 'fg-blue,bold';
                 $buffer = ($this->simpleOutput) ? 'I' : 'ℹ';
                 $buffer .= (!$this->debug) ? '' : ' Incomplete';
+                $this->anybar->send('blue');
+
                 break;
             case 'F':
                 $color = 'fg-red,bold';
                 $buffer = mb_convert_encoding("\x27\x16", 'UTF-8', 'UTF-16BE');
                 $buffer .= (!$this->debug) ? '' : ' Fail';
+                $this->anybar->send('red');
+
                 break;
             case 'E':
                 $color = 'fg-red,bold';
                 $buffer = ($this->simpleOutput) ? 'E' : '⚈';
                 $buffer .= (!$this->debug) ? '' : ' Error';
+                $this->anybar->send('rend');
+
                 break;
         }
 
@@ -195,79 +241,32 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
     }
 
     /**
-     * @param $key
-     * @return bool
+     * @param string $configFileName
+     * @return string
      */
-    private function config($key)
+    public function getConfigurationFile($configFileName = "phpunit-printer.yml")
     {
-        $result = null;
+        $defaultConfigFilename = $this->getPackageRoot() ."/" .$configFileName;
 
-        // config/printer.php
-        $result = (! is_null($result)) ?: $this->configGetValue($key, $result);
+        $configPath = getcwd();
+        $filename   = "";
 
-        // .printerrc
-        $result = (is_null($result)) ?: $this->rcGetValue($key, $result);
-
-        // composer.json
-        $result = (is_null($result)) ?: $this->composerGetValue($key, $result);
-
-        // phpunit.xml
-        $result = (is_null($result)) ?: $this->phpunitGetValue($key, $result);
-
-        return $result;
-    }
-
-    private function configGetValue($key = "", $currValue = null)
-    {
-        if(file_exists('config/printer.php')) {
-            $configs = include('config/printer.php');
-            if(array_key_exists($key, $configs)) {
-                return $configs[$key];
+        while (! file_exists($filename)):
+            $filename = $configPath ."/" .$configFileName;
+            if ($configPath === "/") {
+                $filename = $defaultConfigFilename;
             }
-        } else {
-            return $currValue;
-        }
+            $configPath = dirname($configPath);
+        endwhile;
 
-        return null;
-    }
-
-    private function rcGetValue($key = "", $currValue = null)
-    {
-        if (file_exists(".printerrc")) {
-            $data   = file_get_contents(".printerrc");
-            $config = json_decode($data, true);
-            if (array_key_exists("config", $config)) {
-                if (array_key_exists($key, $config["config"])) {
-                    return $config["config"][$key];
-                }
-            }
-            return $currValue;
-        } else {
-            return $currValue;
-        }
+        return $filename;
     }
 
     /**
-     * @param $key
-     * @return bool
+     * @return string | returns package root
      */
-    private function composerGetValue($key = "", $currValue = null)
+    private function getPackageRoot()
     {
-        $data   = file_get_contents("./composer.json");
-        $config = json_decode($data, true);
-
-        if (array_key_exists("config", $config)) {
-            if (array_key_exists($key, $config["config"])) {
-                $currValue = $config["config"][$key];
-            }
-        }
-
-        return $currValue;
-    }
-
-    private function phpunitGetValue($key = "", $currValue = null)
-    {
-        $key = str_replace("-", "_", strtoupper($key));
-        return getenv($key) ? getenv($key) : $currValue;
+        return (dirname(dirname(__FILE__)));
     }
 }
