@@ -38,4 +38,13 @@ class PrinterTest extends PHPUnit_Framework_TestCase
        $this->assertTrue(file_exists($printer->getConfigurationFile()));
     }
 
+    /** @test  */
+    public function should_display_configuration_file_used_by_printer()
+    {
+        // create test file
+       $printer = new Codedungeon\PHPUnitPrettyResultPrinter\Printer;
+       $this->assertContains('phpunit-printer.yml', $printer->getConfigurationFile());
+       $this->assertTrue(file_exists($printer->getConfigurationFile()));
+    }
+
 }
