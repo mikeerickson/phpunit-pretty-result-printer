@@ -3,8 +3,6 @@
 namespace Codedungeon\PHPUnitPrettyResultPrinter;
 
 use Noodlehaus\Config;
-use PHPUnit_Framework_Test;
-use Bakyt\Console\Phanybar;
 
 /**
  * Class Printer
@@ -49,11 +47,6 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
     private $quiteOutput;
 
     /**
-     * @var anybar
-     */
-    private $anybar;
-
-    /**
      * @var Config
      */
     private $configuration;
@@ -73,8 +66,9 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
         parent::__construct($out, $verbose, $colors, $debug, $numberOfColumns);
 
         $this->configFileName     = $this->getConfigurationFile("phpunit-printer.yml");
-        $this->anybar             = new Phanybar;
+        $this->colors             = new Colors;
         $this->configuration      = new Config($this->configFileName);
+        $this->debug = true;
 
         $this->maxNumberOfColumns = $numberOfColumns;
         $this->maxClassNameLength = intval($numberOfColumns * 0.5);
@@ -83,12 +77,15 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
         $this->printerOptions     = $this->configuration->all();
         $this->hideClassName      = $this->configuration->get('options.cd-printer-hide-class');
         $this->simpleOutput       = $this->configuration->get('options.cd-printer-simple-output');
-        $this->quiteOutput        = $this->configuration->get('options.cd-printer-quiet-output');
+        $this->quietOutput        = $this->configuration->get('options.cd-printer-quiet-output');
 
-        if (! $this->quiteOutput) {
+        if (! $this->quietOutput) {
             echo PHP_EOL;
-            echo "PHPUnit Printer Configuration: ". PHP_EOL;
-            echo $this->configFileName;
+            echo $this->colors->yellow() . "PHPUnit Printer Configuration: ". PHP_EOL;
+
+            echo $this->colors->cyan() .$this->configFileName;
+            echo $this->colors->reset();
+
             echo PHP_EOL .PHP_EOL;
         }
 
@@ -140,35 +137,26 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
                 $color = 'fg-green,bold';
                 $buffer = mb_convert_encoding("\x27\x13", 'UTF-8', 'UTF-16BE');
                 $buffer .= (!$this->debug) ? '' : ' Passed';
-                $this->anybar->send('green');
                 break;
             case 'S':
                 $color = 'fg-yellow,bold';
                 $buffer = ($this->simpleOutput) ? 'S' : mb_convert_encoding("\x27\xA6", 'UTF-8', 'UTF-16BE');
                 $buffer .= (!$this->debug) ? '' : ' Skipped';
-                $this->anybar->send('yellow');
-
                 break;
             case 'I':
                 $color = 'fg-blue,bold';
                 $buffer = ($this->simpleOutput) ? 'I' : 'ℹ';
                 $buffer .= (!$this->debug) ? '' : ' Incomplete';
-                $this->anybar->send('blue');
-
                 break;
             case 'F':
                 $color = 'fg-red,bold';
                 $buffer = mb_convert_encoding("\x27\x16", 'UTF-8', 'UTF-16BE');
                 $buffer .= (!$this->debug) ? '' : ' Fail';
-                $this->anybar->send('red');
-
                 break;
             case 'E':
                 $color = 'fg-red,bold';
                 $buffer = ($this->simpleOutput) ? 'E' : '⚈';
                 $buffer .= (!$this->debug) ? '' : ' Error';
-                $this->anybar->send('rend');
-
                 break;
         }
 
@@ -183,7 +171,7 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
     /**
      * {@inheritdoc}
      */
-    public function startTest(PHPUnit_Framework_Test $test)
+    public function startTest(\PHPUnit_Framework_Test $test)
     {
         $this->className = get_class($test);
         parent::startTest($test);
