@@ -1,4 +1,4 @@
 options:
   cd-printer-hide-class: false
   cd-printer-simple-output: false
-  cd-printer-quiet-output: false
+  cd-printer-show-config: false

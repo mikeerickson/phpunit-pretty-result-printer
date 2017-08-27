@@ -68,7 +68,6 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
         $this->configFileName     = $this->getConfigurationFile("phpunit-printer.yml");
         $this->colors             = new Colors;
         $this->configuration      = new Config($this->configFileName);
-        $this->debug = true;
 
         $this->maxNumberOfColumns = $numberOfColumns;
         $this->maxClassNameLength = intval($numberOfColumns * 0.5);
@@ -77,9 +76,9 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
         $this->printerOptions     = $this->configuration->all();
         $this->hideClassName      = $this->configuration->get('options.cd-printer-hide-class');
         $this->simpleOutput       = $this->configuration->get('options.cd-printer-simple-output');
-        $this->quietOutput        = $this->configuration->get('options.cd-printer-quiet-output');
+        $this->showConfig         = $this->configuration->get('options.cd-printer-show-config');
 
-        if (! $this->quietOutput) {
+        if ($this->showConfig) {
             echo PHP_EOL;
             echo $this->colors->yellow() . "PHPUnit Printer Configuration: ". PHP_EOL;
 
