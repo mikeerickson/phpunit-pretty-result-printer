@@ -4,17 +4,41 @@ namespace Codedungeon\PHPUnitPrettyResultPrinter;
 
 use Noodlehaus\Config;
 
+
+// use this entry point for PHPUnit 5.x
+if( class_exists('\PHPUnit_TextUI_ResultPrinter') ){
+    class _ResultPrinter extends \PHPUnit_TextUI_ResultPrinter {
+        public function startTest(\PHPUnit_Framework_Test $test)
+        {
+            $this->className = get_class($test);
+            parent::startTest($test);
+        }
+    }
+}
+
+// use this entrypoint for PHPUnit 6.x
+if( class_exists('\PHPUnit\TextUI\ResultPrinter') ){
+    class _ResultPrinter extends \PHPUnit\TextUI\ResultPrinter {
+        public function startTest(\PHPUnit\Framework\Test $test)
+        {
+            $this->className = get_class($test);
+            parent::startTest($test);
+        }
+    }
+}
+
+
 /**
  * Class Printer
  *
  * @license MIT
  */
-class Printer extends \PHPUnit_TextUI_ResultPrinter
+class Printer extends _ResultPrinter
 {
     /**
      * @var string
      */
-    private $className = '';
+    public $className = '';
 
     /**
      * @var string
@@ -81,10 +105,8 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
         if ($this->showConfig) {
             echo PHP_EOL;
             echo $this->colors->yellow() . "PHPUnit Printer Configuration: ". PHP_EOL;
-
             echo $this->colors->cyan() .$this->configFileName;
             echo $this->colors->reset();
-
             echo PHP_EOL .PHP_EOL;
         }
 
@@ -170,11 +192,11 @@ class Printer extends \PHPUnit_TextUI_ResultPrinter
     /**
      * {@inheritdoc}
      */
-    public function startTest(\PHPUnit_Framework_Test $test)
-    {
-        $this->className = get_class($test);
-        parent::startTest($test);
-    }
+    // public function startTest(\PHPUnit_Framework_Test $test)
+    // {
+    //     $this->className = get_class($test);
+    //     parent::startTest($test);
+    // }
 
     /**
      * Prints the Class Name if it has changed

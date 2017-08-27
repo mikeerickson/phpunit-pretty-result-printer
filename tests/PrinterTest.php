@@ -3,12 +3,9 @@
 /**
  *  Corresponding Class to test Printer class
  *
- *  For each class in your library, there should be a corresponding Unit-Test for it
- *  Unit-Tests should be as much as possible independent from other test going on.
- *
  *  @author mike erickson
  */
-class PrinterTest extends PHPUnit_Framework_TestCase
+class PrinterTest extends PHPUnit\Framework\TestCase
 {
     public function testIsThereAnySyntaxError()
     {
@@ -39,7 +36,7 @@ class PrinterTest extends PHPUnit_Framework_TestCase
     }
 
     /** @test  */
-    public function should_display_configuration_file_used_by_printer()
+    public function should_use_configuration_file()
     {
         // create test file
        $printer = new Codedungeon\PHPUnitPrettyResultPrinter\Printer;
