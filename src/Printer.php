@@ -4,10 +4,10 @@ namespace Codedungeon\PHPUnitPrettyResultPrinter;
 
 use Noodlehaus\Config;
 
-
 // use this entry point for PHPUnit 5.x
-if( class_exists('\PHPUnit_TextUI_ResultPrinter') ){
-    class _ResultPrinter extends \PHPUnit_TextUI_ResultPrinter {
+if (class_exists('\PHPUnit_TextUI_ResultPrinter')) {
+    class _ResultPrinter extends \PHPUnit_TextUI_ResultPrinter
+    {
         public function startTest(\PHPUnit_Framework_Test $test)
         {
             $this->className = get_class($test);
@@ -17,8 +17,9 @@ if( class_exists('\PHPUnit_TextUI_ResultPrinter') ){
 }
 
 // use this entrypoint for PHPUnit 6.x
-if( class_exists('\PHPUnit\TextUI\ResultPrinter') ){
-    class _ResultPrinter extends \PHPUnit\TextUI\ResultPrinter {
+if (class_exists('\PHPUnit\TextUI\ResultPrinter')) {
+    class _ResultPrinter extends \PHPUnit\TextUI\ResultPrinter
+    {
         public function startTest(\PHPUnit\Framework\Test $test)
         {
             $this->className = get_class($test);
@@ -93,8 +94,8 @@ class Printer extends _ResultPrinter
         $this->colors             = new Colors;
         $this->configuration      = new Config($this->configFileName);
 
-        $this->maxNumberOfColumns = $numberOfColumns;
-        $this->maxClassNameLength = intval($numberOfColumns * 0.5);
+        $this->maxNumberOfColumns = (int) exec('tput cols') - 96;
+        $this->maxClassNameLength = intval($this->maxNumberOfColumns * 0.5);
 
         // setup module options
         $this->printerOptions     = $this->configuration->all();
@@ -109,7 +110,6 @@ class Printer extends _ResultPrinter
             echo $this->colors->reset();
             echo PHP_EOL .PHP_EOL;
         }
-
     }
 
     /**
@@ -237,7 +237,6 @@ class Printer extends _ResultPrinter
         // substring class name, providing space for ellipsis and one space at end
         // this result should be combined to equal $this->maxClassNameLength
         return '...' . substr($className, (strlen($className) - $maxLength), $maxLength). ' ';
-
     }
 
     /**
@@ -262,10 +261,10 @@ class Printer extends _ResultPrinter
 
         while (! file_exists($filename)):
             $filename = $configPath ."/" .$configFileName;
-            if ($configPath === "/") {
-                $filename = $defaultConfigFilename;
-            }
-            $configPath = dirname($configPath);
+        if ($configPath === "/") {
+            $filename = $defaultConfigFilename;
+        }
+        $configPath = dirname($configPath);
         endwhile;
 
         return $filename;
@@ -277,5 +276,22 @@ class Printer extends _ResultPrinter
     private function getPackageRoot()
     {
         return (dirname(dirname(__FILE__)));
+    }
+
+        /**
+     * Gets the terminal width.
+     *
+     * @return int
+     */
+    private function getWidth()
+    {
+        $width = getenv('COLUMNS');
+        if (false !== $width) {
+            return (int) trim($width);
+        }
+        if (null === $width) {
+            self::initDimensions();
+        }
+        return $width ?: 80;
     }
 }
