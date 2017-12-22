@@ -10,7 +10,7 @@ class PrinterTest extends PHPUnit\Framework\TestCase
     public function testIsThereAnySyntaxError()
     {
         $var = new Codedungeon\PHPUnitPrettyResultPrinter\Printer;
-        $this->assertTrue(is_object($var));
+        $this->assertInternalType('object', $var);
         unset($var);
     }
 
@@ -22,7 +22,7 @@ class PrinterTest extends PHPUnit\Framework\TestCase
     public function testGetPackageName()
     {
         $printer = new Codedungeon\PHPUnitPrettyResultPrinter\Printer;
-        $this->assertTrue($printer->packageName() == 'PHPUnit Pretty Result Printer');
+        $this->assertSame('PHPUnit Pretty Result Printer', $printer->packageName());
         unset($var);
     }
 
@@ -32,7 +32,7 @@ class PrinterTest extends PHPUnit\Framework\TestCase
         // create test file
        $printer = new Codedungeon\PHPUnitPrettyResultPrinter\Printer;
        $this->assertContains('phpunit-printer.yml', $printer->getConfigurationFile());
-       $this->assertTrue(file_exists($printer->getConfigurationFile()));
+       $this->assertFileExists($printer->getConfigurationFile());
     }
 
     /** @test  */
@@ -41,7 +41,7 @@ class PrinterTest extends PHPUnit\Framework\TestCase
         // create test file
        $printer = new Codedungeon\PHPUnitPrettyResultPrinter\Printer;
        $this->assertContains('phpunit-printer.yml', $printer->getConfigurationFile());
-       $this->assertTrue(file_exists($printer->getConfigurationFile()));
+       $this->assertFileExists($printer->getConfigurationFile());
     }
 
 }
