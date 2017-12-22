@@ -49,7 +49,7 @@ class Printer extends _ResultPrinter
     /**
      * @var int
      */
-    private $maxClassNameLength = 35;
+    private $maxClassNameLength = 50;
 
     /**
      * @var int
@@ -94,8 +94,8 @@ class Printer extends _ResultPrinter
         $this->colors             = new Colors;
         $this->configuration      = new Config($this->configFileName);
 
-        $this->maxClassNameLength = intval($this->maxNumberOfColumns * 0.5);
         $this->maxNumberOfColumns = $this->getWidth();
+        $this->maxClassNameLength = min((int) ($this->maxNumberOfColumns / 2), $this->maxClassNameLength);
 
         // setup module options
         $this->printerOptions     = $this->configuration->all();
@@ -279,7 +279,7 @@ class Printer extends _ResultPrinter
         return (dirname(dirname(__FILE__)));
     }
 
-        /**
+    /**
      * Gets the terminal width.
      *
      * @return int
