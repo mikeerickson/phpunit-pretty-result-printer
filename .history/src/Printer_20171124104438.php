@@ -94,7 +94,7 @@ class Printer extends _ResultPrinter
         $this->colors             = new Colors;
         $this->configuration      = new Config($this->configFileName);
 
-        $this->maxNumberOfColumns = (int) exec('tput cols') - 96 + 15;
+        $this->maxNumberOfColumns = (int) exec('tput cols') - 96;
         $this->maxClassNameLength = intval($this->maxNumberOfColumns * 0.5);
 
         // setup module options
