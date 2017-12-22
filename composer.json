@@ -11,7 +11,7 @@
   "type": "library",
   "require": {
     "hassankhan/config": "^0.10.0",
-    "symfony/yaml": "^3.3|4.*"
+    "symfony/yaml": "^3.3|^4.0"
   },
   "require-dev": {
     "phpunit/phpunit": ">=5.2"
