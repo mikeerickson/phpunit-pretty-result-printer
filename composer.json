@@ -1,6 +1,6 @@
 {
   "name": "codedungeon/phpunit-result-printer",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "PHPUnit Pretty Result Printer",
   "keywords": ["phpunit", "printer", "result-printer", "composer", "package"],
   "license": "MIT",
@@ -14,7 +14,8 @@
     "symfony/yaml": "^3.3|^4.0"
   },
   "require-dev": {
-    "phpunit/phpunit": ">=5.2"
+    "phpunit/phpunit": ">=5.2",
+    "spatie/phpunit-watcher": "^1.3"
   },
   "autoload": {
     "psr-4": {
@@ -22,6 +23,7 @@
     }
   },
   "scripts": {
-    "test": "vendor/bin/phpunit --colors=always"
+    "test": "vendor/bin/phpunit --colors=always",
+    "watch-tickets": "vendor/bin/phpunit-watcher watch --testsuite Tickets  < /dev/tty"
   }
 }

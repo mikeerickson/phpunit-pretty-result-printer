@@ -6,3 +6,5 @@ composer.lock
 NOTES.md
 .history/*
 .vscode/*
+tickets/*
+.phpunit-watcher.yml
