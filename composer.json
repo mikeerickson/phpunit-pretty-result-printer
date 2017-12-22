@@ -20,5 +20,8 @@
     "psr-4": {
       "Codedungeon\\PHPUnitPrettyResultPrinter\\": "src/"
     }
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit --colors=always"
   }
 }

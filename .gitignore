@@ -4,3 +4,5 @@ composer.lock
 .idea/*
 .idea/
 NOTES.md
+.history/*
+.vscode/*
