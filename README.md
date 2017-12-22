@@ -4,12 +4,12 @@ Extend the default PHPUnit Result Printer with a modern, pretty printer!
 
 [PHPUnit Pretty Result Printer -- Packagist](https://packagist.org/packages/codedungeon/phpunit-result-printer)
 
-# Installation
+## Installation
 
 Installation is provided via composer and can be done with the following command:
 
 ```bash
-$ composer require --dev codedungeon/phpunit-result-printer
+composer require --dev codedungeon/phpunit-result-printer
 ```
 
 To activate the Printer for PHPUnit, just add it to your configuration XML:
@@ -24,14 +24,13 @@ To activate the Printer for PHPUnit, just add it to your configuration XML:
 Or from Command-Line:
 
   ```bash
-  $ phpunit --printer=Codedungeon\\PHPUnitPrettyResultPrinter\\Printer
+  phpunit --printer=Codedungeon\\PHPUnitPrettyResultPrinter\\Printer
   ```
 
 ### License
 
-Copyright &copy; 2017 Mike Erickson
+Copyright &copy; 2017-2018 Mike Erickson
 Released under the MIT license
-
 
 ### Credits
 
@@ -42,7 +41,6 @@ E-Mail: [codedungeon@gmail.com](mailto:codedungeon@gmail.com)
 Twitter: [@codedungeon](http://twitter.com/codedungeon)
 
 Website: [codedungeon.org](http://codedungeon.org)
-
 
 ### Screenshot
 
