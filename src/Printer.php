@@ -137,6 +137,10 @@ class Printer extends _ResultPrinter
      */
     protected function writeProgressWithColor($color, $buffer)
     {
+        if (! $this->debug) {
+            $this->printClassName();
+        }
+
         $this->printTestCaseStatus($color, $buffer);
     }
 
