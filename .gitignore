@@ -8,3 +8,4 @@ NOTES.md
 .vscode/*
 tickets/*
 .phpunit-watcher.yml
+.history/*
