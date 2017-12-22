@@ -94,8 +94,8 @@ class Printer extends _ResultPrinter
         $this->colors             = new Colors;
         $this->configuration      = new Config($this->configFileName);
 
-        $this->maxNumberOfColumns = (int) exec('tput cols') - 96;
         $this->maxClassNameLength = intval($this->maxNumberOfColumns * 0.5);
+        $this->maxNumberOfColumns = $this->getWidth();
 
         // setup module options
         $this->printerOptions     = $this->configuration->all();
@@ -146,11 +146,11 @@ class Printer extends _ResultPrinter
      */
     private function printTestCaseStatus($color, $buffer)
     {
-        if ($this->column == $this->maxNumberOfColumns) {
+        if ($this->column >= $this->maxNumberOfColumns) {
             $this->writeNewLine();
             $padding = $this->maxClassNameLength;
             $this->column = $padding;
-            echo str_pad(' ', $padding) . "\t";
+            echo str_pad(' ', $padding);
         }
 
         switch (strtoupper($buffer)) {
@@ -186,7 +186,7 @@ class Printer extends _ResultPrinter
         if ($this->debug) {
             $this->writeNewLine();
         }
-        $this->column++;
+        $this->column = $this->column + 2;
     }
 
     /**
@@ -211,13 +211,9 @@ class Printer extends _ResultPrinter
         }
 
         echo PHP_EOL;
-        $className = ' ==> ' .$this->formatClassName($this->className);
-
+        $className = $this->formatClassName($this->className);
         ($this->colors) ? $this->writeWithColor('fg-cyan,bold', $className, false) : $this->write($className);
-
-        $this->column += strlen($className) + 4;
-//        echo "\t";
-
+        $this->column = strlen($className) + 1;
         $this->lastClassName = $this->className;
     }
 
@@ -227,16 +223,21 @@ class Printer extends _ResultPrinter
      */
     private function formatClassName($className)
     {
-        if (strlen($className) <= $this->maxClassNameLength) {
-            return $this->fillWithWhitespace($className);
+        $prefix = ' ==> ';
+        $ellipsis = '...';
+        $suffix = ' ';
+        $formattedClassName = $prefix . $className . $suffix;
+
+        if (strlen($formattedClassName) <= $this->maxClassNameLength) {
+            return $this->fillWithWhitespace($formattedClassName);
         }
 
         // maxLength of class, minus leading (...) and trailing space
-        $maxLength = $this->maxClassNameLength - 4;
+        $maxLength = $this->maxClassNameLength - strlen($prefix . $ellipsis . $suffix);
 
         // substring class name, providing space for ellipsis and one space at end
         // this result should be combined to equal $this->maxClassNameLength
-        return '...' . substr($className, (strlen($className) - $maxLength), $maxLength). ' ';
+        return $prefix . $ellipsis . substr($className, (strlen($className) - $maxLength), $maxLength) . $suffix;
     }
 
     /**
@@ -285,13 +286,6 @@ class Printer extends _ResultPrinter
      */
     private function getWidth()
     {
-        $width = getenv('COLUMNS');
-        if (false !== $width) {
-            return (int) trim($width);
-        }
-        if (null === $width) {
-            self::initDimensions();
-        }
-        return $width ?: 80;
+        return (int) exec('tput cols');
     }
 }
