@@ -1,5 +1,5 @@
 {
-  "name": "travoltron/phpunit-result-printer",
+  "name": "codedungeon/phpunit-result-printer",
   "version": "0.3.0",
   "description": "PHPUnit Pretty Result Printer",
   "keywords": ["phpunit", "printer", "result-printer", "composer", "package"],
