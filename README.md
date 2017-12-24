@@ -40,8 +40,6 @@ E-Mail: [codedungeon@gmail.com](mailto:codedungeon@gmail.com)
 
 Twitter: [@codedungeon](http://twitter.com/codedungeon)
 
-Website: [codedungeon.org](http://codedungeon.org)
-
 ### Screenshot
 
 ![Screenshot](https://github.com/mikeerickson/phpunit-pretty-result-printer/blob/master/sample.png)
