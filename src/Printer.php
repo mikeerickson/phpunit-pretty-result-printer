@@ -290,6 +290,7 @@ class Printer extends _ResultPrinter
      */
     private function getWidth()
     {
-        return (int) exec('tput cols');
+        // 'stty size' output example: 36 120
+        return (int) explode(' ', exec('stty size'))[1];
     }
 }
