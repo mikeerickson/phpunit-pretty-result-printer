@@ -35,9 +35,3 @@ jobs:
 
       # run tests!
       - run: vendor/bin/phpunit
-machine:
-  php:
-    version: 7.1
-dependencies:
-  override:
-    - exit 0

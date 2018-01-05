@@ -3,6 +3,8 @@
 namespace Codedungeon\PHPUnitPrettyResultPrinter;
 
 use Noodlehaus\Config;
+use function strtoupper;
+use function var_dump;
 
 // use this entry point for PHPUnit 5.x
 if (class_exists('\PHPUnit_TextUI_ResultPrinter')) {
@@ -90,7 +92,7 @@ class Printer extends _ResultPrinter
     {
         parent::__construct($out, $verbose, $colors, $debug, $numberOfColumns);
 
-        $this->configFileName     = $this->getConfigurationFile("phpunit-printer.yml");
+        $this->configFileName     = $this->getConfigurationFile('phpunit-printer.yml');
         $this->colors             = new Colors;
         $this->configuration      = new Config($this->configFileName);
 
@@ -259,22 +261,31 @@ class Printer extends _ResultPrinter
      */
     public function getConfigurationFile($configFileName = "phpunit-printer.yml")
     {
-        $defaultConfigFilename = $this->getPackageRoot() ."/" .$configFileName;
+        $defaultConfigFilename =  $this->getPackageRoot() .DIRECTORY_SEPARATOR .$configFileName;
 
         $configPath = getcwd();
         $filename   = "";
 
-        while (! file_exists($filename)):
-            $filename = $configPath ."/" .$configFileName;
-        if ($configPath === "/") {
-            $filename = $defaultConfigFilename;
-        }
-        $configPath = dirname($configPath);
-        endwhile;
+        $continue = true;
+        while (! file_exists($filename) && $continue):
+            if ($this->isWindows()) {
+                // WINDOWS SPECIFIC CODE GOES HERE
+            } else {
+                $filename = $configPath .DIRECTORY_SEPARATOR .$configFileName;
+                if ($configPath === '/') {
+                    $filename = $defaultConfigFilename;
+                    $continue = false;
+                }
+                $configPath = \dirname($configPath);
+            }
 
+        endwhile;
         return $filename;
     }
 
+    private function isWindows() {
+        return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
+    }
     /**
      * @return string | returns package root
      */
