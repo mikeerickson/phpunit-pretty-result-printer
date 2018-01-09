@@ -299,20 +299,27 @@ class Printer extends _ResultPrinter
      *
      * @return int
      */
-    private function getWidth()
+    private function getWidth() : int
     {
-        exec('stty size 2>/dev/null', $out, $exit);
+        $width = (int) exec('tput cols');
 
-        if ($exit !== 0) {
-            $width = '120';
-        }
+        // if we have attempted to use `tput` but it doesnt exist, use stty
+        if ($width === 0) {
+            exec('stty size 2>/dev/null', $out, $exit);
 
-        // 'stty size' output example: 36 120
-        $width = (int) explode(' ', array_pop($out))[1];
+            if ($exit !== 0) {
+                $width = 120;
+            }
 
-        // handle CircleCI case (probably the same with TravisCI as well)
-        if($width == 0) {
-            $width = 120;
+            // 'stty size' output example: 36 120
+            if(sizeof($out) > 0 ) {
+                $width = (int) explode(' ', array_pop($out))[1];
+            }
+
+            // handle CircleCI case (probably the same with TravisCI as well)
+            if ($width === 0) {
+                $width = 96;
+            }
         }
 
         return $width;
