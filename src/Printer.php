@@ -301,6 +301,8 @@ class Printer extends _ResultPrinter
      */
     private function getWidth() : int
     {
+        var_dump(PHP_OS);
+        
         try {
             $width = (int) exec('tput cols');
         } catch (\Exception $e) {
