@@ -302,11 +302,19 @@ class Printer extends _ResultPrinter
     private function getWidth()
     {
         exec('stty size 2>/dev/null', $out, $exit);
+        var_dump($exit);
         if ($exit !== 0) {
-            return '120';
+            $width = '120';
         }
 
         // 'stty size' output example: 36 120
-        return (int) explode(' ', array_pop($out))[1];
+        $width = (int) explode(' ', array_pop($out))[1];
+
+        // handle CircleCI case (probably the same with TravisCI as well)
+        if($width == 0) {
+            $width = 120;
+        }
+
+        return $width;
     }
 }
