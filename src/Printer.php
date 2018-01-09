@@ -302,7 +302,7 @@ class Printer extends _ResultPrinter
     private function getWidth()
     {
         exec('stty size 2>/dev/null', $out, $exit);
-        var_dump($exit);
+
         if ($exit !== 0) {
             $width = '120';
         }
