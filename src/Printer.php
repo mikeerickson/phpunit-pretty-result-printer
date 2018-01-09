@@ -303,7 +303,7 @@ class Printer extends _ResultPrinter
     {
         try {
             $width = (int) exec('tput cols');
-        } catch ($e) {
+        } catch (\Exception $e) {
             $width = 0;
         }
 
