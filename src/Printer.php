@@ -301,7 +301,11 @@ class Printer extends _ResultPrinter
      */
     private function getWidth() : int
     {
-        $width = (int) exec('tput cols');
+        try {
+            $width = (int) exec('tput cols');
+        } catch ($e) {
+            $width = 0;
+        }
 
         // if we have attempted to use `tput` but it doesnt exist, use stty
         if ($width === 0) {
