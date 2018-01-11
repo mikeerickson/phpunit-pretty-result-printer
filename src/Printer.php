@@ -4,7 +4,6 @@ namespace Codedungeon\PHPUnitPrettyResultPrinter;
 
 use Noodlehaus\Config;
 use function strtoupper;
-use function var_dump;
 
 // use this entry point for PHPUnit 5.x
 if (class_exists('\PHPUnit_TextUI_ResultPrinter')) {
@@ -291,7 +290,7 @@ class Printer extends _ResultPrinter
      */
     private function getPackageRoot()
     {
-        return (dirname(dirname(__FILE__)));
+        return \dirname(__FILE__, 2);
     }
 
     /**
@@ -306,7 +305,7 @@ class Printer extends _ResultPrinter
         exec('stty size 2>/dev/null', $out, $exit);
 
         // 'stty size' output example: 36 120
-        if(sizeof($out) > 0 ) {
+        if (\count($out) > 0) {
             $width = (int) explode(' ', array_pop($out))[1];
         }
 
