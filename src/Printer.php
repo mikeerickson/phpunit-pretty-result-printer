@@ -93,7 +93,7 @@ class Printer extends _ResultPrinter
         parent::__construct($out, $verbose, $colors, $debug, $numberOfColumns);
 
         $this->configFileName     = $this->getConfigurationFile('phpunit-printer.yml');
-        $this->colors             = new Colors;
+        $this->colorsTool         = new Colors;
         $this->configuration      = new Config($this->configFileName);
 
         $this->maxNumberOfColumns = $this->getWidth();
@@ -107,9 +107,9 @@ class Printer extends _ResultPrinter
 
         if ($this->showConfig) {
             echo PHP_EOL;
-            echo $this->colors->yellow() . "PHPUnit Printer Configuration: ". PHP_EOL;
-            echo $this->colors->cyan() .$this->configFileName;
-            echo $this->colors->reset();
+            echo $this->colorsTool->yellow() . "PHPUnit Printer Configuration: ". PHP_EOL;
+            echo $this->colorsTool->cyan() .$this->configFileName;
+            echo $this->colorsTool->reset();
             echo PHP_EOL .PHP_EOL;
         }
     }
@@ -218,7 +218,7 @@ class Printer extends _ResultPrinter
 
         echo PHP_EOL;
         $className = $this->formatClassName($this->className);
-        ($this->colors) ? $this->writeWithColor('fg-cyan,bold', $className, false) : $this->write($className);
+        ($this->colorsTool) ? $this->writeWithColor('fg-cyan,bold', $className, false) : $this->write($className);
         $this->column = strlen($className) + 1;
         $this->lastClassName = $this->className;
     }
