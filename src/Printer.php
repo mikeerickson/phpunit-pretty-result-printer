@@ -298,7 +298,7 @@ class Printer extends _ResultPrinter
      *
      * @return int
      */
-    private function getWidth() : int
+    private function getWidth()
     {
         $width = 0;
 
