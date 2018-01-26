@@ -10,6 +10,7 @@
   }],
   "type": "library",
   "require": {
+    "php": "^5.6|^7.0",
     "hassankhan/config": "^0.10.0",
     "symfony/yaml": "^2.7|^3.0|^4.0"
   },
