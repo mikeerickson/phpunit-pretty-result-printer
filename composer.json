@@ -1,10 +1,6 @@
 {
   "name": "codedungeon/phpunit-result-printer",
-<<<<<<< HEAD
-  "version": "0.5.5",
-=======
   "version": "0.6.0",
->>>>>>> 962dc405bdefa008d377e59441f182c329f50d50
   "description": "PHPUnit Pretty Result Printer",
   "keywords": ["phpunit", "printer", "result-printer", "composer", "package"],
   "license": "MIT",
@@ -29,6 +25,7 @@
   },
   "scripts": {
     "test": "vendor/bin/phpunit --colors=always",
+    "test-ci": "vendor/bin/phpunit -c phpunit.ci.xml",
     "watch-tickets": "vendor/bin/phpunit-watcher watch --testsuite Tickets  < /dev/tty"
   }
 }

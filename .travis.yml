@@ -4,6 +4,8 @@ dist: trusty
 php:
   - 5.6
   - 7.0
+  - 7.1
+  - 7.2
 
 matrix:
   fast_finish: true
@@ -16,4 +18,4 @@ install:
   - travis_retry composer install --no-interaction --prefer-dist --no-suggest
 
 script:
-  - ./vendor/bin/phpunit
+  - ./vendor/bin/phpunit -c phpunit.ci.xml
