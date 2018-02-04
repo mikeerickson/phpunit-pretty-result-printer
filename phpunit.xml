@@ -1,16 +1,24 @@
-<phpunit 	bootstrap="vendor/autoload.php"
-            colors="true"
-            convertErrorsToExceptions="true"
-            convertNoticesToExceptions="true"
-            convertWarningsToExceptions="true"
-            printerClass="Codedungeon\PHPUnitPrettyResultPrinter\Printer"
-            stopOnFailure="true">
-            <testsuites>
-                <testsuite name="Unit Tests">
-                    <directory>tests</directory>
-                </testsuite>
-                <testsuite name="Tickets">
-                    <directory>tickets</directory>
-                </testsuite>
-            </testsuites>
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit backupGLobals="false"
+         beStrictAboutOutputDuringTests="true"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         failOnRisky="true"
+         processIsolation="false"
+         printerClass="Codedungeon\PHPUnitPrettyResultPrinter\Printer"
+         stopOnError="false"
+         stopOnFailure="false"
+         verbose="true"
+>
+    <testsuites>
+        <testsuite name="Unit Tests">
+            <directory>tests</directory>
+        </testsuite>
+        <testsuite name="Tickets">
+            <directory>tickets</directory>
+        </testsuite>
+    </testsuites>
 </phpunit>

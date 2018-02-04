@@ -1,0 +1,6 @@
+preset: recommended
+
+risky: false
+
+disabled:
+  - concat_without_spaces

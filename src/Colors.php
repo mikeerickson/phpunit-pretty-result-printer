@@ -45,6 +45,7 @@ class Colors
 
     /**
      * @param int $light
+     *
      * @return string
      */
     public static function red($light = 0)
@@ -62,6 +63,7 @@ class Colors
 
     /**
      * @param int $light
+     *
      * @return string
      */
     public static function white($light = 0)
@@ -70,16 +72,16 @@ class Colors
     }
 
     /**
-     * @param int $light
      * @return string
      */
-    public static function lwhite($light = 0)
+    public static function lwhite()
     {
         return self::RESET . self::LWHITE;
     }
 
     /**
      * @param int $light
+     *
      * @return string
      */
     public static function gray($light = 0)
@@ -89,6 +91,7 @@ class Colors
 
     /**
      * @param int $light
+     *
      * @return string
      */
     public static function green($light = 0)
@@ -106,6 +109,7 @@ class Colors
 
     /**
      * @param int $light
+     *
      * @return string
      */
     public static function cyan($light = 0)
@@ -123,6 +127,7 @@ class Colors
 
     /**
      * @param int $light
+     *
      * @return string
      */
     public static function yellow($light = 0)
@@ -148,6 +153,7 @@ class Colors
 
     /**
      * @param int $light
+     *
      * @return string
      */
     public static function purple($light = 0)
@@ -165,6 +171,7 @@ class Colors
 
     /**
      * @param int $light
+     *
      * @return string
      */
     public static function magenta($light = 0)
