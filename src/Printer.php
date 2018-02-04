@@ -29,9 +29,8 @@ if (class_exists('\PHPUnit\TextUI\ResultPrinter')) {
     }
 }
 
-
 /**
- * Class Printer
+ * Class Printer.
  *
  * @license MIT
  */
@@ -68,11 +67,6 @@ class Printer extends _ResultPrinter
     private $simpleOutput;
 
     /**
-     * @var mixed|null
-     */
-    private $quiteOutput;
-
-    /**
      * @var Config
      */
     private $configuration;
@@ -80,7 +74,7 @@ class Printer extends _ResultPrinter
     /**
      * @var string
      */
-    private $configFileName = "";
+    private $configFileName = '';
 
     private $printerOptions;
 
@@ -91,25 +85,25 @@ class Printer extends _ResultPrinter
     {
         parent::__construct($out, $verbose, $colors, $debug, $numberOfColumns);
 
-        $this->configFileName     = $this->getConfigurationFile('phpunit-printer.yml');
-        $this->colorsTool         = new Colors;
-        $this->configuration      = new Config($this->configFileName);
+        $this->configFileName = $this->getConfigurationFile('phpunit-printer.yml');
+        $this->colorsTool = new Colors();
+        $this->configuration = new Config($this->configFileName);
 
         $this->maxNumberOfColumns = $this->getWidth();
         $this->maxClassNameLength = min((int) ($this->maxNumberOfColumns / 2), $this->maxClassNameLength);
 
         // setup module options
-        $this->printerOptions     = $this->configuration->all();
-        $this->hideClassName      = $this->configuration->get('options.cd-printer-hide-class');
-        $this->simpleOutput       = $this->configuration->get('options.cd-printer-simple-output');
-        $this->showConfig         = $this->configuration->get('options.cd-printer-show-config');
+        $this->printerOptions = $this->configuration->all();
+        $this->hideClassName = $this->configuration->get('options.cd-printer-hide-class');
+        $this->simpleOutput = $this->configuration->get('options.cd-printer-simple-output');
+        $this->showConfig = $this->configuration->get('options.cd-printer-show-config');
 
         if ($this->showConfig) {
             echo PHP_EOL;
-            echo $this->colorsTool->yellow() . "PHPUnit Printer Configuration: ". PHP_EOL;
-            echo $this->colorsTool->cyan() .$this->configFileName;
+            echo $this->colorsTool->yellow() . 'PHPUnit Printer Configuration: '. PHP_EOL;
+            echo $this->colorsTool->cyan() . $this->configFileName;
             echo $this->colorsTool->reset();
-            echo PHP_EOL .PHP_EOL;
+            echo PHP_EOL.PHP_EOL;
         }
     }
 
@@ -118,7 +112,7 @@ class Printer extends _ResultPrinter
      */
     public function packageName()
     {
-        return "PHPUnit Pretty Result Printer";
+        return 'PHPUnit Pretty Result Printer';
     }
 
     /**
@@ -126,7 +120,7 @@ class Printer extends _ResultPrinter
      */
     protected function writeProgress($progress)
     {
-        if (! $this->debug) {
+        if (!$this->debug) {
             $this->printClassName();
         }
 
@@ -138,7 +132,7 @@ class Printer extends _ResultPrinter
      */
     protected function writeProgressWithColor($color, $buffer)
     {
-        if (! $this->debug) {
+        if (!$this->debug) {
             $this->printClassName();
         }
 
@@ -195,16 +189,7 @@ class Printer extends _ResultPrinter
     }
 
     /**
-     * {@inheritdoc}
-     */
-    // public function startTest(\PHPUnit_Framework_Test $test)
-    // {
-    //     $this->className = get_class($test);
-    //     parent::startTest($test);
-    // }
-
-    /**
-     * Prints the Class Name if it has changed
+     * Prints the Class Name if it has changed.
      */
     protected function printClassName()
     {
@@ -224,6 +209,7 @@ class Printer extends _ResultPrinter
 
     /**
      * @param string $className
+     *
      * @return string
      */
     private function formatClassName($className)
@@ -247,6 +233,7 @@ class Printer extends _ResultPrinter
 
     /**
      * @param string $className
+     *
      * @return string;
      */
     private function fillWithWhitespace($className)
@@ -256,21 +243,22 @@ class Printer extends _ResultPrinter
 
     /**
      * @param string $configFileName
+     *
      * @return string
      */
-    public function getConfigurationFile($configFileName = "phpunit-printer.yml")
+    public function getConfigurationFile($configFileName = 'phpunit-printer.yml')
     {
-        $defaultConfigFilename =  $this->getPackageRoot() .DIRECTORY_SEPARATOR .$configFileName;
+        $defaultConfigFilename = $this->getPackageRoot() . DIRECTORY_SEPARATOR . $configFileName;
 
         $configPath = getcwd();
-        $filename   = "";
+        $filename = '';
 
         $continue = true;
-        while (! file_exists($filename) && $continue):
+        while (!file_exists($filename) && $continue):
             if ($this->isWindows()) {
                 // WINDOWS SPECIFIC CODE GOES HERE
             } else {
-                $filename = $configPath .DIRECTORY_SEPARATOR .$configFileName;
+                $filename = $configPath . DIRECTORY_SEPARATOR . $configFileName;
                 if ($configPath === '/') {
                     $filename = $defaultConfigFilename;
                     $continue = false;
@@ -279,12 +267,18 @@ class Printer extends _ResultPrinter
             }
 
         endwhile;
+
         return $filename;
     }
 
-    private function isWindows() {
+    /**
+     * @return bool
+     */
+    private function isWindows()
+    {
         return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
     }
+
     /**
      * @return string | returns package root
      */
