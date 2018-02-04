@@ -17,11 +17,11 @@ if (class_exists('\PHPUnit_TextUI_ResultPrinter')) {
     }
 }
 
-// use this entrypoint for PHPUnit 6.x
+// use this entrypoint for PHPUnit 6.x and 7.x
 if (class_exists('\PHPUnit\TextUI\ResultPrinter')) {
     class _ResultPrinter extends \PHPUnit\TextUI\ResultPrinter
     {
-        public function startTest(\PHPUnit\Framework\Test $test)
+        public function startTest(\PHPUnit\Framework\Test $test): void
         {
             $this->className = get_class($test);
             parent::startTest($test);
@@ -118,7 +118,7 @@ class Printer extends _ResultPrinter
     /**
      * {@inheritdoc}
      */
-    protected function writeProgress($progress)
+    protected function writeProgress($progress): void
     {
         if (!$this->debug) {
             $this->printClassName();
@@ -130,7 +130,7 @@ class Printer extends _ResultPrinter
     /**
      * {@inheritdoc}
      */
-    protected function writeProgressWithColor($color, $buffer)
+    protected function writeProgressWithColor($color, $buffer): void
     {
         if (!$this->debug) {
             $this->printClassName();
