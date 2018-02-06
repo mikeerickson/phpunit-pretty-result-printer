@@ -66,6 +66,24 @@ class Colors
      *
      * @return string
      */
+    public static function blue($light = 0)
+    {
+        return ($light === 1) ? self::lblue() : self::RESET . self::BLUE;
+    }
+
+    /**
+     * @return string
+     */
+    public static function lblue()
+    {
+        return self::RESET . self::LBLUE;
+    }
+
+    /**
+     * @param int $light
+     *
+     * @return string
+     */
     public static function white($light = 0)
     {
         return ($light === 1) ? self::lwhite() : self::RESET . self::WHITE;
