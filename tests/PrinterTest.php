@@ -1,5 +1,7 @@
 <?php
 
+use Codedungeon\PHPUnitPrettyResultPrinter\Printer;
+
 /**
  *  Corresponding Class to test Printer class.
  *
@@ -7,11 +9,25 @@
  */
 class PrinterTest extends PHPUnit\Framework\TestCase
 {
+    /**
+     * @var
+     */
+    protected $printer;
+
+    /**
+     *
+     */
+    public function setUp()
+    {
+        $this->printer = new Printer();
+    }
+
+    /**
+     *
+     */
     public function testIsThereAnySyntaxError()
     {
-        $var = new Codedungeon\PHPUnitPrettyResultPrinter\Printer();
-        $this->assertInternalType('object', $var);
-        unset($var);
+        $this->assertInternalType('object', $this->printer);
     }
 
     /**
@@ -20,26 +36,20 @@ class PrinterTest extends PHPUnit\Framework\TestCase
      */
     public function testGetPackageName()
     {
-        $printer = new Codedungeon\PHPUnitPrettyResultPrinter\Printer();
-        $this->assertSame('PHPUnit Pretty Result Printer', $printer->packageName());
-        unset($var);
+        $this->assertSame('PHPUnit Pretty Result Printer', $this->printer->packageName());
     }
 
     /** @test  */
     public function should_return_full_pathname_to_config_file()
     {
-        // create test file
-        $printer = new Codedungeon\PHPUnitPrettyResultPrinter\Printer();
-        $this->assertContains('phpunit-printer.yml', $printer->getConfigurationFile());
-        $this->assertFileExists($printer->getConfigurationFile());
+        $this->assertContains('phpunit-printer.yml', $this->printer->getConfigurationFile());
+        $this->assertFileExists($this->printer->getConfigurationFile());
     }
 
     /** @test  */
     public function should_use_configuration_file()
     {
-        // create test file
-        $printer = new Codedungeon\PHPUnitPrettyResultPrinter\Printer();
-        $this->assertContains('phpunit-printer.yml', $printer->getConfigurationFile());
-        $this->assertFileExists($printer->getConfigurationFile());
+        $this->assertContains('phpunit-printer.yml', $this->printer->getConfigurationFile());
+        $this->assertFileExists($this->printer->getConfigurationFile());
     }
 }

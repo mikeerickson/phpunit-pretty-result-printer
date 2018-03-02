@@ -74,7 +74,7 @@ class Printer extends _ResultPrinter
     /**
      * @var string
      */
-    private $configFileName = '';
+    private $configFileName;
 
     private $printerOptions;
 
@@ -216,19 +216,19 @@ class Printer extends _ResultPrinter
     {
         $prefix = ' ==> ';
         $ellipsis = '...';
-        $suffix = ' ';
+        $suffix = '   ';
         $formattedClassName = $prefix . $className . $suffix;
 
-        if (strlen($formattedClassName) <= $this->maxClassNameLength) {
+        if (\strlen($formattedClassName) <= $this->maxClassNameLength) {
             return $this->fillWithWhitespace($formattedClassName);
         }
 
         // maxLength of class, minus leading (...) and trailing space
-        $maxLength = $this->maxClassNameLength - strlen($prefix . $ellipsis . $suffix);
+        $maxLength = $this->maxClassNameLength - \strlen($prefix . $ellipsis . $suffix);
 
         // substring class name, providing space for ellipsis and one space at end
         // this result should be combined to equal $this->maxClassNameLength
-        return $prefix . $ellipsis . substr($className, (strlen($className) - $maxLength), $maxLength) . $suffix;
+        return $prefix . $ellipsis . substr($className, (\strlen($className) - $maxLength), $maxLength) . $suffix;
     }
 
     /**
