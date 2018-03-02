@@ -14,17 +14,11 @@ class PrinterTest extends PHPUnit\Framework\TestCase
      */
     protected $printer;
 
-    /**
-     *
-     */
     public function setUp()
     {
         $this->printer = new Printer();
     }
 
-    /**
-     *
-     */
     public function testIsThereAnySyntaxError()
     {
         $this->assertInternalType('object', $this->printer);
