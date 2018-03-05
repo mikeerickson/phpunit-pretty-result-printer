@@ -22,19 +22,14 @@ class PrinterTest extends PHPUnit\Framework\TestCase
         $this->printer = new Printer();
     }
 
-    /**
-     *
-     */
-    public function testIsThereAnySyntaxError()
+    /** @test  */
+    public function should_not_have_any_syntax_errors()
     {
         $this->assertInternalType('object', $this->printer);
     }
 
-    /**
-     * This is just a simple check to make sure your library has no syntax error. This helps you troubleshoot
-     * any typo before you even use this library in a real project.
-     */
-    public function testGetPackageName()
+    /** @test  */
+    public function should_return_module_package_name()
     {
         $this->assertSame('PHPUnit Pretty Result Printer', $this->printer->packageName());
     }
