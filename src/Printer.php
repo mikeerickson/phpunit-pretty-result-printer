@@ -11,7 +11,7 @@ if (class_exists('\PHPUnit_TextUI_ResultPrinter')) {
     {
         public function startTest(\PHPUnit_Framework_Test $test)
         {
-            $this->className = get_class($test);
+            $this->className = \get_class($test);
             parent::startTest($test);
         }
     }
@@ -77,6 +77,8 @@ class Printer extends _ResultPrinter
     private $configFileName;
 
     private $printerOptions;
+
+    private $showConfig;
 
     /**
      * {@inheritdoc}
@@ -228,7 +230,7 @@ class Printer extends _ResultPrinter
 
         // substring class name, providing space for ellipsis and one space at end
         // this result should be combined to equal $this->maxClassNameLength
-        return $prefix . $ellipsis . substr($className, (\strlen($className) - $maxLength), $maxLength) . $suffix;
+        return $prefix . $ellipsis . substr($className, \strlen($className) - $maxLength, $maxLength) . $suffix;
     }
 
     /**
