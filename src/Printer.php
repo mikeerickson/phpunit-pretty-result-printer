@@ -254,19 +254,14 @@ class Printer extends _ResultPrinter
         $filename = '';
 
         $continue = true;
-        while (!file_exists($filename) && $continue):
-            if ($this->isWindows()) {
-                // WINDOWS SPECIFIC CODE GOES HERE
-            } else {
-                $filename = $configPath . DIRECTORY_SEPARATOR . $configFileName;
-                if ($configPath === '/') {
-                    $filename = $defaultConfigFilename;
-                    $continue = false;
-                }
-                $configPath = \dirname($configPath);
+        while (!file_exists($filename) && $continue) {
+            $filename = $configPath . DIRECTORY_SEPARATOR . $configFileName;
+            if (($this->isWindows() && strlen($configPath) === 3) || $configPath === '/') {
+                $filename = $defaultConfigFilename;
+                $continue = false;
             }
-
-        endwhile;
+            $configPath = \dirname($configPath);
+        }
 
         return $filename;
     }
