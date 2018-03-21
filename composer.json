@@ -1,6 +1,6 @@
 {
   "name": "codedungeon/phpunit-result-printer",
-  "version": "0.6.2",
+  "version": "0.7.0",
   "description": "PHPUnit Pretty Result Printer",
   "keywords": ["phpunit", "printer", "result-printer", "composer", "package"],
   "license": "MIT",
