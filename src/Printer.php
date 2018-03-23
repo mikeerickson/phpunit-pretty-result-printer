@@ -119,7 +119,7 @@ class Printer extends _ResultPrinter
     /**
      * {@inheritdoc}
      */
-    protected function writeProgress($progress): void
+    protected function writeProgress($progress)
     {
         if (!$this->debug) {
             $this->printClassName();
