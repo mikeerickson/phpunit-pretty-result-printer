@@ -161,13 +161,13 @@ class Printer extends _ResultPrinter
                 break;
             case 'S':
                 $color = 'fg-yellow,bold';
-                $buffer = ($this->simpleOutput) ? 'S' : mb_convert_encoding("\x27\xA6", 'UTF-8', 'UTF-16BE');
-                $buffer .= (!$this->debug) ? '' : ' Skipped';
+                $buffer = $this->simpleOutput ? 'S' : mb_convert_encoding("\x27\xA6", 'UTF-8', 'UTF-16BE');
+                $buffer .= !$this->debug ? '' : ' Skipped';
                 break;
             case 'I':
                 $color = 'fg-blue,bold';
-                $buffer = ($this->simpleOutput) ? 'I' : 'ℹ';
-                $buffer .= (!$this->debug) ? '' : ' Incomplete';
+                $buffer = $this->simpleOutput ? 'I' : 'ℹ';
+                $buffer .= !$this->debug ? '' : ' Incomplete';
                 break;
             case 'F':
                 $color = 'fg-red,bold';
@@ -176,8 +176,8 @@ class Printer extends _ResultPrinter
                 break;
             case 'E':
                 $color = 'fg-red,bold';
-                $buffer = ($this->simpleOutput) ? 'E' : '⚈';
-                $buffer .= (!$this->debug) ? '' : ' Error';
+                $buffer = $this->simpleOutput ? 'E' : '⚈';
+                $buffer .= !$this->debug ? '' : ' Error';
                 break;
         }
 
@@ -203,8 +203,8 @@ class Printer extends _ResultPrinter
 
         echo PHP_EOL;
         $className = $this->formatClassName($this->className);
-        ($this->colorsTool) ? $this->writeWithColor('fg-cyan,bold', $className, false) : $this->write($className);
-        $this->column = strlen($className) + 1;
+        $this->colorsTool ? $this->writeWithColor('fg-cyan,bold', $className, false) : $this->write($className);
+        $this->column = \strlen($className) + 1;
         $this->lastClassName = $this->className;
     }
 
