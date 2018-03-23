@@ -3,7 +3,6 @@
 namespace Codedungeon\PHPUnitPrettyResultPrinter;
 
 use Noodlehaus\Config;
-use function strtoupper;
 
 // use this entry point for PHPUnit 5.x
 if (class_exists('\PHPUnit_TextUI_ResultPrinter')) {
@@ -187,7 +186,7 @@ class Printer extends _ResultPrinter
         if ($this->debug) {
             $this->writeNewLine();
         }
-        $this->column = $this->column + 2;
+        $this->column += 2;
     }
 
     /**
