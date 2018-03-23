@@ -20,7 +20,7 @@ if (class_exists('\PHPUnit_TextUI_ResultPrinter')) {
 if (class_exists('\PHPUnit\TextUI\ResultPrinter')) {
     class _ResultPrinter extends \PHPUnit\TextUI\ResultPrinter
     {
-        public function startTest(\PHPUnit\Framework\Test $test)
+        public function startTest(\PHPUnit\Framework\Test $test): void
         {
             $this->className = get_class($test);
             parent::startTest($test);
