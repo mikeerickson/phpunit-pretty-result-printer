@@ -13,6 +13,30 @@ if (class_exists('\PHPUnit_TextUI_ResultPrinter')) {
             $this->className = \get_class($test);
             parent::startTest($test);
         }
+
+        /**
+         * {@inheritdoc}
+         */
+        protected function writeProgress($progress)
+        {
+            if (!$this->debug) {
+                $this->printClassName();
+            }
+
+            $this->printTestCaseStatus('', $progress);
+        }
+
+        /**
+         * {@inheritdoc}
+         */
+        protected function writeProgressWithColor($color, $buffer)
+        {
+            if (!$this->debug) {
+                $this->printClassName();
+            }
+
+            $this->printTestCaseStatus($color, $buffer);
+        }
     }
 }
 
@@ -24,6 +48,30 @@ if (class_exists('\PHPUnit\TextUI\ResultPrinter')) {
         {
             $this->className = get_class($test);
             parent::startTest($test);
+        }
+
+        /**
+         * {@inheritdoc}
+         */
+        protected function writeProgress($progress): void
+        {
+            if (!$this->debug) {
+                $this->printClassName();
+            }
+
+            $this->printTestCaseStatus('', $progress);
+        }
+
+        /**
+         * {@inheritdoc}
+         */
+        protected function writeProgressWithColor($color, $buffer): void
+        {
+            if (!$this->debug) {
+                $this->printClassName();
+            }
+
+            $this->printTestCaseStatus($color, $buffer);
         }
     }
 }
@@ -117,34 +165,10 @@ class Printer extends _ResultPrinter
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function writeProgress($progress)
-    {
-        if (!$this->debug) {
-            $this->printClassName();
-        }
-
-        $this->printTestCaseStatus('', $progress);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function writeProgressWithColor($color, $buffer)
-    {
-        if (!$this->debug) {
-            $this->printClassName();
-        }
-
-        $this->printTestCaseStatus($color, $buffer);
-    }
-
-    /**
      * @param string $color
      * @param string $buffer Result of the Test Case => . F S I R
      */
-    private function printTestCaseStatus($color, $buffer)
+    protected function printTestCaseStatus($color, $buffer)
     {
         if ($this->column >= $this->maxNumberOfColumns) {
             $this->writeNewLine();
