@@ -3,6 +3,10 @@
 namespace Codedungeon\PHPUnitPrettyResultPrinter;
 
 use Noodlehaus\Config;
+use PHPUnit\Runner\Version;
+
+define("PHPUNIT_RESULT_PRINTER_VERSION","0.9.0");
+
 
 // use this entry point for PHPUnit 5.x
 if (class_exists('\PHPUnit_TextUI_ResultPrinter')) {
@@ -18,14 +22,46 @@ if (class_exists('\PHPUnit_TextUI_ResultPrinter')) {
 
 // use this entrypoint for PHPUnit 6.x and 7.x
 if (class_exists('\PHPUnit\TextUI\ResultPrinter')) {
-    class _ResultPrinter extends \PHPUnit\TextUI\ResultPrinter
-    {
-        public function startTest(\PHPUnit\Framework\Test $test): void
+    if(strpos(Version::id(),"7.") == 0){
+        class _ResultPrinter extends \PHPUnit\TextUI\ResultPrinter
         {
-            $this->className = get_class($test);
-            parent::startTest($test);
+            public function startTest(\PHPUnit\Framework\Test $test): void
+            {
+                $this->className = get_class($test);
+                parent::startTest($test);
+            }
+
+            protected function writeProgress($progress): void
+            {
+                $this->writeProgressEx($progress);
+            }
+
+            protected function writeProgressWithColor($progress, $buffer): void
+            {
+                $this->writeProgressWithColorEx($progress, $buffer);
+            }
+        }
+    } else {
+        class _ResultPrinter extends \PHPUnit\TextUI\ResultPrinter
+        {
+            public function startTest(\PHPUnit\Framework\Test $test)
+            {
+                $this->className = get_class($test);
+                parent::startTest($test);
+            }
+
+            protected function writeProgress($progress)
+            {
+                $this->writeProgressEx($progress);
+            }
+
+            protected function writeProgressWithColor($progress, $buffer)
+            {
+                $this->writeProgressWithColorEx($progress, $buffer);
+            }
         }
     }
+
 }
 
 /**
@@ -100,12 +136,16 @@ class Printer extends _ResultPrinter
         $this->showConfig = $this->configuration->get('options.cd-printer-show-config');
 
         if ($this->showConfig) {
+            $version = $this->version();
             echo PHP_EOL;
-            echo $this->colorsTool->yellow() . 'PHPUnit Printer Configuration: '. PHP_EOL;
+            echo $this->colorsTool->green() . "PHPUnit Pretty Result Printer ${version} by Codedungeon and conributors.". PHP_EOL;
+            echo $this->colorsTool->cyan() . "Configuration: ";
             echo $this->colorsTool->cyan() . $this->configFileName;
             echo $this->colorsTool->reset();
             echo PHP_EOL.PHP_EOL;
         }
+
+//        echo "PHPUnit Pretty Result Printer " .$this->version() ."\n";
     }
 
     /**
@@ -116,22 +156,18 @@ class Printer extends _ResultPrinter
         return 'PHPUnit Pretty Result Printer';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function writeProgress($progress)
+    protected function writeProgressEx($progress): void
     {
         if (!$this->debug) {
             $this->printClassName();
         }
-
         $this->printTestCaseStatus('', $progress);
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function writeProgressWithColor($color, $buffer)
+    protected function writeProgressWithColorEx($color, $buffer): void
     {
         if (!$this->debug) {
             $this->printClassName();
@@ -305,5 +341,9 @@ class Printer extends _ResultPrinter
         }
 
         return $width;
+    }
+
+    public function version() {
+        return PHPUNIT_RESULT_PRINTER_VERSION;
     }
 }
