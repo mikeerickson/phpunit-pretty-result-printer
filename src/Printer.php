@@ -5,8 +5,7 @@ namespace Codedungeon\PHPUnitPrettyResultPrinter;
 use Noodlehaus\Config;
 use PHPUnit\Runner\Version;
 
-define("PHPUNIT_RESULT_PRINTER_VERSION","0.9.0");
-
+define('PHPUNIT_RESULT_PRINTER_VERSION', '0.9.0');
 
 // use this entry point for PHPUnit 5.x
 if (class_exists('\PHPUnit_TextUI_ResultPrinter')) {
@@ -22,7 +21,7 @@ if (class_exists('\PHPUnit_TextUI_ResultPrinter')) {
 
 // use this entrypoint for PHPUnit 6.x and 7.x
 if (class_exists('\PHPUnit\TextUI\ResultPrinter')) {
-    if(strpos(Version::id(),"7.") == 0){
+    if (strpos(Version::id(), '7.') == 0) {
         class _ResultPrinter extends \PHPUnit\TextUI\ResultPrinter
         {
             public function startTest(\PHPUnit\Framework\Test $test): void
@@ -61,7 +60,6 @@ if (class_exists('\PHPUnit\TextUI\ResultPrinter')) {
             }
         }
     }
-
 }
 
 /**
@@ -139,7 +137,7 @@ class Printer extends _ResultPrinter
             $version = $this->version();
             echo PHP_EOL;
             echo $this->colorsTool->green() . "PHPUnit Pretty Result Printer ${version} by Codedungeon and conributors.". PHP_EOL;
-            echo $this->colorsTool->cyan() . "Configuration: ";
+            echo $this->colorsTool->cyan() . 'Configuration: ';
             echo $this->colorsTool->cyan() . $this->configFileName;
             echo $this->colorsTool->reset();
             echo PHP_EOL.PHP_EOL;
@@ -343,7 +341,8 @@ class Printer extends _ResultPrinter
         return $width;
     }
 
-    public function version() {
+    public function version()
+    {
         return PHPUNIT_RESULT_PRINTER_VERSION;
     }
 }
