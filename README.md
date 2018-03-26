@@ -11,6 +11,13 @@ Installation is provided via composer and can be done with the following command
 ```bash
 composer require --dev codedungeon/phpunit-result-printer
 ```
+**Laravel 5.3 with PHP version 7.0.x:**
+
+If you are using PHP 7.0.x with Laravel <= 5.3.x, you will need to use a compatible version of PHPUnit Result Printer
+
+```bash
+composer require --dev codedungeon/phpunit-result-printer:^0.8
+```
 
 To activate the Printer for PHPUnit, just add it to your configuration XML:
 
