@@ -190,7 +190,7 @@ class Printer extends _ResultPrinter
         switch (strtoupper($buffer)) {
             case '.':
                 $color = 'fg-green,bold';
-                $buffer = mb_convert_encoding("\x27\x13", 'UTF-8', 'UTF-16BE');
+                $buffer = $this->simpleOutput ? '.' : mb_convert_encoding("\x27\x13", 'UTF-8', 'UTF-16BE');
                 $buffer .= (!$this->debug) ? '' : ' Passed';
                 break;
             case 'S':
@@ -205,7 +205,7 @@ class Printer extends _ResultPrinter
                 break;
             case 'F':
                 $color = 'fg-red,bold';
-                $buffer = mb_convert_encoding("\x27\x16", 'UTF-8', 'UTF-16BE');
+                $buffer = $this->simpleOutput ? 'F' : mb_convert_encoding("\x27\x16", 'UTF-8', 'UTF-16BE');
                 $buffer .= (!$this->debug) ? '' : ' Fail';
                 break;
             case 'E':
