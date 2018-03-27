@@ -89,6 +89,16 @@ class Colors
         return ($light === 1) ? self::lgray() : self::RESET . self::GRAY;
     }
 
+    public static function blue($light = 0)
+    {
+        return ($light === 1) ? self::lblue() : self::RESET . self::BLUE;
+    }
+
+    public static function lblue()
+    {
+        return self::RESET . self::LBLUE;
+    }
+
     /**
      * @param int $light
      *

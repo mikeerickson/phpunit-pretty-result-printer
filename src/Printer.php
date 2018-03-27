@@ -111,6 +111,12 @@ class Printer extends _ResultPrinter
 
     private $showConfig;
 
+    private $passMark;
+
+    private $failMark;
+
+    protected static $init = false;
+
     /**
      * {@inheritdoc}
      */
@@ -135,18 +141,31 @@ class Printer extends _ResultPrinter
         $this->hideClassName = $this->configuration->get('options.cd-printer-hide-class');
         $this->simpleOutput = $this->configuration->get('options.cd-printer-simple-output');
         $this->showConfig = $this->configuration->get('options.cd-printer-show-config');
+//        echo "PHPUnit Pretty Result Printer " .$this->version() ."\n";
 
-        if ($this->showConfig) {
+        $this->passMark = $this->configuration->get('marks.cd-pass');
+        $this->failMark = $this->configuration->get('marks.cd-fail');
+
+        $this->init();
+    }
+
+    protected function init()
+    {
+        if (!self::$init) {
             $version = $this->version();
             echo PHP_EOL;
             echo $this->colorsTool->green() . "PHPUnit Pretty Result Printer ${version} by Codedungeon and contributors." . PHP_EOL;
-            echo $this->colorsTool->cyan() . 'Configuration: ';
-            echo $this->colorsTool->cyan() . $this->configFileName;
             echo $this->colorsTool->reset();
-            echo PHP_EOL . PHP_EOL;
-        }
 
-//        echo "PHPUnit Pretty Result Printer " .$this->version() ."\n";
+            if ($this->showConfig) {
+                echo $this->colorsTool->white() . 'Configuration: ';
+                echo $this->colorsTool->white() . $this->configFileName;
+                echo $this->colorsTool->reset();
+                echo PHP_EOL . PHP_EOL;
+            }
+
+            self::$init = true;
+        }
     }
 
     /**
@@ -193,7 +212,7 @@ class Printer extends _ResultPrinter
         switch (strtoupper($buffer)) {
             case '.':
                 $color = 'fg-green,bold';
-                $buffer = mb_convert_encoding("\x27\x13", 'UTF-8', 'UTF-16BE');
+                $buffer = $this->simpleOutput ? '.' : mb_convert_encoding("\x27\x13", 'UTF-8', 'UTF-16BE');
                 $buffer .= (!$this->debug) ? '' : ' Passed';
                 break;
             case 'S':
@@ -208,7 +227,7 @@ class Printer extends _ResultPrinter
                 break;
             case 'F':
                 $color = 'fg-red,bold';
-                $buffer = mb_convert_encoding("\x27\x16", 'UTF-8', 'UTF-16BE');
+                $buffer = $this->simpleOutput ? 'F' : mb_convert_encoding("\x27\x16", 'UTF-8', 'UTF-16BE');
                 $buffer .= (!$this->debug) ? '' : ' Fail';
                 break;
             case 'E':
@@ -328,6 +347,9 @@ class Printer extends _ResultPrinter
     private function getWidth()
     {
         $width = 0;
+        if($this->isWindows()) {
+            return 96; // create a default width to be used on windows
+        }
 
         exec('stty size 2>/dev/null', $out, $exit);
 

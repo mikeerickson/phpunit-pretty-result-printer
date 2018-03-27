@@ -44,4 +44,20 @@ class PrinterTest extends PHPUnit\Framework\TestCase
         $this->assertContains('phpunit-printer.yml', $this->printer->getConfigurationFile());
         $this->assertFileExists($this->printer->getConfigurationFile());
     }
+
+    /** @test  */
+    public function it_should_display_incomplete()
+    {
+        $this->markTestIncomplete('Incomplete Test');
+        $this->assertTrue(true);
+    }
+
+    /** @test  */
+    public function it_should_display_skipped()
+    {
+        $this->markTestSkipped('Skipped Test');
+        $this->assertTrue(true);
+    }
+
+
 }

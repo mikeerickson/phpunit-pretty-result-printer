@@ -2,3 +2,9 @@ options:
   cd-printer-hide-class: false
   cd-printer-simple-output: true
   cd-printer-show-config: true
+marks:
+  cd-pass: "✔ ️"
+  cd-fail: "✖ ️"
+  cd-error: "⚈"
+  cd-skipped: "➦"
+  cd-incomplete: "ℹ"
