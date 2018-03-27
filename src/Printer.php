@@ -2,10 +2,10 @@
 
 namespace Codedungeon\PHPUnitPrettyResultPrinter;
 
+use function in_array;
 use Noodlehaus\Config;
 use PHPUnit\Runner\Version;
-
-define('PHPUNIT_RESULT_PRINTER_VERSION', '0.9.0');
+use function var_dump;
 
 // use this entry point for PHPUnit 5.x
 if (class_exists('\PHPUnit_TextUI_ResultPrinter')) {
@@ -116,8 +116,13 @@ class Printer extends _ResultPrinter
     /**
      * {@inheritdoc}
      */
-    public function __construct($out = null, $verbose = false, $colors = self::COLOR_DEFAULT, $debug = false, $numberOfColumns = 80)
-    {
+    public function __construct(
+        $out = null,
+        $verbose = false,
+        $colors = self::COLOR_DEFAULT,
+        $debug = false,
+        $numberOfColumns = 80
+    ) {
         parent::__construct($out, $verbose, $colors, $debug, $numberOfColumns);
 
         $this->configFileName = $this->getConfigurationFile('phpunit-printer.yml');
@@ -125,7 +130,7 @@ class Printer extends _ResultPrinter
         $this->configuration = new Config($this->configFileName);
 
         $this->maxNumberOfColumns = $this->getWidth();
-        $this->maxClassNameLength = min((int) ($this->maxNumberOfColumns / 2), $this->maxClassNameLength);
+        $this->maxClassNameLength = min((int)($this->maxNumberOfColumns / 2), $this->maxClassNameLength);
 
         // setup module options
         $this->printerOptions = $this->configuration->all();
@@ -136,11 +141,11 @@ class Printer extends _ResultPrinter
         if ($this->showConfig) {
             $version = $this->version();
             echo PHP_EOL;
-            echo $this->colorsTool->green() . "PHPUnit Pretty Result Printer ${version} by Codedungeon and conributors.". PHP_EOL;
+            echo $this->colorsTool->green() . "PHPUnit Pretty Result Printer ${version} by Codedungeon and contributors." . PHP_EOL;
             echo $this->colorsTool->cyan() . 'Configuration: ';
             echo $this->colorsTool->cyan() . $this->configFileName;
             echo $this->colorsTool->reset();
-            echo PHP_EOL.PHP_EOL;
+            echo PHP_EOL . PHP_EOL;
         }
 
 //        echo "PHPUnit Pretty Result Printer " .$this->version() ."\n";
@@ -330,7 +335,7 @@ class Printer extends _ResultPrinter
 
         // 'stty size' output example: 36 120
         if (\count($out) > 0) {
-            $width = (int) explode(' ', array_pop($out))[1];
+            $width = (int)explode(' ', array_pop($out))[1];
         }
 
         // handle CircleCI case (probably the same with TravisCI as well)
@@ -343,6 +348,13 @@ class Printer extends _ResultPrinter
 
     public function version()
     {
-        return PHPUNIT_RESULT_PRINTER_VERSION;
+        $content = file_get_contents('./composer.json');
+        if ($content) {
+            $content = json_decode($content, true);
+
+            return $content['version'];
+        }
+
+        return 'n/a';
     }
 }
