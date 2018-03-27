@@ -6,14 +6,14 @@ Extend the default PHPUnit Result Printer with a modern, pretty printer!
 
 ## Installation
 
-Installation is provided via composer and can be done with the following command:
+Installation is provided via composer and can be done with the following command, the current version requires PHP 7.1 or greater:
 
 ```bash
 composer require --dev codedungeon/phpunit-result-printer
 ```
 **Laravel 5.3 with PHP version 7.0.x:**
 
-If you are using PHP 7.0.x with Laravel <= 5.3.x, you will need to use a compatible version of PHPUnit Result Printer
+If you are using PHP 7.0.x, you will need to use a compatible version of PHPUnit Result Printer (version 0.8.x)
 
 ```bash
 composer require --dev codedungeon/phpunit-result-printer:^0.8
