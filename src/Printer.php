@@ -348,7 +348,7 @@ class Printer extends _ResultPrinter
 
     public function version()
     {
-        $content = file_get_contents('./composer.json');
+        $content = file_get_contents($this->getPackageRoot() . DIRECTORY_SEPARATOR . 'composer.json');
         if ($content) {
             $content = json_decode($content, true);
 
