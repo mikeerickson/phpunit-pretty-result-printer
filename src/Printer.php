@@ -347,7 +347,7 @@ class Printer extends _ResultPrinter
     private function getWidth()
     {
         $width = 0;
-        if($this->isWindows()) {
+        if ($this->isWindows()) {
             return 96; // create a default width to be used on windows
         }
 

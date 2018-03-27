@@ -58,6 +58,4 @@ class PrinterTest extends PHPUnit\Framework\TestCase
         $this->markTestSkipped('Skipped Test');
         $this->assertTrue(true);
     }
-
-
 }
