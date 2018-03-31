@@ -23,7 +23,6 @@ class PrinterTest extends PHPUnit\Framework\TestCase
     public function should_not_have_any_syntax_errors(): void
     {
         $this->assertInternalType('object', $this->printer);
-
     }
 
     /** @test  */
