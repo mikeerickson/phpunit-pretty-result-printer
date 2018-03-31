@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit backupGLobals="false"
+         colors="true"
          bootstrap="vendor/autoload.php"
          failOnRisky="false"
          processIsolation="false"
          stopOnError="false"
          stopOnFailure="false"
+         printerClass="Codedungeon\PHPUnitPrettyResultPrinter\Printer"
          verbose="true"
 >
     <testsuites>
         <testsuite name="Unit Tests">
             <directory>tests</directory>
+        </testsuite>
+        <testsuite name="Unit">
+            <directory>tests/Unit</directory>
         </testsuite>
         <testsuite name="Tickets">
             <directory>tickets</directory>
