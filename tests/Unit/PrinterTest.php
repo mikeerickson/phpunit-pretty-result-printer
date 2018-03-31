@@ -20,40 +20,38 @@ class PrinterTest extends PHPUnit\Framework\TestCase
     }
 
     /** @test  */
-    public function should_not_have_any_syntax_errors()
+    public function should_not_have_any_syntax_errors(): void
     {
         $this->assertInternalType('object', $this->printer);
     }
 
     /** @test  */
-    public function should_return_module_package_name()
+    public function should_return_module_package_name(): void
     {
         $this->assertSame('PHPUnit Pretty Result Printer', $this->printer->packageName());
     }
 
     /** @test  */
-    public function should_return_full_pathname_to_config_file()
+    public function should_return_full_pathname_to_config_file(): void
     {
         $this->assertContains('phpunit-printer.yml', $this->printer->getConfigurationFile());
         $this->assertFileExists($this->printer->getConfigurationFile());
     }
 
     /** @test  */
-    public function should_use_configuration_file()
+    public function should_use_configuration_file(): void
     {
         $this->assertContains('phpunit-printer.yml', $this->printer->getConfigurationFile());
         $this->assertFileExists($this->printer->getConfigurationFile());
     }
 
-    /** @test  */
-    public function it_should_display_incomplete()
+    public function it_should_display_incomplete(): void
     {
         $this->markTestIncomplete('Incomplete Test');
         $this->assertTrue(true);
     }
 
-    /** @test  */
-    public function it_should_display_skipped()
+    public function it_should_display_skipped(): void
     {
         $this->markTestSkipped('Skipped Test');
         $this->assertTrue(true);
