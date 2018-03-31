@@ -9,3 +9,4 @@ NOTES.md
 tickets/*
 .phpunit-watcher.yml
 .history/*
+coverage/
