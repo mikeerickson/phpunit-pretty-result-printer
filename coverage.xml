@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1522873771">
+  <project timestamp="1522873771">
+    <package name="Codedungeon\PHPUnitPrettyResultPrinter">
+      <file name="/Users/merickson/Documents/code/oss/php/phpunit-pretty-result-printer/src/Colors.php">
+        <class name="Codedungeon\PHPUnitPrettyResultPrinter\Colors" namespace="Codedungeon\PHPUnitPrettyResultPrinter">
+          <metrics complexity="29" methods="20" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="20" coveredstatements="1" elements="40" coveredelements="2"/>
+        </class>
+        <line num="34" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="4"/>
+        <line num="36" type="stmt" count="4"/>
+        <line num="41" type="method" name="reset" visibility="public" complexity="1" crap="2.00" count="0"/>
+        <line num="43" type="stmt" count="0"/>
+        <line num="51" type="method" name="red" visibility="public" complexity="2" crap="6.00" count="0"/>
+        <line num="53" type="stmt" count="0"/>
+        <line num="59" type="method" name="lred" visibility="public" complexity="1" crap="2.00" count="0"/>
+        <line num="61" type="stmt" count="0"/>
+        <line num="69" type="method" name="white" visibility="public" complexity="2" crap="6.00" count="0"/>
+        <line num="71" type="stmt" count="0"/>
+        <line num="77" type="method" name="lwhite" visibility="public" complexity="1" crap="2.00" count="0"/>
+        <line num="79" type="stmt" count="0"/>
+        <line num="87" type="method" name="gray" visibility="public" complexity="2" crap="6.00" count="0"/>
+        <line num="89" type="stmt" count="0"/>
+        <line num="92" type="method" name="blue" visibility="public" complexity="2" crap="6.00" count="0"/>
+        <line num="94" type="stmt" count="0"/>
+        <line num="97" type="method" name="lblue" visibility="public" complexity="1" crap="2.00" count="0"/>
+        <line num="99" type="stmt" count="0"/>
+        <line num="107" type="method" name="green" visibility="public" complexity="2" crap="6.00" count="0"/>
+        <line num="109" type="stmt" count="0"/>
+        <line num="115" type="method" name="lgreen" visibility="public" complexity="1" crap="2.00" count="0"/>
+        <line num="117" type="stmt" count="0"/>
+        <line num="125" type="method" name="cyan" visibility="public" complexity="2" crap="6.00" count="0"/>
+        <line num="127" type="stmt" count="0"/>
+        <line num="133" type="method" name="lcyan" visibility="public" complexity="1" crap="2.00" count="0"/>
+        <line num="135" type="stmt" count="0"/>
+        <line num="143" type="method" name="yellow" visibility="public" complexity="2" crap="6.00" count="0"/>
+        <line num="145" type="stmt" count="0"/>
+        <line num="151" type="method" name="lyellow" visibility="public" complexity="1" crap="2.00" count="0"/>
+        <line num="153" type="stmt" count="0"/>
+        <line num="159" type="method" name="lgray" visibility="public" complexity="1" crap="2.00" count="0"/>
+        <line num="161" type="stmt" count="0"/>
+        <line num="169" type="method" name="purple" visibility="public" complexity="2" crap="6.00" count="0"/>
+        <line num="171" type="stmt" count="0"/>
+        <line num="177" type="method" name="lpurple" visibility="public" complexity="1" crap="2.00" count="0"/>
+        <line num="179" type="stmt" count="0"/>
+        <line num="187" type="method" name="magenta" visibility="public" complexity="2" crap="6.00" count="0"/>
+        <line num="189" type="stmt" count="0"/>
+        <line num="195" type="method" name="lmagenta" visibility="public" complexity="1" crap="2.00" count="0"/>
+        <line num="197" type="stmt" count="0"/>
+        <metrics loc="199" ncloc="129" classes="1" methods="20" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="20" coveredstatements="1" elements="40" coveredelements="2"/>
+      </file>
+      <file name="/Users/merickson/Documents/code/oss/php/phpunit-pretty-result-printer/src/Printer.php">
+        <class name="Codedungeon\PHPUnitPrettyResultPrinter\_ResultPrinter" namespace="Codedungeon\PHPUnitPrettyResultPrinter">
+          <metrics complexity="3" methods="3" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="0" elements="10" coveredelements="0"/>
+        </class>
+        <class name="Codedungeon\PHPUnitPrettyResultPrinter\Printer" namespace="Codedungeon\PHPUnitPrettyResultPrinter">
+          <metrics complexity="4" methods="2" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="25" coveredstatements="15" elements="27" coveredelements="16"/>
+        </class>
+        <line num="14" type="stmt" count="0"/>
+        <line num="15" type="stmt" count="0"/>
+        <line num="16" type="stmt" count="0"/>
+        <line num="27" type="stmt" count="0"/>
+        <line num="28" type="stmt" count="0"/>
+        <line num="29" type="stmt" count="0"/>
+        <line num="33" type="stmt" count="0"/>
+        <line num="34" type="stmt" count="0"/>
+        <line num="38" type="stmt" count="0"/>
+        <line num="39" type="stmt" count="0"/>
+        <line num="44" type="method" name="startTest" visibility="public" complexity="1" crap="2.00" count="0"/>
+        <line num="46" type="stmt" count="0"/>
+        <line num="47" type="stmt" count="0"/>
+        <line num="48" type="stmt" count="0"/>
+        <line num="50" type="method" name="writeProgress" visibility="protected" complexity="1" crap="2.00" count="0"/>
+        <line num="52" type="stmt" count="0"/>
+        <line num="53" type="stmt" count="0"/>
+        <line num="55" type="method" name="writeProgressWithColor" visibility="protected" complexity="1" crap="2.00" count="0"/>
+        <line num="57" type="stmt" count="0"/>
+        <line num="58" type="stmt" count="0"/>
+        <line num="123" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="4"/>
+        <line num="130" type="stmt" count="4"/>
+        <line num="132" type="stmt" count="4"/>
+        <line num="133" type="stmt" count="4"/>
+        <line num="134" type="stmt" count="4"/>
+        <line num="136" type="stmt" count="4"/>
+        <line num="137" type="stmt" count="4"/>
+        <line num="140" type="stmt" count="4"/>
+        <line num="141" type="stmt" count="4"/>
+        <line num="142" type="stmt" count="4"/>
+        <line num="143" type="stmt" count="4"/>
+        <line num="145" type="stmt" count="4"/>
+        <line num="146" type="stmt" count="4"/>
+        <line num="148" type="stmt" count="4"/>
+        <line num="149" type="stmt" count="4"/>
+        <line num="151" type="method" name="init" visibility="protected" complexity="3" crap="9.76" count="4"/>
+        <line num="153" type="stmt" count="4"/>
+        <line num="154" type="stmt" count="0"/>
+        <line num="155" type="stmt" count="0"/>
+        <line num="156" type="stmt" count="0"/>
+        <line num="157" type="stmt" count="0"/>
+        <line num="159" type="stmt" count="0"/>
+        <line num="160" type="stmt" count="0"/>
+        <line num="161" type="stmt" count="0"/>
+        <line num="162" type="stmt" count="0"/>
+        <line num="163" type="stmt" count="0"/>
+        <line num="166" type="stmt" count="0"/>
+        <line num="175" type="stmt" count="1"/>
+        <line num="180" type="stmt" count="0"/>
+        <line num="181" type="stmt" count="0"/>
+        <line num="183" type="stmt" count="0"/>
+        <line num="184" type="stmt" count="0"/>
+        <line num="191" type="stmt" count="0"/>
+        <line num="192" type="stmt" count="0"/>
+        <line num="195" type="stmt" count="0"/>
+        <line num="196" type="stmt" count="0"/>
+        <line num="204" type="stmt" count="0"/>
+        <line num="205" type="stmt" count="0"/>
+        <line num="206" type="stmt" count="0"/>
+        <line num="207" type="stmt" count="0"/>
+        <line num="208" type="stmt" count="0"/>
+        <line num="211" type="stmt" count="0"/>
+        <line num="212" type="stmt" count="0"/>
+        <line num="213" type="stmt" count="0"/>
+        <line num="214" type="stmt" count="0"/>
+        <line num="215" type="stmt" count="0"/>
+        <line num="216" type="stmt" count="0"/>
+        <line num="217" type="stmt" count="0"/>
+        <line num="218" type="stmt" count="0"/>
+        <line num="219" type="stmt" count="0"/>
+        <line num="220" type="stmt" count="0"/>
+        <line num="221" type="stmt" count="0"/>
+        <line num="222" type="stmt" count="0"/>
+        <line num="223" type="stmt" count="0"/>
+        <line num="224" type="stmt" count="0"/>
+        <line num="225" type="stmt" count="0"/>
+        <line num="226" type="stmt" count="0"/>
+        <line num="227" type="stmt" count="0"/>
+        <line num="228" type="stmt" count="0"/>
+        <line num="229" type="stmt" count="0"/>
+        <line num="230" type="stmt" count="0"/>
+        <line num="231" type="stmt" count="0"/>
+        <line num="232" type="stmt" count="0"/>
+        <line num="233" type="stmt" count="0"/>
+        <line num="234" type="stmt" count="0"/>
+        <line num="235" type="stmt" count="0"/>
+        <line num="236" type="stmt" count="0"/>
+        <line num="239" type="stmt" count="0"/>
+        <line num="240" type="stmt" count="0"/>
+        <line num="241" type="stmt" count="0"/>
+        <line num="242" type="stmt" count="0"/>
+        <line num="244" type="stmt" count="0"/>
+        <line num="245" type="stmt" count="0"/>
+        <line num="252" type="stmt" count="0"/>
+        <line num="253" type="stmt" count="0"/>
+        <line num="255" type="stmt" count="0"/>
+        <line num="256" type="stmt" count="0"/>
+        <line num="259" type="stmt" count="0"/>
+        <line num="260" type="stmt" count="0"/>
+        <line num="261" type="stmt" count="0"/>
+        <line num="262" type="stmt" count="0"/>
+        <line num="263" type="stmt" count="0"/>
+        <line num="264" type="stmt" count="0"/>
+        <line num="273" type="stmt" count="0"/>
+        <line num="274" type="stmt" count="0"/>
+        <line num="275" type="stmt" count="0"/>
+        <line num="276" type="stmt" count="0"/>
+        <line num="278" type="stmt" count="0"/>
+        <line num="279" type="stmt" count="0"/>
+        <line num="283" type="stmt" count="0"/>
+        <line num="287" type="stmt" count="0"/>
+        <line num="297" type="stmt" count="0"/>
+        <line num="307" type="stmt" count="4"/>
+        <line num="309" type="stmt" count="4"/>
+        <line num="310" type="stmt" count="4"/>
+        <line num="312" type="stmt" count="4"/>
+        <line num="313" type="stmt" count="4"/>
+        <line num="314" type="stmt" count="4"/>
+        <line num="315" type="stmt" count="4"/>
+        <line num="316" type="stmt" count="0"/>
+        <line num="317" type="stmt" count="0"/>
+        <line num="319" type="stmt" count="4"/>
+        <line num="322" type="stmt" count="4"/>
+        <line num="330" type="stmt" count="4"/>
+        <line num="338" type="stmt" count="4"/>
+        <line num="348" type="stmt" count="4"/>
+        <line num="349" type="stmt" count="4"/>
+        <line num="350" type="stmt" count="0"/>
+        <line num="353" type="stmt" count="4"/>
+        <line num="356" type="stmt" count="4"/>
+        <line num="357" type="stmt" count="4"/>
+        <line num="361" type="stmt" count="4"/>
+        <line num="362" type="stmt" count="0"/>
+        <line num="365" type="stmt" count="4"/>
+        <line num="370" type="stmt" count="0"/>
+        <line num="371" type="stmt" count="0"/>
+        <line num="372" type="stmt" count="0"/>
+        <line num="374" type="stmt" count="0"/>
+        <line num="377" type="stmt" count="0"/>
+        <metrics loc="379" ncloc="290" classes="2" methods="5" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="134" coveredstatements="34" elements="139" coveredelements="35"/>
+      </file>
+    </package>
+    <package name="PHPUnitPrettyResultPrinter\Exception">
+      <file name="/Users/merickson/Documents/code/oss/php/phpunit-pretty-result-printer/src/Exception/InvalidArgumentException.php">
+        <class name="PHPUnitPrettyResultPrinter\Exception\InvalidArgumentException" namespace="PHPUnitPrettyResultPrinter\Exception">
+          <metrics complexity="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+        </class>
+        <metrics loc="7" ncloc="7" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+      </file>
+    </package>
+    <metrics files="3" loc="585" ncloc="426" classes="3" methods="25" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="154" coveredstatements="35" elements="179" coveredelements="37"/>
+  </project>
+</coverage>

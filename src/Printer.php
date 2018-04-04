@@ -134,14 +134,13 @@ class Printer extends _ResultPrinter
         $this->configuration = new Config($this->configFileName);
 
         $this->maxNumberOfColumns = $this->getWidth();
-        $this->maxClassNameLength = min((int) ($this->maxNumberOfColumns / 2), $this->maxClassNameLength);
+        $this->maxClassNameLength = min((int)($this->maxNumberOfColumns / 2), $this->maxClassNameLength);
 
         // setup module options
         $this->printerOptions = $this->configuration->all();
         $this->hideClassName = $this->configuration->get('options.cd-printer-hide-class');
         $this->simpleOutput = $this->configuration->get('options.cd-printer-simple-output');
         $this->showConfig = $this->configuration->get('options.cd-printer-show-config');
-//        echo "PHPUnit Pretty Result Printer " .$this->version() ."\n";
 
         $this->passMark = $this->configuration->get('marks.cd-pass');
         $this->failMark = $this->configuration->get('marks.cd-fail');
@@ -154,7 +153,7 @@ class Printer extends _ResultPrinter
         if (!self::$init) {
             $version = $this->version();
             echo PHP_EOL;
-            echo $this->colorsTool->green() . "PHPUnit Pretty Result Printer ${version} by Codedungeon and contributors." . PHP_EOL;
+            echo $this->colorsTool->green() . $this->packageName() ." ${version} by Codedungeon and contributors." . PHP_EOL;
             echo $this->colorsTool->reset();
 
             if ($this->showConfig) {
@@ -355,7 +354,7 @@ class Printer extends _ResultPrinter
 
         // 'stty size' output example: 36 120
         if (\count($out) > 0) {
-            $width = (int) explode(' ', array_pop($out))[1];
+            $width = (int)explode(' ', array_pop($out))[1];
         }
 
         // handle CircleCI case (probably the same with TravisCI as well)
