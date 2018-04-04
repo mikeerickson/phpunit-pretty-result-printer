@@ -4,6 +4,7 @@ namespace Codedungeon\PHPUnitPrettyResultPrinter;
 
 use Noodlehaus\Config;
 use PHPUnit\Runner\Version;
+use Codedungeon\PHPCliColors\Color;
 
 // use this entry point for PHPUnit 5.x
 if (class_exists('\PHPUnit_TextUI_ResultPrinter')) {
@@ -130,11 +131,11 @@ class Printer extends _ResultPrinter
         parent::__construct($out, $verbose, $colors, $debug, $numberOfColumns);
 
         $this->configFileName = $this->getConfigurationFile('phpunit-printer.yml');
-        $this->colorsTool = new Colors();
+        $this->colorsTool = new Color();
         $this->configuration = new Config($this->configFileName);
 
         $this->maxNumberOfColumns = $this->getWidth();
-        $this->maxClassNameLength = min((int) ($this->maxNumberOfColumns / 2), $this->maxClassNameLength);
+        $this->maxClassNameLength = min((int)($this->maxNumberOfColumns / 2), $this->maxClassNameLength);
 
         // setup module options
         $this->printerOptions = $this->configuration->all();
@@ -152,8 +153,9 @@ class Printer extends _ResultPrinter
     {
         if (!self::$init) {
             $version = $this->version();
+            $name = $this->packageName();
             echo PHP_EOL;
-            echo $this->colorsTool->green() . $this->packageName() ." ${version} by Codedungeon and contributors." . PHP_EOL;
+            echo $this->colorsTool->green() . "${name} ${version} by Codedungeon and contributors." . PHP_EOL;
             echo $this->colorsTool->reset();
 
             if ($this->showConfig) {
@@ -172,7 +174,14 @@ class Printer extends _ResultPrinter
      */
     public function packageName()
     {
-        return 'PHPUnit Pretty Result Printer';
+        $content = file_get_contents($this->getPackageRoot() . DIRECTORY_SEPARATOR . 'composer.json');
+        if ($content) {
+            $content = json_decode($content, true);
+
+            return $content['description'];
+        }
+
+        return 'n/a';
     }
 
     protected function writeProgressEx($progress)
@@ -354,7 +363,7 @@ class Printer extends _ResultPrinter
 
         // 'stty size' output example: 36 120
         if (\count($out) > 0) {
-            $width = (int) explode(' ', array_pop($out))[1];
+            $width = (int)explode(' ', array_pop($out))[1];
         }
 
         // handle CircleCI case (probably the same with TravisCI as well)

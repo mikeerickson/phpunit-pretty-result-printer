@@ -1,8 +1,8 @@
 {
   "name": "codedungeon/phpunit-result-printer",
-  "version": "0.11.3",
+  "version": "0.11.4",
   "description": "PHPUnit Pretty Result Printer",
-  "keywords": ["phpunit", "printer", "result-printer", "composer", "package"],
+  "keywords": ["phpunit", "printer", "result-printer", "composer", "package", "testing"],
   "license": "MIT",
   "authors": [{
     "name": "Mike Erickson",
@@ -12,7 +12,8 @@
   "require": {
     "php": "^7.1",
     "hassankhan/config": "^0.10.0",
-    "symfony/yaml": "^2.7|^3.0|^4.0"
+    "symfony/yaml": "^2.7|^3.0|^4.0",
+    "codedungeon/php-cli-colors": "^1.10"
   },
   "require-dev": {
     "phpunit/phpunit": ">=7.0",
@@ -24,6 +25,7 @@
     }
   },
   "scripts": {
+    "coverage-report": "open ./coverage/index.html",
     "test": "vendor/bin/phpunit --colors=always",
     "test-coverage": "./vendor/bin/phpunit --colors=always --testsuite Unit --coverage-html coverage",
     "test-ci": "vendor/bin/phpunit -c phpunit.ci.xml",

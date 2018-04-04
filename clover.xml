@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1522874155">
-  <project timestamp="1522874155">
+<coverage generated="1522883744">
+  <project timestamp="1522883744">
     <package name="Codedungeon\PHPUnitPrettyResultPrinter">
       <file name="/Users/merickson/Documents/code/oss/php/phpunit-pretty-result-printer/src/Colors.php">
         <class name="Codedungeon\PHPUnitPrettyResultPrinter\Colors" namespace="Codedungeon\PHPUnitPrettyResultPrinter">
