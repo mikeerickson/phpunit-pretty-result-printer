@@ -16,7 +16,7 @@ install:
   - travis_retry composer install --no-interaction --prefer-dist --no-suggest
 
 script:
-  - ./vendor/bin/phpunit -c phpunit.ci.xml
+  - ./vendor/bin/phpunit -c phpunit.ci.xml  --coverage-clover=coverage.xml
 
 notifications:
   email:
@@ -24,3 +24,6 @@ notifications:
       - codedungeon@gmail.com
     on_success: always # default: change
     on_failure: always # default: always
+
+after_success:
+- bash <(curl -s https://codecov.io/bash)
