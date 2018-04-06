@@ -2,9 +2,9 @@
 
 namespace Codedungeon\PHPUnitPrettyResultPrinter;
 
-use Codedungeon\PHPCliColors\Color;
 use Noodlehaus\Config;
 use PHPUnit\TextUI\ResultPrinter;
+use Codedungeon\PHPCliColors\Color;
 
 /**
  * Class Printer.
