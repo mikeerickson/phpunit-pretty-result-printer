@@ -129,7 +129,7 @@ class Printer extends ResultPrinter
         return 'n/a';
     }
 
-    protected function writeProgress($progress): void
+    protected function writeProgress(string $progress): void
     {
         if (!$this->debug) {
             $this->printClassName();
@@ -140,7 +140,7 @@ class Printer extends ResultPrinter
     /**
      * {@inheritdoc}
      */
-    protected function writeProgressWithColor($color, $buffer): void
+    protected function writeProgressWithColor(string $color, string $buffer): void
     {
         if (!$this->debug) {
             $this->printClassName();
@@ -153,7 +153,7 @@ class Printer extends ResultPrinter
      * @param string $color
      * @param string $buffer Result of the Test Case => . F S I R
      */
-    private function printTestCaseStatus($color, $buffer): void
+    private function printTestCaseStatus(string $color, string $buffer): void
     {
         if ($this->column >= $this->maxNumberOfColumns) {
             $this->writeNewLine();
@@ -222,7 +222,7 @@ class Printer extends ResultPrinter
      *
      * @return string
      */
-    private function formatClassName($className): string
+    private function formatClassName(string $className): string
     {
         $prefix = ' ==> ';
         $ellipsis = '...';
@@ -241,7 +241,7 @@ class Printer extends ResultPrinter
         return $prefix . $ellipsis . substr($className, \strlen($className) - $maxLength, $maxLength) . $suffix;
     }
 
-    private function fillWithWhitespace($className): string
+    private function fillWithWhitespace(string $className): string
     {
         return str_pad($className, $this->maxClassNameLength);
     }
@@ -251,7 +251,7 @@ class Printer extends ResultPrinter
      *
      * @return string
      */
-    public function getConfigurationFile($configFileName = 'phpunit-printer.yml'): string
+    public function getConfigurationFile(string $configFileName = 'phpunit-printer.yml'): string
     {
         $defaultConfigFilename = $this->getPackageRoot() . DIRECTORY_SEPARATOR . $configFileName;
 

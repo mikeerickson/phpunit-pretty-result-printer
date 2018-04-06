@@ -10,3 +10,4 @@ tickets/*
 .phpunit-watcher.yml
 .history/*
 coverage/
+.php_cs.cache
