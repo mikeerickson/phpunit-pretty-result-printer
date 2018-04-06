@@ -3,70 +3,15 @@
 namespace Codedungeon\PHPUnitPrettyResultPrinter;
 
 use Noodlehaus\Config;
-use PHPUnit\Runner\Version;
+use PHPUnit\TextUI\ResultPrinter;
 use Codedungeon\PHPCliColors\Color;
-
-// use this entry point for PHPUnit 5.x
-if (class_exists('\PHPUnit_TextUI_ResultPrinter')) {
-    class _ResultPrinter extends \PHPUnit_TextUI_ResultPrinter
-    {
-        public function startTest(\PHPUnit_Framework_Test $test)
-        {
-            $this->className = \get_class($test);
-            parent::startTest($test);
-        }
-    }
-}
-
-// use this entrypoint for PHPUnit 6.x and 7.x
-if (class_exists('\PHPUnit\TextUI\ResultPrinter')) {
-    if (strpos(Version::id(), '7.1') == 0) {
-        class _ResultPrinter extends \PHPUnit\TextUI\ResultPrinter
-        {
-            public function startTest(\PHPUnit\Framework\Test $test): void
-            {
-                $this->className = get_class($test);
-                parent::startTest($test);
-            }
-
-            protected function writeProgress($progress): void
-            {
-                $this->writeProgressEx($progress);
-            }
-
-            protected function writeProgressWithColor($progress, $buffer): void
-            {
-                $this->writeProgressWithColorEx($progress, $buffer);
-            }
-        }
-    } else {
-        class _ResultPrinter extends \PHPUnit\TextUI\ResultPrinter
-        {
-            public function startTest(\PHPUnit\Framework\Test $test)
-            {
-                $this->className = get_class($test);
-                parent::startTest($test);
-            }
-
-            protected function writeProgress($progress)
-            {
-                $this->writeProgressEx($progress);
-            }
-
-            protected function writeProgressWithColor($progress, $buffer)
-            {
-                $this->writeProgressWithColorEx($progress, $buffer);
-            }
-        }
-    }
-}
 
 /**
  * Class Printer.
  *
  * @license MIT
  */
-class Printer extends _ResultPrinter
+class Printer extends ResultPrinter
 {
     /**
      * @var string
@@ -149,7 +94,7 @@ class Printer extends _ResultPrinter
         $this->init();
     }
 
-    protected function init()
+    protected function init(): void
     {
         if (!self::$init) {
             $version = $this->version();
@@ -172,7 +117,7 @@ class Printer extends _ResultPrinter
     /**
      * @return string
      */
-    public function packageName()
+    public function packageName(): string
     {
         $content = file_get_contents($this->getPackageRoot() . DIRECTORY_SEPARATOR . 'composer.json');
         if ($content) {
@@ -184,7 +129,7 @@ class Printer extends _ResultPrinter
         return 'n/a';
     }
 
-    protected function writeProgressEx($progress)
+    protected function writeProgress($progress): void
     {
         if (!$this->debug) {
             $this->printClassName();
@@ -195,7 +140,7 @@ class Printer extends _ResultPrinter
     /**
      * {@inheritdoc}
      */
-    protected function writeProgressWithColorEx($color, $buffer)
+    protected function writeProgressWithColor($color, $buffer): void
     {
         if (!$this->debug) {
             $this->printClassName();
@@ -208,7 +153,7 @@ class Printer extends _ResultPrinter
      * @param string $color
      * @param string $buffer Result of the Test Case => . F S I R
      */
-    private function printTestCaseStatus($color, $buffer)
+    private function printTestCaseStatus($color, $buffer): void
     {
         if ($this->column >= $this->maxNumberOfColumns) {
             $this->writeNewLine();
@@ -256,7 +201,7 @@ class Printer extends _ResultPrinter
     /**
      * Prints the Class Name if it has changed.
      */
-    protected function printClassName()
+    protected function printClassName(): void
     {
         if ($this->hideClassName) {
             return;
@@ -277,7 +222,7 @@ class Printer extends _ResultPrinter
      *
      * @return string
      */
-    private function formatClassName($className)
+    private function formatClassName($className): string
     {
         $prefix = ' ==> ';
         $ellipsis = '...';
@@ -296,12 +241,7 @@ class Printer extends _ResultPrinter
         return $prefix . $ellipsis . substr($className, \strlen($className) - $maxLength, $maxLength) . $suffix;
     }
 
-    /**
-     * @param string $className
-     *
-     * @return string;
-     */
-    private function fillWithWhitespace($className)
+    private function fillWithWhitespace($className): string
     {
         return str_pad($className, $this->maxClassNameLength);
     }
@@ -311,7 +251,7 @@ class Printer extends _ResultPrinter
      *
      * @return string
      */
-    public function getConfigurationFile($configFileName = 'phpunit-printer.yml')
+    public function getConfigurationFile($configFileName = 'phpunit-printer.yml'): string
     {
         $defaultConfigFilename = $this->getPackageRoot() . DIRECTORY_SEPARATOR . $configFileName;
 
@@ -334,7 +274,7 @@ class Printer extends _ResultPrinter
     /**
      * @return bool
      */
-    private function isWindows()
+    private function isWindows(): bool
     {
         return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
     }
@@ -342,7 +282,7 @@ class Printer extends _ResultPrinter
     /**
      * @return string | returns package root
      */
-    private function getPackageRoot()
+    private function getPackageRoot(): string
     {
         return \dirname(__FILE__, 2);
     }
@@ -352,7 +292,7 @@ class Printer extends _ResultPrinter
      *
      * @return int
      */
-    private function getWidth()
+    private function getWidth(): int
     {
         $width = 0;
         if ($this->isWindows()) {
@@ -374,7 +314,7 @@ class Printer extends _ResultPrinter
         return $width;
     }
 
-    public function version()
+    public function version(): string
     {
         $content = file_get_contents($this->getPackageRoot() . DIRECTORY_SEPARATOR . 'composer.json');
         if ($content) {
