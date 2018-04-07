@@ -18,15 +18,33 @@ if (class_exists('\PHPUnit_TextUI_ResultPrinter')) {
     }
 }
 
-// use this entrypoint for PHPUnit 6.x and 7.x
 if (class_exists('\PHPUnit\TextUI\ResultPrinter')) {
-    if (strpos(Version::id(), '7.1') == 0) {
+    if (strpos(Version::series(), '7.0') !== false) {
         class _ResultPrinter extends \PHPUnit\TextUI\ResultPrinter
         {
             public function startTest(\PHPUnit\Framework\Test $test): void
             {
+                $this->className = \get_class($test);
+                parent::startTest($test);
+            }
 
-                $this->className = get_class($test);
+            protected function writeProgress($progress): void
+            {
+                $this->writeProgressEx($progress);
+            }
+
+            protected function writeProgressWithColor($progress, $buffer): void
+            {
+                $this->writeProgressWithColorEx($progress, $buffer);
+            }
+        }
+    } elseif (strpos(Version::series(), '7.1') !== false) {
+
+        class _ResultPrinter extends \PHPUnit\TextUI\ResultPrinter
+        {
+            public function startTest(\PHPUnit\Framework\Test $test): void
+            {
+                $this->className = \get_class($test);
                 parent::startTest($test);
             }
 
@@ -40,7 +58,10 @@ if (class_exists('\PHPUnit\TextUI\ResultPrinter')) {
                 $this->writeProgressWithColorEx($progress, $buffer);
             }
         }
+
     } else {
+
+        // PHPUnit 6.5.x class definition
         class _ResultPrinter extends \PHPUnit\TextUI\ResultPrinter
         {
             public function startTest(\PHPUnit\Framework\Test $test)
@@ -69,55 +90,43 @@ if (class_exists('\PHPUnit\TextUI\ResultPrinter')) {
  */
 class Printer extends _ResultPrinter
 {
+    protected static $init = false;
     /**
      * @var string
      */
     public $className = '';
-
     /**
      * @var string
      */
     private $lastClassName = '';
-
     /**
      * @var int
      */
     private $maxClassNameLength = 50;
-
     /**
      * @var int
      */
     private $maxNumberOfColumns;
-
     /**
      * @var
      */
     private $hideClassName;
-
     /**
      * @var
      */
     private $simpleOutput;
-
     /**
      * @var Config
      */
     private $configuration;
-
     /**
      * @var string
      */
     private $configFileName;
-
     private $printerOptions;
-
     private $showConfig;
-
     private $passMark;
-
     private $failMark;
-
-    protected static $init = false;
 
     /**
      * {@inheritdoc}
@@ -150,6 +159,74 @@ class Printer extends _ResultPrinter
         $this->init();
     }
 
+    /**
+     * @param string $configFileName
+     *
+     * @return string
+     */
+    public function getConfigurationFile($configFileName = 'phpunit-printer.yml')
+    {
+        $defaultConfigFilename = $this->getPackageRoot() . DIRECTORY_SEPARATOR . $configFileName;
+
+        $configPath = getcwd();
+        $filename = '';
+
+        $continue = true;
+        while (!file_exists($filename) && $continue) {
+            $filename = $configPath . DIRECTORY_SEPARATOR . $configFileName;
+            if (($this->isWindows() && strlen($configPath) === 3) || $configPath === '/') {
+                $filename = $defaultConfigFilename;
+                $continue = false;
+            }
+            $configPath = \dirname($configPath);
+        }
+
+        return $filename;
+    }
+
+    /**
+     * @return string | returns package root
+     */
+    private function getPackageRoot()
+    {
+        return \dirname(__FILE__, 2);
+    }
+
+    /**
+     * @return bool
+     */
+    private function isWindows()
+    {
+        return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
+    }
+
+    /**
+     * Gets the terminal width.
+     *
+     * @return int
+     */
+    private function getWidth()
+    {
+        $width = 0;
+        if ($this->isWindows()) {
+            return 96; // create a default width to be used on windows
+        }
+
+        exec('stty size 2>/dev/null', $out, $exit);
+
+        // 'stty size' output example: 36 120
+        if (\count($out) > 0) {
+            $width = (int)explode(' ', array_pop($out))[1];
+        }
+
+        // handle CircleCI case (probably the same with TravisCI as well)
+        if ($width === 0) {
+            $width = 96;
+        }
+
+        return $width;
+    }
+
     protected function init()
     {
         if (!self::$init) {
@@ -168,6 +245,18 @@ class Printer extends _ResultPrinter
 
             self::$init = true;
         }
+    }
+
+    public function version()
+    {
+        $content = file_get_contents($this->getPackageRoot() . DIRECTORY_SEPARATOR . 'composer.json');
+        if ($content) {
+            $content = json_decode($content, true);
+
+            return $content['version'];
+        }
+
+        return 'n/a';
     }
 
     /**
@@ -191,67 +280,6 @@ class Printer extends _ResultPrinter
             $this->printClassName();
         }
         $this->printTestCaseStatus('', $progress);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function writeProgressWithColorEx($color, $buffer)
-    {
-        if (!$this->debug) {
-            $this->printClassName();
-        }
-
-        $this->printTestCaseStatus($color, $buffer);
-    }
-
-    /**
-     * @param string $color
-     * @param string $buffer Result of the Test Case => . F S I R
-     */
-    private function printTestCaseStatus($color, $buffer)
-    {
-        if ($this->column >= $this->maxNumberOfColumns) {
-            $this->writeNewLine();
-            $padding = $this->maxClassNameLength;
-            $this->column = $padding;
-            echo str_pad(' ', $padding);
-        }
-
-        switch (strtoupper($buffer)) {
-            case '.':
-                $color = 'fg-green,bold';
-                $buffer = $this->simpleOutput ? '.' : mb_convert_encoding("\x27\x13", 'UTF-8', 'UTF-16BE');
-                $buffer .= (!$this->debug) ? '' : ' Passed';
-                break;
-            case 'S':
-                $color = 'fg-yellow,bold';
-                $buffer = $this->simpleOutput ? 'S' : mb_convert_encoding("\x27\xA6", 'UTF-8', 'UTF-16BE');
-                $buffer .= !$this->debug ? '' : ' Skipped';
-                break;
-            case 'I':
-                $color = 'fg-blue,bold';
-                $buffer = $this->simpleOutput ? 'I' : 'ℹ';
-                $buffer .= !$this->debug ? '' : ' Incomplete';
-                break;
-            case 'F':
-                $color = 'fg-red,bold';
-                $buffer = $this->simpleOutput ? 'F' : mb_convert_encoding("\x27\x16", 'UTF-8', 'UTF-16BE');
-                $buffer .= (!$this->debug) ? '' : ' Fail';
-                break;
-            case 'E':
-                $color = 'fg-red,bold';
-                $buffer = $this->simpleOutput ? 'E' : '⚈';
-                $buffer .= !$this->debug ? '' : ' Error';
-                break;
-        }
-
-        $buffer .= ' ';
-        echo parent::formatWithColor($color, $buffer);
-        if ($this->debug) {
-            $this->writeNewLine();
-        }
-        $this->column += 2;
     }
 
     /**
@@ -308,82 +336,63 @@ class Printer extends _ResultPrinter
     }
 
     /**
-     * @param string $configFileName
-     *
-     * @return string
+     * @param string $color
+     * @param string $buffer Result of the Test Case => . F S I R
      */
-    public function getConfigurationFile($configFileName = 'phpunit-printer.yml')
+    private function printTestCaseStatus($color, $buffer)
     {
-        $defaultConfigFilename = $this->getPackageRoot() . DIRECTORY_SEPARATOR . $configFileName;
-
-        $configPath = getcwd();
-        $filename = '';
-
-        $continue = true;
-        while (!file_exists($filename) && $continue) {
-            $filename = $configPath . DIRECTORY_SEPARATOR . $configFileName;
-            if (($this->isWindows() && strlen($configPath) === 3) || $configPath === '/') {
-                $filename = $defaultConfigFilename;
-                $continue = false;
-            }
-            $configPath = \dirname($configPath);
+        if ($this->column >= $this->maxNumberOfColumns) {
+            $this->writeNewLine();
+            $padding = $this->maxClassNameLength;
+            $this->column = $padding;
+            echo str_pad(' ', $padding);
         }
 
-        return $filename;
+        switch (strtoupper($buffer)) {
+            case '.':
+                $color = 'fg-green,bold';
+                $buffer = $this->simpleOutput ? '.' : mb_convert_encoding("\x27\x13", 'UTF-8', 'UTF-16BE');
+                $buffer .= (!$this->debug) ? '' : ' Passed';
+                break;
+            case 'S':
+                $color = 'fg-yellow,bold';
+                $buffer = $this->simpleOutput ? 'S' : mb_convert_encoding("\x27\xA6", 'UTF-8', 'UTF-16BE');
+                $buffer .= !$this->debug ? '' : ' Skipped';
+                break;
+            case 'I':
+                $color = 'fg-blue,bold';
+                $buffer = $this->simpleOutput ? 'I' : 'ℹ';
+                $buffer .= !$this->debug ? '' : ' Incomplete';
+                break;
+            case 'F':
+                $color = 'fg-red,bold';
+                $buffer = $this->simpleOutput ? 'F' : mb_convert_encoding("\x27\x16", 'UTF-8', 'UTF-16BE');
+                $buffer .= (!$this->debug) ? '' : ' Fail';
+                break;
+            case 'E':
+                $color = 'fg-red,bold';
+                $buffer = $this->simpleOutput ? 'E' : '⚈';
+                $buffer .= !$this->debug ? '' : ' Error';
+                break;
+        }
+
+        $buffer .= ' ';
+        echo parent::formatWithColor($color, $buffer);
+        if ($this->debug) {
+            $this->writeNewLine();
+        }
+        $this->column += 2;
     }
 
     /**
-     * @return bool
+     * {@inheritdoc}
      */
-    private function isWindows()
+    protected function writeProgressWithColorEx($color, $buffer)
     {
-        return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
-    }
-
-    /**
-     * @return string | returns package root
-     */
-    private function getPackageRoot()
-    {
-        return \dirname(__FILE__, 2);
-    }
-
-    /**
-     * Gets the terminal width.
-     *
-     * @return int
-     */
-    private function getWidth()
-    {
-        $width = 0;
-        if ($this->isWindows()) {
-            return 96; // create a default width to be used on windows
+        if (!$this->debug) {
+            $this->printClassName();
         }
 
-        exec('stty size 2>/dev/null', $out, $exit);
-
-        // 'stty size' output example: 36 120
-        if (\count($out) > 0) {
-            $width = (int)explode(' ', array_pop($out))[1];
-        }
-
-        // handle CircleCI case (probably the same with TravisCI as well)
-        if ($width === 0) {
-            $width = 96;
-        }
-
-        return $width;
-    }
-
-    public function version()
-    {
-        $content = file_get_contents($this->getPackageRoot() . DIRECTORY_SEPARATOR . 'composer.json');
-        if ($content) {
-            $content = json_decode($content, true);
-
-            return $content['version'];
-        }
-
-        return 'n/a';
+        $this->printTestCaseStatus($color, $buffer);
     }
 }
