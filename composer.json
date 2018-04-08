@@ -1,6 +1,6 @@
 {
   "name": "codedungeon/phpunit-result-printer",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "description": "PHPUnit Pretty Result Printer",
   "keywords": ["phpunit", "printer", "result-printer", "composer", "package", "testing"],
   "license": "MIT",
@@ -17,7 +17,7 @@
   },
   "require-dev": {
     "spatie/phpunit-watcher": "^1.5",
-    "phpunit/phpunit": "7.0.3"
+    "phpunit/phpunit": "7.1.1"
   },
   "autoload": {
     "psr-4": {

@@ -3,91 +3,13 @@
 namespace Codedungeon\PHPUnitPrettyResultPrinter;
 
 use Noodlehaus\Config;
-use PHPUnit\Runner\Version;
 use Codedungeon\PHPCliColors\Color;
 
-// use this entry point for PHPUnit 5.x
-if (class_exists('\PHPUnit_TextUI_ResultPrinter')) {
-    class _ResultPrinter extends \PHPUnit_TextUI_ResultPrinter
-    {
-        public function startTest(\PHPUnit_Framework_Test $test)
-        {
-            $this->className = \get_class($test);
-            parent::startTest($test);
-        }
-    }
-}
+include 'ResultPrinter5.php';
+include 'ResultPrinter6.php';
+include 'ResultPrinter70.php';
+include 'ResultPrinter71.php';
 
-if (class_exists('\PHPUnit\TextUI\ResultPrinter')) {
-    if (strpos(Version::series(), '7.0') !== false) {
-        class _ResultPrinter extends \PHPUnit\TextUI\ResultPrinter
-        {
-            public function startTest(\PHPUnit\Framework\Test $test): void
-            {
-                $this->className = \get_class($test);
-                parent::startTest($test);
-            }
-
-            protected function writeProgress($progress): void
-            {
-                $this->writeProgressEx($progress);
-            }
-
-            protected function writeProgressWithColor($progress, $buffer): void
-            {
-                $this->writeProgressWithColorEx($progress, $buffer);
-            }
-        }
-    } elseif (strpos(Version::series(), '7.1') !== false) {
-
-        class _ResultPrinter extends \PHPUnit\TextUI\ResultPrinter
-        {
-            public function startTest(\PHPUnit\Framework\Test $test): void
-            {
-                $this->className = \get_class($test);
-                parent::startTest($test);
-            }
-
-            protected function writeProgress(string $progress): void
-            {
-                $this->writeProgressEx($progress);
-            }
-
-            protected function writeProgressWithColor(string $progress, string $buffer): void
-            {
-                $this->writeProgressWithColorEx($progress, $buffer);
-            }
-        }
-
-    } else {
-
-        // PHPUnit 6.5.x class definition
-        class _ResultPrinter extends \PHPUnit\TextUI\ResultPrinter
-        {
-            public function startTest(\PHPUnit\Framework\Test $test)
-            {
-                $this->className = get_class($test);
-                parent::startTest($test);
-            }
-
-            protected function writeProgress($progress)
-            {
-                $this->writeProgressEx($progress);
-            }
-
-            protected function writeProgressWithColor($progress, $buffer)
-            {
-                $this->writeProgressWithColorEx($progress, $buffer);
-            }
-        }
-    }
-}
-
-/**
- * Class Printer.
- *
- * @license MIT
- */
 class Printer extends _ResultPrinter
 {
     protected static $init = false;
