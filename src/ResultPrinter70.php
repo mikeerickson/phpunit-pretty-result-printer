@@ -3,10 +3,9 @@
 namespace Codedungeon\PHPUnitPrettyResultPrinter;
 
 use PHPUnit\Runner\Version;
-use function var_dump;
 
-$low = version_compare(Version::series(),'7.0','>=');
-$high = version_compare(Version::series(),'7.0.99','<=');
+$low = version_compare(Version::series(), '7.0', '>=');
+$high = version_compare(Version::series(), '7.0.99', '<=');
 
 if ($low && $high) {
     class _ResultPrinter extends \PHPUnit\TextUI\ResultPrinter
