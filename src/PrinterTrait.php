@@ -71,6 +71,7 @@ trait PrinterTrait
 
         $this->configFileName = $this->getConfigurationFile('phpunit-printer.yml');
         $this->colorsTool = new Color();
+
         try {
             $this->configuration = new Config($this->configFileName);
         } catch (EmptyDirectoryException $e) {
@@ -79,7 +80,7 @@ trait PrinterTrait
         }
 
         $this->maxNumberOfColumns = $this->getWidth();
-        $this->maxClassNameLength = min((int)($this->maxNumberOfColumns / 2), $this->maxClassNameLength);
+        $this->maxClassNameLength = min((int) ($this->maxNumberOfColumns / 2), $this->maxClassNameLength);
 
         // setup module options
         $this->printerOptions = $this->configuration->all();
@@ -153,9 +154,6 @@ trait PrinterTrait
         return 'n/a';
     }
 
-    /**
-     *
-     */
     protected function init()
     {
         if (!self::$init) {
@@ -253,7 +251,7 @@ trait PrinterTrait
 
         // 'stty size' output example: 36 120
         if (\count($out) > 0) {
-            $width = (int)explode(' ', array_pop($out))[1];
+            $width = (int) explode(' ', array_pop($out))[1];
         }
 
         // handle CircleCI case (probably the same with TravisCI as well)
