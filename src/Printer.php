@@ -2,12 +2,50 @@
 
 namespace Codedungeon\PHPUnitPrettyResultPrinter;
 
-include 'ResultPrinter5.php';
-include 'ResultPrinter6.php';
-include 'ResultPrinter70.php';
-include 'ResultPrinter71.php';
+use PHPUnit_TextUI_ResultPrinter;
 
-class Printer extends _ResultPrinter
-{
-    use PrinterTrait;
+if (class_exists(PHPUnit_TextUI_ResultPrinter::class)) {
+    require __DIR__ . '/ResultPrinter5.php';
+
+    class Printer extends ResultPrinter5
+    {
+        use PrinterTrait;
+    }
+}
+
+use PHPUnit\Framework\Test;
+use PHPUnit\Runner\Version;
+use PHPUnit\TextUI\ResultPrinter;
+
+if (version_compare(Version::series(), '6.99.99', '<=')) {
+    require __DIR__ . '/ResultPrinter6.php';
+
+    class Printer extends ResultPrinter6
+    {
+        use PrinterTrait;
+    }
+}
+
+$low = version_compare(Version::series(), '7.0', '>=');
+$high = version_compare(Version::series(), '7.0.99', '<=');
+
+if ($low && $high) {
+    require __DIR__ . '/ResultPrinter70.php';
+
+    class Printer extends ResultPrinter70
+    {
+        use PrinterTrait;
+    }
+}
+
+$low = version_compare(Version::series(), '7.1', '>=');
+$high = true; // version_compare(Version::series(),'7.1.99','<=');
+
+if ($low && $high) {
+    require __DIR__ . '/ResultPrinter71.php';
+
+    class Printer extends ResultPrinter70
+    {
+        use PrinterTrait;
+    }
 }

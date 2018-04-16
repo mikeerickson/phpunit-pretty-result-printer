@@ -2,28 +2,25 @@
 
 namespace Codedungeon\PHPUnitPrettyResultPrinter;
 
-use PHPUnit\Runner\Version;
+use PHPUnit\Framework\Test;
+use PHPUnit\TextUI\ResultPrinter;
+use function get_class;
 
-$low = version_compare(Version::series(), '7.0', '>=');
-$high = version_compare(Version::series(), '7.0.99', '<=');
-
-if ($low && $high) {
-    class _ResultPrinter extends \PHPUnit\TextUI\ResultPrinter
+class ResultPrinter70 extends ResultPrinter
+{
+    public function startTest(Test $test): void
     {
-        public function startTest(\PHPUnit\Framework\Test $test): void
-        {
-            $this->className = \get_class($test);
-            parent::startTest($test);
-        }
+        $this->className = get_class($test);
+        parent::startTest($test);
+    }
 
-        protected function writeProgress($progress): void
-        {
-            $this->writeProgressEx($progress);
-        }
+    protected function writeProgress($progress): void
+    {
+        $this->writeProgressEx($progress);
+    }
 
-        protected function writeProgressWithColor($progress, $buffer): void
-        {
-            $this->writeProgressWithColorEx($progress, $buffer);
-        }
+    protected function writeProgressWithColor($progress, $buffer): void
+    {
+        $this->writeProgressWithColorEx($progress, $buffer);
     }
 }
