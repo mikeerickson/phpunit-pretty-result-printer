@@ -13,9 +13,7 @@ if (class_exists(PHPUnit_TextUI_ResultPrinter::class)) {
     }
 }
 
-use PHPUnit\Framework\Test;
 use PHPUnit\Runner\Version;
-use PHPUnit\TextUI\ResultPrinter;
 
 if (version_compare(Version::series(), '6.99.99', '<=')) {
     require __DIR__ . '/ResultPrinter6.php';
