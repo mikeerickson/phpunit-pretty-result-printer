@@ -2,8 +2,8 @@
 
 namespace Codedungeon\PHPUnitPrettyResultPrinter;
 
-use PHPUnit_TextUI_ResultPrinter;
 use PHPUnit\Runner\Version;
+use PHPUnit_TextUI_ResultPrinter;
 
 if (class_exists(PHPUnit_TextUI_ResultPrinter::class)) {
     require __DIR__ . '/ResultPrinter5.php';

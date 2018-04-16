@@ -4,13 +4,12 @@ namespace Codedungeon\PHPUnitPrettyResultPrinter;
 
 use PHPUnit\Framework\Test;
 use PHPUnit\TextUI\ResultPrinter;
-use function get_class;
 
 class ResultPrinter70 extends ResultPrinter
 {
     public function startTest(Test $test): void
     {
-        $this->className = get_class($test);
+        $this->className = \get_class($test);
         parent::startTest($test);
     }
 
