@@ -42,7 +42,7 @@ $high = true; // version_compare(Version::series(),'7.1.99','<=');
 if ($low && $high) {
     require __DIR__ . '/ResultPrinter71.php';
 
-    class Printer extends ResultPrinter70
+    class Printer extends ResultPrinter71
     {
         use PrinterTrait;
     }
