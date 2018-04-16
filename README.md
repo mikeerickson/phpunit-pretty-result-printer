@@ -18,6 +18,7 @@ If you are using PHP 7.0.x, you will need to use a compatible version of PHPUnit
 ```bash
 composer require --dev codedungeon/phpunit-result-printer:^0.8
 ```
+### Usage
 
 To activate the Printer for PHPUnit, just add it to your configuration XML:
 
@@ -33,6 +34,19 @@ Or from Command-Line:
   ```bash
   phpunit --printer=Codedungeon\\PHPUnitPrettyResultPrinter\\Printer
   ```
+#### Customizing Markers
+You can customize the markers which are used for `success`, `fail`, `error`, `skipped`, `incomplete` by modifying the `phpunit-printer.yml` file.
+- Create a `phpunit-printer.yml` file in your application root to override default
+
+The following are the default markers used (from the package `phpunit-printer.yml` file)
+```
+markers:
+  cd-pass: "✓"
+  cd-fail: "✖"
+  cd-error: "⚈"
+  cd-skipped: "→"
+  cd-incomplete: "∅ "
+```
 
 ### License
 
