@@ -4,9 +4,13 @@ namespace Codedungeon\PHPUnitPrettyResultPrinter;
 
 use Noodlehaus\Config;
 use Codedungeon\PHPCliColors\Color;
+use Noodlehaus\Exception\EmptyDirectoryException;
 
 trait PrinterTrait
 {
+    /**
+     * @var bool
+     */
     protected static $init = false;
     /**
      * @var string
@@ -40,10 +44,18 @@ trait PrinterTrait
      * @var string
      */
     private $configFileName;
+    /**
+     * @var array|null
+     */
     private $printerOptions;
+    /**
+     * @var mixed|null
+     */
     private $showConfig;
-    private $passMark;
-    private $failMark;
+    /**
+     * @var array
+     */
+    private $markers = [];
 
     /**
      * {@inheritdoc}
@@ -59,10 +71,15 @@ trait PrinterTrait
 
         $this->configFileName = $this->getConfigurationFile('phpunit-printer.yml');
         $this->colorsTool = new Color();
-        $this->configuration = new Config($this->configFileName);
+        try {
+            $this->configuration = new Config($this->configFileName);
+        } catch (EmptyDirectoryException $e) {
+            echo $this->colorsTool->red() . 'Unable to locate valid configuration file' . PHP_EOL;
+            echo $this->colorsTool->reset();
+        }
 
         $this->maxNumberOfColumns = $this->getWidth();
-        $this->maxClassNameLength = min((int) ($this->maxNumberOfColumns / 2), $this->maxClassNameLength);
+        $this->maxClassNameLength = min((int)($this->maxNumberOfColumns / 2), $this->maxClassNameLength);
 
         // setup module options
         $this->printerOptions = $this->configuration->all();
@@ -70,8 +87,13 @@ trait PrinterTrait
         $this->simpleOutput = $this->configuration->get('options.cd-printer-simple-output');
         $this->showConfig = $this->configuration->get('options.cd-printer-show-config');
 
-        $this->passMark = $this->configuration->get('marks.cd-pass');
-        $this->failMark = $this->configuration->get('marks.cd-fail');
+        $this->markers = [
+            'pass'       => $this->configuration->get('markers.cd-pass'),
+            'fail'       => $this->configuration->get('markers.cd-fail'),
+            'error'      => $this->configuration->get('markers.cd-error'),
+            'skipped'    => $this->configuration->get('markers.cd-skipped'),
+            'incomplete' => $this->configuration->get('markers.cd-incomplete'),
+        ];
 
         $this->init();
     }
@@ -99,6 +121,104 @@ trait PrinterTrait
         }
 
         return $filename;
+    }
+
+    /**
+     * @return string
+     */
+    public function version()
+    {
+        $content = file_get_contents($this->getPackageRoot() . DIRECTORY_SEPARATOR . 'composer.json');
+        if ($content) {
+            $content = json_decode($content, true);
+
+            return $content['version'];
+        }
+
+        return 'n/a';
+    }
+
+    /**
+     * @return string
+     */
+    public function packageName()
+    {
+        $content = file_get_contents($this->getPackageRoot() . DIRECTORY_SEPARATOR . 'composer.json');
+        if ($content) {
+            $content = json_decode($content, true);
+
+            return $content['description'];
+        }
+
+        return 'n/a';
+    }
+
+    /**
+     *
+     */
+    protected function init()
+    {
+        if (!self::$init) {
+            $version = $this->version();
+            $name = $this->packageName();
+            echo PHP_EOL;
+            echo $this->colorsTool->green() . "${name} ${version} by Codedungeon and contributors." . PHP_EOL;
+            echo $this->colorsTool->reset();
+
+            if ($this->showConfig) {
+                $home = getenv('HOME');
+                $filename = str_replace($home, '~', $this->configFileName);
+
+                echo $this->colorsTool->yellow() . 'Configuration: ';
+                echo $this->colorsTool->yellow() . $filename;
+                echo $this->colorsTool->reset();
+                echo PHP_EOL . PHP_EOL;
+            }
+
+            self::$init = true;
+        }
+    }
+
+    /**
+     * @param $progress
+     */
+    protected function writeProgressEx($progress)
+    {
+        if (!$this->debug) {
+            $this->printClassName();
+        }
+        $this->printTestCaseStatus('', $progress);
+    }
+
+    /**
+     * Prints the Class Name if it has changed.
+     */
+    protected function printClassName()
+    {
+        if ($this->hideClassName) {
+            return;
+        }
+        if ($this->lastClassName === $this->className) {
+            return;
+        }
+
+        echo PHP_EOL;
+        $className = $this->formatClassName($this->className);
+        $this->colorsTool ? $this->writeWithColor('fg-cyan,bold', $className, false) : $this->write($className);
+        $this->column = \strlen($className) + 1;
+        $this->lastClassName = $this->className;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function writeProgressWithColorEx($color, $buffer)
+    {
+        if (!$this->debug) {
+            $this->printClassName();
+        }
+
+        $this->printTestCaseStatus($color, $buffer);
     }
 
     /**
@@ -133,7 +253,7 @@ trait PrinterTrait
 
         // 'stty size' output example: 36 120
         if (\count($out) > 0) {
-            $width = (int) explode(' ', array_pop($out))[1];
+            $width = (int)explode(' ', array_pop($out))[1];
         }
 
         // handle CircleCI case (probably the same with TravisCI as well)
@@ -142,80 +262,6 @@ trait PrinterTrait
         }
 
         return $width;
-    }
-
-    protected function init()
-    {
-        if (!self::$init) {
-            $version = $this->version();
-            $name = $this->packageName();
-            echo PHP_EOL;
-            echo $this->colorsTool->green() . "${name} ${version} by Codedungeon and contributors." . PHP_EOL;
-            echo $this->colorsTool->reset();
-
-            if ($this->showConfig) {
-                echo $this->colorsTool->white() . 'Configuration: ';
-                echo $this->colorsTool->white() . $this->configFileName;
-                echo $this->colorsTool->reset();
-                echo PHP_EOL . PHP_EOL;
-            }
-
-            self::$init = true;
-        }
-    }
-
-    public function version()
-    {
-        $content = file_get_contents($this->getPackageRoot() . DIRECTORY_SEPARATOR . 'composer.json');
-        if ($content) {
-            $content = json_decode($content, true);
-
-            return $content['version'];
-        }
-
-        return 'n/a';
-    }
-
-    /**
-     * @return string
-     */
-    public function packageName()
-    {
-        $content = file_get_contents($this->getPackageRoot() . DIRECTORY_SEPARATOR . 'composer.json');
-        if ($content) {
-            $content = json_decode($content, true);
-
-            return $content['description'];
-        }
-
-        return 'n/a';
-    }
-
-    protected function writeProgressEx($progress)
-    {
-        if (!$this->debug) {
-            $this->printClassName();
-        }
-        $this->printTestCaseStatus('', $progress);
-    }
-
-    /**
-     * Prints the Class Name if it has changed.
-     */
-    protected function printClassName()
-    {
-        if ($this->hideClassName) {
-            return;
-        }
-        if ($this->lastClassName === $this->className) {
-            return;
-        }
-
-        echo PHP_EOL;
-        $className = $this->formatClassName($this->className);
-        $this->colorsTool ? $this->writeWithColor('fg-cyan,bold', $className, false) : $this->write($className);
-        $this->column = \strlen($className) + 1;
-        $this->lastClassName = $this->className;
     }
 
     /**
@@ -268,27 +314,27 @@ trait PrinterTrait
         switch (strtoupper($buffer)) {
             case '.':
                 $color = 'fg-green,bold';
-                $buffer = $this->simpleOutput ? '.' : mb_convert_encoding("\x27\x13", 'UTF-8', 'UTF-16BE');
+                $buffer = $this->simpleOutput ? '.' : $this->markers['pass']; // mb_convert_encoding("\x27\x13", 'UTF-8', 'UTF-16BE');
                 $buffer .= (!$this->debug) ? '' : ' Passed';
                 break;
             case 'S':
                 $color = 'fg-yellow,bold';
-                $buffer = $this->simpleOutput ? 'S' : mb_convert_encoding("\x27\xA6", 'UTF-8', 'UTF-16BE');
+                $buffer = $this->simpleOutput ? 'S' : $this->markers['skipped']; // mb_convert_encoding("\x27\xA6", 'UTF-8', 'UTF-16BE');
                 $buffer .= !$this->debug ? '' : ' Skipped';
                 break;
             case 'I':
                 $color = 'fg-blue,bold';
-                $buffer = $this->simpleOutput ? 'I' : 'ℹ';
+                $buffer = $this->simpleOutput ? 'I' : $this->markers['incomplete']; // 'ℹ';
                 $buffer .= !$this->debug ? '' : ' Incomplete';
                 break;
             case 'F':
                 $color = 'fg-red,bold';
-                $buffer = $this->simpleOutput ? 'F' : mb_convert_encoding("\x27\x16", 'UTF-8', 'UTF-16BE');
+                $buffer = $this->simpleOutput ? 'F' : $this->markers['fail']; // mb_convert_encoding("\x27\x16", 'UTF-8', 'UTF-16BE');
                 $buffer .= (!$this->debug) ? '' : ' Fail';
                 break;
             case 'E':
                 $color = 'fg-red,bold';
-                $buffer = $this->simpleOutput ? 'E' : '⚈';
+                $buffer = $this->simpleOutput ? 'E' : $this->makers['error']; // '⚈';
                 $buffer .= !$this->debug ? '' : ' Error';
                 break;
         }
@@ -299,17 +345,5 @@ trait PrinterTrait
             $this->writeNewLine();
         }
         $this->column += 2;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function writeProgressWithColorEx($color, $buffer)
-    {
-        if (!$this->debug) {
-            $this->printClassName();
-        }
-
-        $this->printTestCaseStatus($color, $buffer);
     }
 }

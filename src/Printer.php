@@ -3,6 +3,7 @@
 namespace Codedungeon\PHPUnitPrettyResultPrinter;
 
 use PHPUnit_TextUI_ResultPrinter;
+use PHPUnit\Runner\Version;
 
 if (class_exists(PHPUnit_TextUI_ResultPrinter::class)) {
     require __DIR__ . '/ResultPrinter5.php';
@@ -12,8 +13,6 @@ if (class_exists(PHPUnit_TextUI_ResultPrinter::class)) {
         use PrinterTrait;
     }
 }
-
-use PHPUnit\Runner\Version;
 
 if (version_compare(Version::series(), '6.99.99', '<=')) {
     require __DIR__ . '/ResultPrinter6.php';
