@@ -1,13 +1,22 @@
 {
   "name": "codedungeon/phpunit-result-printer",
-  "version": "0.15.0",
+  "version": "0.15.3",
   "description": "PHPUnit Pretty Result Printer",
-  "keywords": ["phpunit", "printer", "result-printer", "composer", "package", "testing"],
+  "keywords": [
+    "phpunit",
+    "printer",
+    "result-printer",
+    "composer",
+    "package",
+    "testing"
+  ],
   "license": "MIT",
-  "authors": [{
-    "name": "Mike Erickson",
-    "email": "codedungeon@gmail.com"
-  }],
+  "authors": [
+    {
+      "name": "Mike Erickson",
+      "email": "codedungeon@gmail.com"
+    }
+  ],
   "type": "library",
   "require": {
     "php": "^7.1",
