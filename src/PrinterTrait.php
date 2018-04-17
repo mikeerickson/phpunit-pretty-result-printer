@@ -332,7 +332,7 @@ trait PrinterTrait
                 break;
             case 'E':
                 $color = 'fg-red,bold';
-                $buffer = $this->simpleOutput ? 'E' : $this->makers['error']; // '⚈';
+                $buffer = $this->simpleOutput ? 'E' : $this->markers['error']; // '⚈';
                 $buffer .= !$this->debug ? '' : ' Error';
                 break;
         }
