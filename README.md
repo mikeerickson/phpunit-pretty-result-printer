@@ -47,7 +47,7 @@ markers:
   cd-fail: "✖"
   cd-error: "⚈"
   cd-skipped: "→"
-  cd-incomplete: "∅ "
+  cd-incomplete: "∅"
 ```
 
 ### License

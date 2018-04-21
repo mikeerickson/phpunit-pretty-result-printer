@@ -5,6 +5,7 @@ namespace Codedungeon\PHPUnitPrettyResultPrinter;
 use Noodlehaus\Config;
 use Codedungeon\PHPCliColors\Color;
 use Noodlehaus\Exception\EmptyDirectoryException;
+use function var_dump;
 
 trait PrinterTrait
 {
@@ -57,6 +58,8 @@ trait PrinterTrait
      */
     private $markers = [];
 
+    private $defaultMarkers = [];
+
     /**
      * {@inheritdoc}
      */
@@ -69,8 +72,31 @@ trait PrinterTrait
     ) {
         parent::__construct($out, $verbose, $colors, $debug, $numberOfColumns);
 
-        $this->configFileName = $this->getConfigurationFile('phpunit-printer.yml');
         $this->colorsTool = new Color();
+
+        $this->loadDefaultConfiguration();
+        $this->loadUserConfiguration();
+
+        $this->maxNumberOfColumns = $this->getWidth();
+        $this->maxClassNameLength = min((int)($this->maxNumberOfColumns / 2), $this->maxClassNameLength);
+
+        $this->init();
+    }
+
+    private function loadDefaultConfiguration()
+    {
+        $defaultConfig = new Config($this->getPackageConfigurationFile());
+        $this->defaultConfigOptions = $defaultConfig->all();
+    }
+
+    private function getPackageConfigurationFile()
+    {
+        return $this->getPackageRoot() . DIRECTORY_SEPARATOR . 'phpunit-printer.yml';
+    }
+
+    private function loadUserConfiguration()
+    {
+        $this->configFileName = $this->getConfigurationFile('phpunit-printer.yml');
 
         try {
             $this->configuration = new Config($this->configFileName);
@@ -78,25 +104,44 @@ trait PrinterTrait
             echo $this->colorsTool->red() . 'Unable to locate valid configuration file' . PHP_EOL;
             echo $this->colorsTool->reset();
         }
-
-        $this->maxNumberOfColumns = $this->getWidth();
-        $this->maxClassNameLength = min((int) ($this->maxNumberOfColumns / 2), $this->maxClassNameLength);
-
         // setup module options
         $this->printerOptions = $this->configuration->all();
-        $this->hideClassName = $this->configuration->get('options.cd-printer-hide-class');
-        $this->simpleOutput = $this->configuration->get('options.cd-printer-simple-output');
-        $this->showConfig = $this->configuration->get('options.cd-printer-show-config');
+
+        $this->printerOptions = array_merge($this->defaultConfigOptions, $this->printerOptions);
+
+        $this->hideClassName = $this->getConfigOption('cd-printer-hide-class');
+        $this->simpleOutput = $this->getConfigOption('cd-printer-simple-output');
+        $this->showConfig = $this->getConfigOption('cd-printer-show-config');
 
         $this->markers = [
-            'pass'       => $this->configuration->get('markers.cd-pass'),
-            'fail'       => $this->configuration->get('markers.cd-fail'),
-            'error'      => $this->configuration->get('markers.cd-error'),
-            'skipped'    => $this->configuration->get('markers.cd-skipped'),
-            'incomplete' => $this->configuration->get('markers.cd-incomplete'),
+            'pass'       => $this->getConfigMarker('cd-pass'),
+            'fail'       => $this->getConfigMarker('cd-fail'),
+            'error'      => $this->getConfigMarker('cd-error'),
+            'skipped'    => $this->getConfigMarker('cd-skipped'),
+            'incomplete' => $this->getConfigMarker('cd-incomplete'),
         ];
+    }
 
-        $this->init();
+    private function getConfigOption($marker)
+    {
+        if (isset($this->printerOptions['options'])) {
+            if (isset($this->printerOptions['options'][$marker])) {
+                return $this->printerOptions['options'][$marker];
+            }
+        }
+
+        return $this->defaultConfigOptions['options'][$marker];
+    }
+
+    private function getConfigMarker($marker)
+    {
+        if (isset($this->printerOptions['markers'])) {
+            if (isset($this->printerOptions['markers'][$marker])) {
+                return $this->printerOptions['markers'][$marker];
+            }
+        }
+
+        return $this->defaultConfigOptions['markers'][$marker];
     }
 
     /**
@@ -251,7 +296,7 @@ trait PrinterTrait
 
         // 'stty size' output example: 36 120
         if (\count($out) > 0) {
-            $width = (int) explode(' ', array_pop($out))[1];
+            $width = (int)explode(' ', array_pop($out))[1];
         }
 
         // handle CircleCI case (probably the same with TravisCI as well)
