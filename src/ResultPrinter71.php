@@ -10,8 +10,6 @@ $low = version_compare(Version::series(), '7.1', '>=');
 $high = true; // version_compare(Version::series(),'7.1.99','<=');
 
 if ($low && $high) {
-
-
     class ResultPrinter71 extends ResultPrinter
     {
         public function startTest(Test $test): void
@@ -30,5 +28,4 @@ if ($low && $high) {
             $this->writeProgressWithColorEx($progress, $buffer);
         }
     }
-
 }
