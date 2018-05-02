@@ -7,8 +7,7 @@ use Codedungeon\PHPCliColors\Color;
 use Noodlehaus\Exception\EmptyDirectoryException;
 
 /**
- * Trait PrinterTrait
- * @package Codedungeon\PHPUnitPrettyResultPrinter
+ * Trait PrinterTrait.
  */
 trait PrinterTrait
 {
@@ -84,7 +83,7 @@ trait PrinterTrait
         $this->loadUserConfiguration();
 
         $this->maxNumberOfColumns = $this->getWidth();
-        $this->maxClassNameLength = min((int)($this->maxNumberOfColumns / 2), $this->maxClassNameLength);
+        $this->maxClassNameLength = min((int) ($this->maxNumberOfColumns / 2), $this->maxClassNameLength);
 
         $this->init();
     }
@@ -94,7 +93,6 @@ trait PrinterTrait
      */
     private function loadDefaultConfiguration()
     {
-
         try {
             $defaultConfig = new Config($this->getPackageConfigurationFile());
             $this->defaultConfigOptions = $defaultConfig->all();
@@ -112,9 +110,6 @@ trait PrinterTrait
         return $this->getPackageRoot() . DIRECTORY_SEPARATOR . 'phpunit-printer.yml';
     }
 
-    /**
-     *
-     */
     private function loadUserConfiguration()
     {
         $this->configFileName = $this->getConfigurationFile('phpunit-printer.yml');
@@ -145,6 +140,7 @@ trait PrinterTrait
 
     /**
      * @param $marker
+     *
      * @return mixed
      */
     private function getConfigOption($marker)
@@ -160,6 +156,7 @@ trait PrinterTrait
 
     /**
      * @param $marker
+     *
      * @return mixed
      */
     private function getConfigMarker($marker)
@@ -228,9 +225,6 @@ trait PrinterTrait
         return 'n/a';
     }
 
-    /**
-     *
-     */
     protected function init()
     {
         if (!self::$init) {
@@ -328,7 +322,7 @@ trait PrinterTrait
 
         // 'stty size' output example: 36 120
         if (\count($out) > 0) {
-            $width = (int)explode(' ', array_pop($out))[1];
+            $width = (int) explode(' ', array_pop($out))[1];
         }
 
         // handle CircleCI case (probably the same with TravisCI as well)
