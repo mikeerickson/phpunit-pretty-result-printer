@@ -128,6 +128,7 @@ trait PrinterTrait
         $this->hideClassName = $this->getConfigOption('cd-printer-hide-class');
         $this->simpleOutput = $this->getConfigOption('cd-printer-simple-output');
         $this->showConfig = $this->getConfigOption('cd-printer-show-config');
+        $this->hideNamespace = $this->getConfigOption('cd-printer-hide-namespace');
 
         $this->markers = [
             'pass'       => $this->getConfigMarker('cd-pass'),
@@ -343,6 +344,10 @@ trait PrinterTrait
         $prefix = ' ==> ';
         $ellipsis = '...';
         $suffix = '   ';
+
+        if ($this->hideNamespace) {
+            $className = substr($className, strrpos($className, '\\') + 1);
+        }
         $formattedClassName = $prefix . $className . $suffix;
 
         if (\strlen($formattedClassName) <= $this->maxClassNameLength) {
