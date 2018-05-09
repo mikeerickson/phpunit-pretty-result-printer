@@ -9,3 +9,4 @@ markers:
   cd-error: "⚈ "
   cd-skipped: "→ "
   cd-incomplete: "∅ "
+  cd-risky: "⌽ "

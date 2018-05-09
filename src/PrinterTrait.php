@@ -5,6 +5,7 @@ namespace Codedungeon\PHPUnitPrettyResultPrinter;
 use Noodlehaus\Config;
 use Codedungeon\PHPCliColors\Color;
 use Noodlehaus\Exception\EmptyDirectoryException;
+use function var_dump;
 
 /**
  * Trait PrinterTrait.
@@ -145,6 +146,7 @@ trait PrinterTrait
             'error'      => $this->getConfigMarker('cd-error'),
             'skipped'    => $this->getConfigMarker('cd-skipped'),
             'incomplete' => $this->getConfigMarker('cd-incomplete'),
+            'risky'      => $this->getConfigMarker('cd-risky'),
         ];
     }
 
@@ -395,7 +397,6 @@ trait PrinterTrait
             $this->column = $padding;
             echo str_pad(' ', $padding);
         }
-
         switch (strtoupper($buffer)) {
             case '.':
                 $color = 'fg-green,bold';
@@ -421,6 +422,11 @@ trait PrinterTrait
                 $color = 'fg-red,bold';
                 $buffer = $this->simpleOutput ? 'E' : $this->markers['error']; // '⚈';
                 $buffer .= !$this->debug ? '' : ' Error';
+                break;
+            case 'R':
+                $color = 'fg-magenta,bold';
+                $buffer = $this->simpleOutput ? 'R' : $this->markers['risky']; // '⚙';
+                $buffer .= !$this->debug ? '' : ' Risky';
                 break;
         }
 

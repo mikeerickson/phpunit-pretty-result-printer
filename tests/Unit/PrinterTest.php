@@ -5,7 +5,7 @@ use Codedungeon\PHPUnitPrettyResultPrinter\Printer;
 /**
  *  Corresponding Class to test Printer class.
  *
- *  @author mike erickson
+ * @author mike erickson
  */
 class PrinterTest extends PHPUnit\Framework\TestCase
 {
@@ -19,26 +19,26 @@ class PrinterTest extends PHPUnit\Framework\TestCase
         $this->printer = new Printer();
     }
 
-    /** @test  */
+    /** @test */
     public function should_not_have_any_syntax_errors(): void
     {
         $this->assertInternalType('object', $this->printer);
     }
 
-    /** @test  */
+    /** @test */
     public function should_return_module_package_name(): void
     {
         $this->assertSame('PHPUnit Pretty Result Printer', $this->printer->packageName());
     }
 
-    /** @test  */
+    /** @test */
     public function should_return_full_pathname_to_config_file(): void
     {
         $this->assertContains('phpunit-printer.yml', $this->printer->getConfigurationFile());
         $this->assertFileExists($this->printer->getConfigurationFile());
     }
 
-    /** @test  */
+    /** @test */
     public function should_use_configuration_file(): void
     {
         $this->assertContains('phpunit-printer.yml', $this->printer->getConfigurationFile());
@@ -56,4 +56,11 @@ class PrinterTest extends PHPUnit\Framework\TestCase
         $this->markTestSkipped('Skipped Test');
         $this->assertTrue(true);
     }
+
+    /** @test */
+    public function it_should_display_risky(): void
+    {
+        $this->markAsRisky('Risky Test');
+    }
+
 }
