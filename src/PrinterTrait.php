@@ -89,7 +89,7 @@ trait PrinterTrait
         $this->loadUserConfiguration();
 
         $this->maxNumberOfColumns = $this->getWidth();
-        $this->maxClassNameLength = min((int)($this->maxNumberOfColumns / 2), $this->maxClassNameLength);
+        $this->maxClassNameLength = min((int) ($this->maxNumberOfColumns / 2), $this->maxClassNameLength);
 
         $this->init();
     }
@@ -116,9 +116,6 @@ trait PrinterTrait
         return $this->getPackageRoot() . DIRECTORY_SEPARATOR . 'phpunit-printer.yml';
     }
 
-    /**
-     *
-     */
     private function loadUserConfiguration()
     {
         $this->configFileName = $this->getConfigurationFile('phpunit-printer.yml');
@@ -235,9 +232,6 @@ trait PrinterTrait
         return 'n/a';
     }
 
-    /**
-     *
-     */
     protected function init()
     {
         if (!self::$init) {
@@ -335,7 +329,7 @@ trait PrinterTrait
 
         // 'stty size' output example: 36 120
         if (\count($out) > 0) {
-            $width = (int)explode(' ', array_pop($out))[1];
+            $width = (int) explode(' ', array_pop($out))[1];
         }
 
         // handle CircleCI case (probably the same with TravisCI as well)
