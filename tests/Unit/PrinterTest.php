@@ -62,5 +62,4 @@ class PrinterTest extends PHPUnit\Framework\TestCase
     {
         $this->markAsRisky('Risky Test');
     }
-
 }
