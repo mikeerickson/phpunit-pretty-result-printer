@@ -5,7 +5,6 @@ namespace Codedungeon\PHPUnitPrettyResultPrinter;
 use Noodlehaus\Config;
 use Codedungeon\PHPCliColors\Color;
 use Noodlehaus\Exception\EmptyDirectoryException;
-use function var_dump;
 
 /**
  * Trait PrinterTrait.
