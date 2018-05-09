@@ -55,6 +55,12 @@ trait PrinterTrait
      * @var mixed|null
      */
     private $showConfig;
+
+    /**
+     * @var
+     */
+    private $hideNamespace;
+
     /**
      * @var array
      */
@@ -83,7 +89,7 @@ trait PrinterTrait
         $this->loadUserConfiguration();
 
         $this->maxNumberOfColumns = $this->getWidth();
-        $this->maxClassNameLength = min((int) ($this->maxNumberOfColumns / 2), $this->maxClassNameLength);
+        $this->maxClassNameLength = min((int)($this->maxNumberOfColumns / 2), $this->maxClassNameLength);
 
         $this->init();
     }
@@ -110,6 +116,9 @@ trait PrinterTrait
         return $this->getPackageRoot() . DIRECTORY_SEPARATOR . 'phpunit-printer.yml';
     }
 
+    /**
+     *
+     */
     private function loadUserConfiguration()
     {
         $this->configFileName = $this->getConfigurationFile('phpunit-printer.yml');
@@ -128,6 +137,7 @@ trait PrinterTrait
         $this->hideClassName = $this->getConfigOption('cd-printer-hide-class');
         $this->simpleOutput = $this->getConfigOption('cd-printer-simple-output');
         $this->showConfig = $this->getConfigOption('cd-printer-show-config');
+        $this->hideNamespace = $this->getConfigOption('cd-printer-hide-namespace');
 
         $this->markers = [
             'pass'       => $this->getConfigMarker('cd-pass'),
@@ -225,6 +235,9 @@ trait PrinterTrait
         return 'n/a';
     }
 
+    /**
+     *
+     */
     protected function init()
     {
         if (!self::$init) {
@@ -322,7 +335,7 @@ trait PrinterTrait
 
         // 'stty size' output example: 36 120
         if (\count($out) > 0) {
-            $width = (int) explode(' ', array_pop($out))[1];
+            $width = (int)explode(' ', array_pop($out))[1];
         }
 
         // handle CircleCI case (probably the same with TravisCI as well)
@@ -344,6 +357,9 @@ trait PrinterTrait
         $ellipsis = '...';
         $suffix = '   ';
         $formattedClassName = $prefix . $className . $suffix;
+        if ($this->hideNamespace) {
+            $className = substr($className, strrpos($className, '\\') + 1);
+        }
 
         if (\strlen($formattedClassName) <= $this->maxClassNameLength) {
             return $this->fillWithWhitespace($formattedClassName);

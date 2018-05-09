@@ -36,6 +36,20 @@ Or from Command-Line:
   phpunit --printer=Codedungeon\\PHPUnitPrettyResultPrinter\\Printer
   ```
 
+#### Configuration Options
+- Create a `phpunit-printer.yml` file in your application root to override default (or anywhere use up the parent tree.  It will search recursively up the tree until a configuration file is found.  If not found, default configuration will be used)
+ 
+ The following options are available (along with their default values):
+ 
+`cd-printer-hide-class: false`
+Hides the display of the test class name
+
+`cd-printer-simple-output: false`
+Uses the default PHPUnit markers (but still uses Printer)
+
+`cd-printer-show-config: true`
+`cd-printer-hide-namespace: false`
+ 
 #### Customizing Markers
 You can customize the markers which are used for `success`, `fail`, `error`, `skipped`, `incomplete` by modifying the `phpunit-printer.yml` file.
 - Create a `phpunit-printer.yml` file in your application root to override default
