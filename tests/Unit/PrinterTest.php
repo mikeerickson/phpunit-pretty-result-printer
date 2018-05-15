@@ -14,9 +14,6 @@ class PrinterTest extends PHPUnit\Framework\TestCase
      */
     protected $printer;
 
-    /**
-     *
-     */
     public function setUp()
     {
         $this->printer = new Printer();
@@ -47,5 +44,4 @@ class PrinterTest extends PHPUnit\Framework\TestCase
         $this->assertContains('phpunit-printer.yml', $this->printer->getConfigurationFile());
         $this->assertFileExists($this->printer->getConfigurationFile());
     }
-
 }
