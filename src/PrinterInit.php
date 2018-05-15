@@ -14,6 +14,7 @@ class PrinterInit
 
     public function init()
     {
+        echo "\n";
         $result = $this->add_printer_class_to_phpunit_xml();
         $result = $this->copy_default_settings();
     }
@@ -44,9 +45,11 @@ class PrinterInit
 
     private function copy_default_settings()
     {
-        if (file_exists('phpunit-printer.yml')) {
-            if (!file_exists('./.phpunit-printer.yml')) {
-                copy('phpunit-printer.yml', './.phpunit-printer.yml');
+        $packageDefaultSettingFile = dirname(__FILE__, 2) . DIRECTORY_SEPARATOR . 'phpunit-printer.yml';
+        $copySettingFile = dirname(__FILE__, 2) . DIRECTORY_SEPARATOR . 'phpunit-printer.yml';
+        if (file_exists($packageDefaultSettingFile)) {
+            if (!file_exists($copySettingFile)) {
+                copy($packageDefaultSettingFile, $copySettingFile);
                 echo self::GREEN . "Default `phpunit-printer.yml` copied to application root\n" . self::RESET;
             }
         }
