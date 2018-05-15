@@ -14,6 +14,9 @@ class PrinterTest extends PHPUnit\Framework\TestCase
      */
     protected $printer;
 
+    /**
+     *
+     */
     public function setUp()
     {
         $this->printer = new Printer();
@@ -45,21 +48,4 @@ class PrinterTest extends PHPUnit\Framework\TestCase
         $this->assertFileExists($this->printer->getConfigurationFile());
     }
 
-    public function it_should_display_incomplete(): void
-    {
-        $this->markTestIncomplete('Incomplete Test');
-        $this->assertTrue(true);
-    }
-
-    public function it_should_display_skipped(): void
-    {
-        $this->markTestSkipped('Skipped Test');
-        $this->assertTrue(true);
-    }
-
-    /** @test */
-    public function it_should_display_risky(): void
-    {
-        $this->markAsRisky('Risky Test');
-    }
 }
