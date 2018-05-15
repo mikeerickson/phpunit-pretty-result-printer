@@ -15,7 +15,7 @@ composer require --dev codedungeon/phpunit-result-printer
 ### Execute Initialization Script
 
 ```bash
-$ php ./vendor/codedungeon/phpunit-result-printer/src/init.php
+$ php ./vendor/codedungeon/phpunit-result-printer/init.php
 ```
 
 **Laravel 5.3 with PHP version 7.0.x:**
