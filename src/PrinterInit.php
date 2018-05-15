@@ -22,7 +22,7 @@ class PrinterInit
     {
         if (file_exists('./phpunit.xml')) {
             $data = file_get_contents('./phpunit.xml');
-            $result = (int)strpos($data, 'printerClass=');
+            $result = (int) strpos($data, 'printerClass=');
             if ($result > 0) {
                 echo self::CYAN . "Printer class already configured\n" . self::RESET;
 
@@ -46,7 +46,7 @@ class PrinterInit
     {
         $packageDefaultSettingFile = dirname(__FILE__, 2) . DIRECTORY_SEPARATOR . 'phpunit-printer.yml';
 //        $copySettingFile = dirname(__FILE__, 2) . DIRECTORY_SEPARATOR . 'phpunit-printer.yml';
-        $copySettingFile = "./phpunit-printer.yml";
+        $copySettingFile = './phpunit-printer.yml';
         if (file_exists($packageDefaultSettingFile)) {
             if (!file_exists($copySettingFile)) {
                 copy($packageDefaultSettingFile, $copySettingFile);
