@@ -1,6 +1,6 @@
 {
   "name": "codedungeon/phpunit-result-printer",
-  "version": "0.18.6",
+  "version": "0.18.7",
   "description": "PHPUnit Pretty Result Printer",
   "keywords": [
     "phpunit",
