@@ -1,6 +1,6 @@
 {
   "name": "codedungeon/phpunit-result-printer",
-  "version": "0.18.5",
+  "version": "0.18.6",
   "description": "PHPUnit Pretty Result Printer",
   "keywords": [
     "phpunit",
@@ -42,9 +42,7 @@
       "open ./coverage/index.html"
     ],
     "test-ci": "vendor/bin/phpunit -c phpunit.ci.xml",
-    "test-watch":
-      "vendor/bin/phpunit-watcher watch --testsuite Unit  < /dev/tty",
-    "watch-tickets":
-      "vendor/bin/phpunit-watcher watch --testsuite Tickets  < /dev/tty"
+    "test-watch": "vendor/bin/phpunit-watcher watch --testsuite Unit  < /dev/tty",
+    "watch-tickets": "vendor/bin/phpunit-watcher watch --testsuite Tickets  < /dev/tty"
   }
 }
