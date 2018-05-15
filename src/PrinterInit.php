@@ -34,12 +34,12 @@ class PrinterInit
                 $xml = simplexml_load_file('./phpunit.xml');
                 $xml->addAttribute('printerClass', 'Codedungeon\PHPUnitPrettyResultPrinter\Printer');
                 file_put_contents('./phpunit.xml', $xml->asXML());
-                echo self::GREEN . "    [•• ] Printer class successfully added to " . self::CYAN  ."phpunit.xml" .self::GREEN . " file\n" . self::RESET;
+                echo self::GREEN . '    [•• ] Printer class successfully added to ' . self::CYAN  .'phpunit.xml' .self::GREEN . " file\n" . self::RESET;
 
                 return 1;
             }
         } else {
-            echo self::RED . "    [•• ] Unable to locate valid " . self::YELLOW . "./phpunit.xml" .self::RED ." file, you will need to set " . self::CYAN ."printerClass " .self::RED ."manually\n" . self::RESET;
+            echo self::RED . '    [•• ] Unable to locate valid ' . self::YELLOW . './phpunit.xml' .self::RED .' file, you will need to set ' . self::CYAN .'printerClass ' .self::RED ."manually\n" . self::RESET;
 
             return -43;
         }
@@ -52,9 +52,9 @@ class PrinterInit
         if (file_exists($packageDefaultSettingFile)) {
             if (!file_exists($copySettingFile)) {
                 copy($packageDefaultSettingFile, $copySettingFile);
-                echo self::GREEN . "    [•••] Default " . self::CYAN ."phpunit-printer.yml" .self::GREEN ." copied to project root\n" . self::RESET;
+                echo self::GREEN . '    [•••] Default ' . self::CYAN .'phpunit-printer.yml' .self::GREEN ." copied to project root\n" . self::RESET;
             } else {
-                echo self::GREEN . "    [•••] Default " . self::CYAN ."phpunit-printer.yml" .self::GREEN ." already exists\n" . self::RESET;
+                echo self::GREEN . '    [•••] Default ' . self::CYAN .'phpunit-printer.yml' .self::GREEN ." already exists\n" . self::RESET;
             }
         }
     }
