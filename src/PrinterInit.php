@@ -12,7 +12,6 @@ class PrinterInit
     const WHITE = "\033[0;37m";
     const LWHITE = "\033[37;01m";
 
-
     public function __construct()
     {
     }
@@ -21,7 +20,7 @@ class PrinterInit
     {
         $phpunit_xml_file = './phpunit.xml';
         if (!file_exists($phpunit_xml_file)) {
-            echo "Here";
+            echo 'Here';
             $phpunit_xml_file = './phpunit.xml.dist';
         }
         echo self::LWHITE . "\n==> Configuring phpunit-pretty-result-printer\n" . self::RESET;
@@ -36,9 +35,9 @@ class PrinterInit
         $PHPUNIT_FILE = $file;
         if (file_exists($PHPUNIT_FILE)) {
             $data = file_get_contents($PHPUNIT_FILE);
-            $result = (int)strpos($data, 'printerClass=');
+            $result = (int) strpos($data, 'printerClass=');
             if ($result > 0) {
-                echo self::LWHITE . '    [•• ]' . self::LYELLOW . " Printer class already configured in " . self::CYAN ."{$PHPUNIT_FILE} \n" . self::RESET;
+                echo self::LWHITE . '    [•• ]' . self::LYELLOW . ' Printer class already configured in ' . self::CYAN ."{$PHPUNIT_FILE} \n" . self::RESET;
 
                 return 0;
             } else {
