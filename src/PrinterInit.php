@@ -8,7 +8,6 @@ class PrinterInit
     const RED = "\e[31m";
     const YELLOW = "\033[0;33m";
     const LYELLOW = "\033[33;01m";
-
     const WHITE = "\033[0;37m";
     const LWHITE = "\033[37;01m";
 
@@ -24,9 +23,9 @@ class PrinterInit
             $phpunit_xml_file = './phpunit.xml.dist';
         }
         echo self::LWHITE . "\n==> Configuring phpunit-pretty-result-printer\n" . self::RESET;
-        echo "\n    " .self::LWHITE . '[•  ]' . self::GREEN . " Gathering installation details\n" . self::RESET;
-        $result = $this->add_printer_class_to_phpunit_xml($phpunit_xml_file);
-        $result = $this->copy_default_settings('phpunit-printer.yml');
+        echo "\n    " . self::LWHITE . '[•  ]' . self::GREEN . " Gathering installation details\n" . self::RESET;
+        $this->add_printer_class_to_phpunit_xml($phpunit_xml_file);
+        $this->copy_default_settings('phpunit-printer.yml');
         echo self::LWHITE . "\n==> Configuration Complete\n" . self::RESET;
     }
 
@@ -35,16 +34,16 @@ class PrinterInit
         $PHPUNIT_FILE = $file;
         if (file_exists($PHPUNIT_FILE)) {
             $data = file_get_contents($PHPUNIT_FILE);
-            $result = (int) strpos($data, 'printerClass=');
+            $result = (int)strpos($data, 'printerClass=');
             if ($result > 0) {
-                echo self::LWHITE . '    [•• ]' . self::LYELLOW . ' Printer class already configured in ' . self::CYAN ."{$PHPUNIT_FILE} \n" . self::RESET;
+                echo self::LWHITE . '    [•• ]' . self::LYELLOW . ' Printer class already configured in ' . self::CYAN . "{$PHPUNIT_FILE} \n" . self::RESET;
 
                 return 0;
             } else {
                 $xml = simplexml_load_file($PHPUNIT_FILE);
                 $xml->addAttribute('printerClass', 'Codedungeon\PHPUnitPrettyResultPrinter\Printer');
                 file_put_contents($PHPUNIT_FILE, $xml->asXML());
-                echo  self::LWHITE . '    [•• ]' .self::GREEN . ' Printer class successfully added to ' . self::CYAN . $PHPUNIT_FILE . self::GREEN . " file\n" . self::RESET;
+                echo self::LWHITE . '    [•• ]' . self::GREEN . ' Printer class successfully added to ' . self::CYAN . $PHPUNIT_FILE . self::GREEN . " file\n" . self::RESET;
 
                 return 1;
             }
@@ -64,9 +63,9 @@ class PrinterInit
         if (file_exists($packageDefaultSettingFile)) {
             if (!file_exists($copySettingFile)) {
                 copy($packageDefaultSettingFile, $copySettingFile);
-                echo  self::LWHITE . '    [•••]' .self::GREEN . '   Configuration ' . self::CYAN . './' .$CONFIG_FILE . self::GREEN . " copied to project root\n" . self::RESET;
+                echo self::LWHITE . '    [•••]' . self::GREEN . '   Configuration ' . self::CYAN . './' . $CONFIG_FILE . self::GREEN . " copied to project root\n" . self::RESET;
             } else {
-                echo  self::LWHITE . '    [•••]' .self::LYELLOW . ' Configuration ' . self::CYAN . './' .$CONFIG_FILE . self::LYELLOW . " already exists\n" . self::RESET;
+                echo self::LWHITE . '    [•••]' . self::LYELLOW . ' Configuration ' . self::CYAN . './' . $CONFIG_FILE . self::LYELLOW . " already exists\n" . self::RESET;
             }
         } else {
             echo self::LWHITE . '    [••E]' . self::RED . " An error occured preparing configuration file\n" . self::RESET;
