@@ -24,7 +24,7 @@ $ php ./vendor/codedungeon/phpunit-result-printer/init.php
 ```
 
 #### Manual Configuration
-Alternately, if you wish to configure **phpunit-pretty-result-printer** manually, you will need to update your `phunit.xml` file as follows
+Alternately, if you wish to configure **phpunit-pretty-result-printer** manually, you will need to update your `phpunit.xml` file as follows
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
