@@ -330,7 +330,7 @@ trait PrinterTraitT
 
         // 'stty size' output example: 36 120
         if (\count($out) > 0) {
-            $width = (int)explode(' ', array_pop($out))[1];
+            $width = (int) explode(' ', array_pop($out))[1];
         }
 
         // handle CircleCI case (probably the same with TravisCI as well)
