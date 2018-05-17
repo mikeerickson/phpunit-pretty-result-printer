@@ -89,7 +89,7 @@ trait PrinterTrait
         $this->loadUserConfiguration();
 
         $this->maxNumberOfColumns = $this->getWidth();
-        $this->maxClassNameLength = min((int) ($this->maxNumberOfColumns / 2), $this->maxClassNameLength);
+        $this->maxClassNameLength = min((int)($this->maxNumberOfColumns / 2), $this->maxClassNameLength);
 
         $this->init();
     }
@@ -208,14 +208,19 @@ trait PrinterTrait
      */
     public function version()
     {
+        // removed `version` property from composer.json in an attempt to fix issue with packagist not seeing updates
+        // however, this does not see to fix my issue, have not been able to update packagist since 05-15-2018 16:39 (version 0.18.7 update)
+        // An issue has been submitted to packagist on 05-16-2018 17:35 -- https://github.com/composer/packagist/issues/910
+        // we shall see how long it takes to get this issue resolved (answered)
+
+        return '0.19.6';
+
 //        $content = file_get_contents($this->getPackageRoot() . DIRECTORY_SEPARATOR . 'composer.json');
 //        if ($content) {
 //            $content = json_decode($content, true);
 //
 //            return $content['version'];
 //        }
-
-        return '0.19.5';
     }
 
     /**
@@ -330,7 +335,7 @@ trait PrinterTrait
 
         // 'stty size' output example: 36 120
         if (\count($out) > 0) {
-            $width = (int) explode(' ', array_pop($out))[1];
+            $width = (int)explode(' ', array_pop($out))[1];
         }
 
         // handle CircleCI case (probably the same with TravisCI as well)
