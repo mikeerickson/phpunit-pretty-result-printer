@@ -89,7 +89,7 @@ trait PrinterTrait
         $this->loadUserConfiguration();
 
         $this->maxNumberOfColumns = $this->getWidth();
-        $this->maxClassNameLength = min((int) ($this->maxNumberOfColumns / 2), $this->maxClassNameLength);
+        $this->maxClassNameLength = min((int)($this->maxNumberOfColumns / 2), $this->maxClassNameLength);
 
         $this->init();
     }
@@ -208,14 +208,14 @@ trait PrinterTrait
      */
     public function version()
     {
-        $content = file_get_contents($this->getPackageRoot() . DIRECTORY_SEPARATOR . 'composer.json');
-        if ($content) {
-            $content = json_decode($content, true);
+//        $content = file_get_contents($this->getPackageRoot() . DIRECTORY_SEPARATOR . 'composer.json');
+//        if ($content) {
+//            $content = json_decode($content, true);
+//
+//            return $content['version'];
+//        }
 
-            return $content['version'];
-        }
-
-        return 'n/a';
+        return '0.19.3';
     }
 
     /**
@@ -330,7 +330,7 @@ trait PrinterTrait
 
         // 'stty size' output example: 36 120
         if (\count($out) > 0) {
-            $width = (int) explode(' ', array_pop($out))[1];
+            $width = (int)explode(' ', array_pop($out))[1];
         }
 
         // handle CircleCI case (probably the same with TravisCI as well)
