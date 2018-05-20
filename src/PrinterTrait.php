@@ -95,12 +95,130 @@ trait PrinterTrait
     }
 
     /**
+     * @param string $configFileName
+     *
+     * @return string
+     */
+    public function getConfigurationFile($configFileName = 'phpunit-printer.yml')
+    {
+        $defaultConfigFilename = $this->getPackageRoot() . DIRECTORY_SEPARATOR . $configFileName;
+
+        $configPath = getcwd();
+        $filename   = '';
+
+        $continue = true;
+        while (!file_exists($filename) && $continue) {
+            $filename = $configPath . DIRECTORY_SEPARATOR . $configFileName;
+            if (($this->isWindows() && \strlen($configPath) === 3) || $configPath === '/') {
+                $filename = $defaultConfigFilename;
+                $continue = false;
+            }
+            $configPath = \dirname($configPath);
+        }
+
+        return $filename;
+    }
+
+    /**
+     * @return string
+     */
+    public function version()
+    {
+        $content = file_get_contents($this->getPackageRoot() . DIRECTORY_SEPARATOR . 'composer.json');
+        if ($content) {
+            $content = json_decode($content, true);
+
+            return $content['version'];
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function packageName()
+    {
+        $content = file_get_contents($this->getPackageRoot() . DIRECTORY_SEPARATOR . 'composer.json');
+        if ($content) {
+            $content = json_decode($content, true);
+
+            return $content['description'];
+        }
+
+        return 'n/a';
+    }
+
+    protected function init()
+    {
+        if (!self::$init) {
+            $version = $this->version();
+            $name    = $this->packageName();
+            echo PHP_EOL;
+            echo $this->colorsTool->green() . "${name} ${version} by Codedungeon and contributors." . PHP_EOL;
+            echo $this->colorsTool->reset();
+
+            if ($this->showConfig) {
+                $home     = getenv('HOME');
+                $filename = str_replace($home, '~', $this->configFileName);
+
+                echo $this->colorsTool->yellow() . 'Configuration: ';
+                echo $this->colorsTool->yellow() . $filename;
+                echo $this->colorsTool->reset();
+                echo PHP_EOL . PHP_EOL;
+            }
+
+            self::$init = true;
+        }
+    }
+
+    /**
+     * @param $progress
+     */
+    protected function writeProgressEx($progress)
+    {
+        if (!$this->debug) {
+            $this->printClassName();
+        }
+        $this->printTestCaseStatus('', $progress);
+    }
+
+    /**
+     * Prints the Class Name if it has changed.
+     */
+    protected function printClassName()
+    {
+        if ($this->hideClassName) {
+            return;
+        }
+        if ($this->lastClassName === $this->className) {
+            return;
+        }
+
+        echo PHP_EOL;
+        $className = $this->formatClassName($this->className);
+        $this->colorsTool ? $this->writeWithColor('fg-cyan,bold', $className, false) : $this->write($className);
+        $this->column        = \strlen($className) + 1;
+        $this->lastClassName = $this->className;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function writeProgressWithColorEx($color, $buffer)
+    {
+        if (!$this->debug) {
+            $this->printClassName();
+        }
+
+        $this->printTestCaseStatus($color, $buffer);
+    }
+
+    /**
      * @throws EmptyDirectoryException
      */
     private function loadDefaultConfiguration()
     {
         try {
-            $defaultConfig = new Config($this->getPackageConfigurationFile());
+            $defaultConfig              = new Config($this->getPackageConfigurationFile());
             $this->defaultConfigOptions = $defaultConfig->all();
         } catch (EmptyDirectoryException $e) {
             echo $this->colorsTool->red() . 'Unable to locate phpunit-printer.yml configuration file' . PHP_EOL;
@@ -132,8 +250,8 @@ trait PrinterTrait
         $this->printerOptions = array_merge($this->defaultConfigOptions, $this->printerOptions);
 
         $this->hideClassName = $this->getConfigOption('cd-printer-hide-class');
-        $this->simpleOutput = $this->getConfigOption('cd-printer-simple-output');
-        $this->showConfig = $this->getConfigOption('cd-printer-show-config');
+        $this->simpleOutput  = $this->getConfigOption('cd-printer-simple-output');
+        $this->showConfig    = $this->getConfigOption('cd-printer-show-config');
         $this->hideNamespace = $this->getConfigOption('cd-printer-hide-namespace');
 
         $this->markers = [
@@ -176,131 +294,6 @@ trait PrinterTrait
         }
 
         return $this->defaultConfigOptions['markers'][$marker];
-    }
-
-    /**
-     * @param string $configFileName
-     *
-     * @return string
-     */
-    public function getConfigurationFile($configFileName = 'phpunit-printer.yml')
-    {
-        $defaultConfigFilename = $this->getPackageRoot() . DIRECTORY_SEPARATOR . $configFileName;
-
-        $configPath = getcwd();
-        $filename = '';
-
-        $continue = true;
-        while (!file_exists($filename) && $continue) {
-            $filename = $configPath . DIRECTORY_SEPARATOR . $configFileName;
-            if (($this->isWindows() && \strlen($configPath) === 3) || $configPath === '/') {
-                $filename = $defaultConfigFilename;
-                $continue = false;
-            }
-            $configPath = \dirname($configPath);
-        }
-
-        return $filename;
-    }
-
-    /**
-     * @return string
-     */
-    public function version()
-    {
-        // removed `version` property from composer.json in an attempt to fix issue with packagist not seeing updates
-        // however, this does not see to fix my issue, have not been able to update packagist since 05-15-2018 16:39 (version 0.18.7 update)
-        // An issue has been submitted to packagist on 05-16-2018 17:35 -- https://github.com/composer/packagist/issues/910
-        // we shall see how long it takes to get this issue resolved (answered)
-
-        return '0.19.6';
-
-//        $content = file_get_contents($this->getPackageRoot() . DIRECTORY_SEPARATOR . 'composer.json');
-//        if ($content) {
-//            $content = json_decode($content, true);
-//
-//            return $content['version'];
-//        }
-    }
-
-    /**
-     * @return string
-     */
-    public function packageName()
-    {
-        $content = file_get_contents($this->getPackageRoot() . DIRECTORY_SEPARATOR . 'composer.json');
-        if ($content) {
-            $content = json_decode($content, true);
-
-            return $content['description'];
-        }
-
-        return 'n/a';
-    }
-
-    protected function init()
-    {
-        if (!self::$init) {
-            $version = $this->version();
-            $name = $this->packageName();
-            echo PHP_EOL;
-            echo $this->colorsTool->green() . "${name} ${version} by Codedungeon and contributors." . PHP_EOL;
-            echo $this->colorsTool->reset();
-
-            if ($this->showConfig) {
-                $home = getenv('HOME');
-                $filename = str_replace($home, '~', $this->configFileName);
-
-                echo $this->colorsTool->yellow() . 'Configuration: ';
-                echo $this->colorsTool->yellow() . $filename;
-                echo $this->colorsTool->reset();
-                echo PHP_EOL . PHP_EOL;
-            }
-
-            self::$init = true;
-        }
-    }
-
-    /**
-     * @param $progress
-     */
-    protected function writeProgressEx($progress)
-    {
-        if (!$this->debug) {
-            $this->printClassName();
-        }
-        $this->printTestCaseStatus('', $progress);
-    }
-
-    /**
-     * Prints the Class Name if it has changed.
-     */
-    protected function printClassName()
-    {
-        if ($this->hideClassName) {
-            return;
-        }
-        if ($this->lastClassName === $this->className) {
-            return;
-        }
-
-        echo PHP_EOL;
-        $className = $this->formatClassName($this->className);
-        $this->colorsTool ? $this->writeWithColor('fg-cyan,bold', $className, false) : $this->write($className);
-        $this->column = \strlen($className) + 1;
-        $this->lastClassName = $this->className;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function writeProgressWithColorEx($color, $buffer)
-    {
-        if (!$this->debug) {
-            $this->printClassName();
-        }
-
-        $this->printTestCaseStatus($color, $buffer);
     }
 
     /**
@@ -353,9 +346,9 @@ trait PrinterTrait
      */
     private function formatClassName($className)
     {
-        $prefix = ' ==> ';
-        $ellipsis = '...';
-        $suffix = '   ';
+        $prefix             = ' ==> ';
+        $ellipsis           = '...';
+        $suffix             = '   ';
         $formattedClassName = $prefix . $className . $suffix;
         if ($this->hideNamespace) {
             $className = substr($className, strrpos($className, '\\') + 1);
@@ -391,38 +384,38 @@ trait PrinterTrait
     {
         if ($this->column >= $this->maxNumberOfColumns) {
             $this->writeNewLine();
-            $padding = $this->maxClassNameLength;
+            $padding      = $this->maxClassNameLength;
             $this->column = $padding;
             echo str_pad(' ', $padding);
         }
         switch (strtoupper($buffer)) {
             case '.':
-                $color = 'fg-green,bold';
+                $color  = 'fg-green,bold';
                 $buffer = $this->simpleOutput ? '.' : $this->markers['pass']; // mb_convert_encoding("\x27\x13", 'UTF-8', 'UTF-16BE');
                 $buffer .= (!$this->debug) ? '' : ' Passed';
                 break;
             case 'S':
-                $color = 'fg-yellow,bold';
+                $color  = 'fg-yellow,bold';
                 $buffer = $this->simpleOutput ? 'S' : $this->markers['skipped']; // mb_convert_encoding("\x27\xA6", 'UTF-8', 'UTF-16BE');
                 $buffer .= !$this->debug ? '' : ' Skipped';
                 break;
             case 'I':
-                $color = 'fg-blue,bold';
+                $color  = 'fg-blue,bold';
                 $buffer = $this->simpleOutput ? 'I' : $this->markers['incomplete']; // 'ℹ';
                 $buffer .= !$this->debug ? '' : ' Incomplete';
                 break;
             case 'F':
-                $color = 'fg-red,bold';
+                $color  = 'fg-red,bold';
                 $buffer = $this->simpleOutput ? 'F' : $this->markers['fail']; // mb_convert_encoding("\x27\x16", 'UTF-8', 'UTF-16BE');
                 $buffer .= (!$this->debug) ? '' : ' Fail';
                 break;
             case 'E':
-                $color = 'fg-red,bold';
+                $color  = 'fg-red,bold';
                 $buffer = $this->simpleOutput ? 'E' : $this->markers['error']; // '⚈';
                 $buffer .= !$this->debug ? '' : ' Error';
                 break;
             case 'R':
-                $color = 'fg-magenta,bold';
+                $color  = 'fg-magenta,bold';
                 $buffer = $this->simpleOutput ? 'R' : $this->markers['risky']; // '⚙';
                 $buffer .= !$this->debug ? '' : ' Risky';
                 break;

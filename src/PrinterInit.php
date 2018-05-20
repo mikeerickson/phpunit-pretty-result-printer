@@ -19,7 +19,6 @@ class PrinterInit
     {
         $phpunit_xml_file = './phpunit.xml';
         if (!file_exists($phpunit_xml_file)) {
-            echo 'Here';
             $phpunit_xml_file = './phpunit.xml.dist';
         }
         echo self::LWHITE . "\n==> Configuring phpunit-pretty-result-printer\n" . self::RESET;
@@ -63,7 +62,7 @@ class PrinterInit
         if (file_exists($packageDefaultSettingFile)) {
             if (!file_exists($copySettingFile)) {
                 copy($packageDefaultSettingFile, $copySettingFile);
-                echo self::LWHITE . '    [•••]' . self::GREEN . '   Configuration ' . self::CYAN . './' . $CONFIG_FILE . self::GREEN . " copied to project root\n" . self::RESET;
+                echo self::LWHITE . '    [•••]' . self::GREEN . ' Configuration ' . self::CYAN . './' . $CONFIG_FILE . self::GREEN . " copied to project root\n" . self::RESET;
             } else {
                 echo self::LWHITE . '    [•••]' . self::LYELLOW . ' Configuration ' . self::CYAN . './' . $CONFIG_FILE . self::LYELLOW . " already exists\n" . self::RESET;
             }
