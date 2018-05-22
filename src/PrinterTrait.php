@@ -349,10 +349,10 @@ trait PrinterTrait
         $prefix = ' ==> ';
         $ellipsis = '...';
         $suffix = '   ';
-        $formattedClassName = $prefix . $className . $suffix;
         if ($this->hideNamespace) {
             $className = substr($className, strrpos($className, '\\') + 1);
         }
+        $formattedClassName = $prefix . $className . $suffix;
 
         if (\strlen($formattedClassName) <= $this->maxClassNameLength) {
             return $this->fillWithWhitespace($formattedClassName);
