@@ -4,8 +4,9 @@ options:
   cd-printer-show-config: true
   cd-printer-hide-namespace: false
 markers:
-  cd-pass: "✓"
-  cd-fail: "✖"
-  cd-error: "⚈"
-  cd-skipped: "→"
-  cd-incomplete: "∅"
+  cd-pass: "✓ "
+  cd-fail: "✖ "
+  cd-error: "⚈ "
+  cd-skipped: "→ "
+  cd-incomplete: "∅ "
+  cd-risky: "⌽ "

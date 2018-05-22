@@ -6,6 +6,9 @@ use Noodlehaus\Config;
 use Codedungeon\PHPCliColors\Color;
 use Noodlehaus\Exception\EmptyDirectoryException;
 
+/**
+ * Trait PrinterTrait.
+ */
 trait PrinterTrait
 {
     /**
@@ -52,11 +55,20 @@ trait PrinterTrait
      * @var mixed|null
      */
     private $showConfig;
+
+    /**
+     * @var
+     */
+    private $hideNamespace;
+
     /**
      * @var array
      */
     private $markers = [];
 
+    /**
+     * @var array
+     */
     private $defaultMarkers = [];
 
     /**
@@ -80,68 +92,6 @@ trait PrinterTrait
         $this->maxClassNameLength = min((int) ($this->maxNumberOfColumns / 2), $this->maxClassNameLength);
 
         $this->init();
-    }
-
-    private function loadDefaultConfiguration()
-    {
-        $defaultConfig = new Config($this->getPackageConfigurationFile());
-        $this->defaultConfigOptions = $defaultConfig->all();
-    }
-
-    private function getPackageConfigurationFile()
-    {
-        return $this->getPackageRoot() . DIRECTORY_SEPARATOR . 'phpunit-printer.yml';
-    }
-
-    private function loadUserConfiguration()
-    {
-        $this->configFileName = $this->getConfigurationFile('phpunit-printer.yml');
-
-        try {
-            $this->configuration = new Config($this->configFileName);
-        } catch (EmptyDirectoryException $e) {
-            echo $this->colorsTool->red() . 'Unable to locate valid configuration file' . PHP_EOL;
-            echo $this->colorsTool->reset();
-        }
-        // setup module options
-        $this->printerOptions = $this->configuration->all();
-
-        $this->printerOptions = array_merge($this->defaultConfigOptions, $this->printerOptions);
-
-        $this->hideClassName = $this->getConfigOption('cd-printer-hide-class');
-        $this->simpleOutput = $this->getConfigOption('cd-printer-simple-output');
-        $this->showConfig = $this->getConfigOption('cd-printer-show-config');
-        $this->hideNamespace = $this->getConfigOption('cd-printer-hide-namespace');
-
-        $this->markers = [
-            'pass'       => $this->getConfigMarker('cd-pass'),
-            'fail'       => $this->getConfigMarker('cd-fail'),
-            'error'      => $this->getConfigMarker('cd-error'),
-            'skipped'    => $this->getConfigMarker('cd-skipped'),
-            'incomplete' => $this->getConfigMarker('cd-incomplete'),
-        ];
-    }
-
-    private function getConfigOption($marker)
-    {
-        if (isset($this->printerOptions['options'])) {
-            if (isset($this->printerOptions['options'][$marker])) {
-                return $this->printerOptions['options'][$marker];
-            }
-        }
-
-        return $this->defaultConfigOptions['options'][$marker];
-    }
-
-    private function getConfigMarker($marker)
-    {
-        if (isset($this->printerOptions['markers'])) {
-            if (isset($this->printerOptions['markers'][$marker])) {
-                return $this->printerOptions['markers'][$marker];
-            }
-        }
-
-        return $this->defaultConfigOptions['markers'][$marker];
     }
 
     /**
@@ -180,8 +130,6 @@ trait PrinterTrait
 
             return $content['version'];
         }
-
-        return 'n/a';
     }
 
     /**
@@ -265,6 +213,90 @@ trait PrinterTrait
     }
 
     /**
+     * @throws EmptyDirectoryException
+     */
+    private function loadDefaultConfiguration()
+    {
+        try {
+            $defaultConfig = new Config($this->getPackageConfigurationFile());
+            $this->defaultConfigOptions = $defaultConfig->all();
+        } catch (EmptyDirectoryException $e) {
+            echo $this->colorsTool->red() . 'Unable to locate phpunit-printer.yml configuration file' . PHP_EOL;
+            echo $this->colorsTool->reset();
+        }
+    }
+
+    /**
+     * @return string
+     */
+    private function getPackageConfigurationFile()
+    {
+        return $this->getPackageRoot() . DIRECTORY_SEPARATOR . 'phpunit-printer.yml';
+    }
+
+    private function loadUserConfiguration()
+    {
+        $this->configFileName = $this->getConfigurationFile('phpunit-printer.yml');
+
+        try {
+            $this->configuration = new Config($this->configFileName);
+        } catch (EmptyDirectoryException $e) {
+            echo $this->colorsTool->red() . 'Unable to locate valid configuration file' . PHP_EOL;
+            echo $this->colorsTool->reset();
+        }
+        // setup module options
+        $this->printerOptions = $this->configuration->all();
+
+        $this->printerOptions = array_merge($this->defaultConfigOptions, $this->printerOptions);
+
+        $this->hideClassName = $this->getConfigOption('cd-printer-hide-class');
+        $this->simpleOutput = $this->getConfigOption('cd-printer-simple-output');
+        $this->showConfig = $this->getConfigOption('cd-printer-show-config');
+        $this->hideNamespace = $this->getConfigOption('cd-printer-hide-namespace');
+
+        $this->markers = [
+            'pass'       => $this->getConfigMarker('cd-pass'),
+            'fail'       => $this->getConfigMarker('cd-fail'),
+            'error'      => $this->getConfigMarker('cd-error'),
+            'skipped'    => $this->getConfigMarker('cd-skipped'),
+            'incomplete' => $this->getConfigMarker('cd-incomplete'),
+            'risky'      => $this->getConfigMarker('cd-risky'),
+        ];
+    }
+
+    /**
+     * @param $marker
+     *
+     * @return mixed
+     */
+    private function getConfigOption($marker)
+    {
+        if (isset($this->printerOptions['options'])) {
+            if (isset($this->printerOptions['options'][$marker])) {
+                return $this->printerOptions['options'][$marker];
+            }
+        }
+
+        return $this->defaultConfigOptions['options'][$marker];
+    }
+
+    /**
+     * @param $marker
+     *
+     * @return mixed
+     */
+    private function getConfigMarker($marker)
+    {
+        if (isset($this->printerOptions['markers'])) {
+            if (isset($this->printerOptions['markers'][$marker])) {
+                return $this->printerOptions['markers'][$marker];
+            }
+        }
+
+        return $this->defaultConfigOptions['markers'][$marker];
+    }
+
+    /**
      * @return string | returns package root
      */
     private function getPackageRoot()
@@ -317,7 +349,6 @@ trait PrinterTrait
         $prefix = ' ==> ';
         $ellipsis = '...';
         $suffix = '   ';
-
         if ($this->hideNamespace) {
             $className = substr($className, strrpos($className, '\\') + 1);
         }
@@ -357,7 +388,6 @@ trait PrinterTrait
             $this->column = $padding;
             echo str_pad(' ', $padding);
         }
-
         switch (strtoupper($buffer)) {
             case '.':
                 $color = 'fg-green,bold';
@@ -383,6 +413,11 @@ trait PrinterTrait
                 $color = 'fg-red,bold';
                 $buffer = $this->simpleOutput ? 'E' : $this->markers['error']; // '⚈';
                 $buffer .= !$this->debug ? '' : ' Error';
+                break;
+            case 'R':
+                $color = 'fg-magenta,bold';
+                $buffer = $this->simpleOutput ? 'R' : $this->markers['risky']; // '⚙';
+                $buffer .= !$this->debug ? '' : ' Risky';
                 break;
         }
 
