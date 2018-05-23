@@ -37,6 +37,7 @@
   "scripts": {
     "coverage-report": "open ./coverage/index.html",
     "test": "vendor/bin/phpunit --colors=always",
+    "test-unit": "vendor/bin/phpunit --colors=always --testsuite=Unit",
     "test-coverage": [
       "./vendor/bin/phpunit --colors=always --testsuite Unit --coverage-html coverage",
       "open ./coverage/index.html"
