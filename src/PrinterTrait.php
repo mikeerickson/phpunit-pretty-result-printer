@@ -348,11 +348,7 @@ trait PrinterTrait
     {
         $prefix   = ' ==> ';
         $ellipsis = '...';
-<<<<<<< HEAD
-        $suffix   = '   ';
-=======
         $suffix = '   ';
->>>>>>> f264fcb86ffbdcde89ce3664342a37aa844b47b9
         if ($this->hideNamespace && strrpos($className, '\\')) {
             $className = substr($className, strrpos($className, '\\') + 1);
         }
