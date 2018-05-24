@@ -2,6 +2,9 @@ preset: recommended
 
 risky: false
 
+enabled:
+  - align_equals
+
 disabled:
   - concat_without_spaces
   - alpha_ordered_imports

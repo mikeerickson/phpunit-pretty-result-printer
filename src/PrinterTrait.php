@@ -250,8 +250,8 @@ trait PrinterTrait
         $this->printerOptions = array_merge($this->defaultConfigOptions, $this->printerOptions);
 
         $this->hideClassName = $this->getConfigOption('cd-printer-hide-class');
-        $this->simpleOutput = $this->getConfigOption('cd-printer-simple-output');
-        $this->showConfig = $this->getConfigOption('cd-printer-show-config');
+        $this->simpleOutput  = $this->getConfigOption('cd-printer-simple-output');
+        $this->showConfig    = $this->getConfigOption('cd-printer-show-config');
         $this->hideNamespace = $this->getConfigOption('cd-printer-hide-namespace');
 
         $this->markers = [
