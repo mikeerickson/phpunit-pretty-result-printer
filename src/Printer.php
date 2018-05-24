@@ -19,7 +19,7 @@ if (version_compare(Version::series(), '6.99.99', '<=')) {
     }
 }
 
-$low = version_compare(Version::series(), '7.0', '>=');
+$low  = version_compare(Version::series(), '7.0', '>=');
 $high = version_compare(Version::series(), '7.0.99', '<=');
 
 if ($low && $high) {
@@ -29,7 +29,7 @@ if ($low && $high) {
     }
 }
 
-$low = version_compare(Version::series(), '7.1', '>=');
+$low  = version_compare(Version::series(), '7.1', '>=');
 $high = true; // version_compare(Version::series(),'7.1.99','<=');
 
 if ($low && $high) {

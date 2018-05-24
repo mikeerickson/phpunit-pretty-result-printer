@@ -6,7 +6,7 @@ use PHPUnit\Framework\Test;
 use PHPUnit\Runner\Version;
 use PHPUnit\TextUI\ResultPrinter;
 
-$low = version_compare(Version::series(), '7.1', '>=');
+$low  = version_compare(Version::series(), '7.1', '>=');
 $high = true; // version_compare(Version::series(),'7.1.99','<=');
 
 if ($low && $high) {
