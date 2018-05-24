@@ -2,14 +2,14 @@
 
 class PrinterInit
 {
-    const GREEN = "\e[32m";
-    const RESET = "\e[0m";
-    const CYAN = "\e[36m";
-    const RED = "\e[31m";
-    const YELLOW = "\033[0;33m";
+    const GREEN   = "\e[32m";
+    const RESET   = "\e[0m";
+    const CYAN    = "\e[36m";
+    const RED     = "\e[31m";
+    const YELLOW  = "\033[0;33m";
     const LYELLOW = "\033[33;01m";
-    const WHITE = "\033[0;37m";
-    const LWHITE = "\033[37;01m";
+    const WHITE   = "\033[0;37m";
+    const LWHITE  = "\033[37;01m";
 
     public function __construct()
     {
@@ -32,7 +32,7 @@ class PrinterInit
     {
         $PHPUNIT_FILE = $file;
         if (file_exists($PHPUNIT_FILE)) {
-            $data = file_get_contents($PHPUNIT_FILE);
+            $data   = file_get_contents($PHPUNIT_FILE);
             $result = (int) strpos($data, 'printerClass=');
             if ($result > 0) {
                 echo self::LWHITE . '    [•• ]' . self::LYELLOW . ' Printer class already configured in ' . self::CYAN . "{$PHPUNIT_FILE} \n" . self::RESET;
@@ -55,7 +55,7 @@ class PrinterInit
 
     private function copy_default_settings($file = 'phpunit-printer.yml')
     {
-        $CONFIG_FILE = $file;
+        $CONFIG_FILE               = $file;
         $packageDefaultSettingFile = dirname(__FILE__, 2) . DIRECTORY_SEPARATOR . $CONFIG_FILE;
 
         $copySettingFile = $CONFIG_FILE;
