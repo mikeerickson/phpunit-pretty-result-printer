@@ -8,3 +8,4 @@ enabled:
 disabled:
   - concat_without_spaces
   - alpha_ordered_imports
+  - unalign_equals
