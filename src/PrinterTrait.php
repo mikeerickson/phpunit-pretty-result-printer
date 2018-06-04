@@ -128,7 +128,7 @@ trait PrinterTrait
         if ($content) {
             $content = json_decode($content, true);
 
-            return $content['version'];
+            return isset($content['version']) ? $content['version'] : '<unknown>';
         }
     }
 
@@ -141,10 +141,10 @@ trait PrinterTrait
         if ($content) {
             $content = json_decode($content, true);
 
-            return $content['description'];
+            return isset($content['description']) ? $content['description'] : '<unknown>';
         }
 
-        return 'n/a';
+        return '<unknown>';
     }
 
     protected function init()
@@ -160,7 +160,7 @@ trait PrinterTrait
                 $home     = getenv('HOME');
                 $filename = str_replace($home, '~', $this->configFileName);
 
-                echo $this->colorsTool->yellow() . 'Configuration: ';
+                echo $this->colorsTool->yellow() . '==> Configuration: ';
                 echo $this->colorsTool->yellow() . $filename;
                 echo $this->colorsTool->reset();
                 echo PHP_EOL . PHP_EOL;
