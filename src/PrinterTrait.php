@@ -426,6 +426,6 @@ trait PrinterTrait
         if ($this->debug) {
             $this->writeNewLine();
         }
-        $this->column += 2;
+        $this->column += 3;
     }
 }
