@@ -23,7 +23,7 @@
     "php": "^7.1",
     "hassankhan/config": "^1.0",
     "symfony/yaml": "^2.7|^3.0|^4.0",
-    "codedungeon/php-cli-colors": "^1.10"
+    "codedungeon/php-cli-colors": "^1.10.2"
   },
   "require-dev": {
     "spatie/phpunit-watcher": "^1.5",

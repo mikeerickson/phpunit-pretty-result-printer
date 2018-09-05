@@ -12,8 +12,12 @@ branches:
   only:
     - master
 
+env:
+  - COMPOSER_OPTS="--no-interaction --prefer-dist --no-suggest"
+  - COMPOSER_OPTS="--no-interaction --prefer-dist --no-suggest --prefer-lowest"
+
 install:
-  - travis_retry composer install --no-interaction --prefer-dist --no-suggest
+  - travis_retry composer update $COMPOSER_OPTS
 
 script:
   - ./vendor/bin/phpunit -c phpunit.ci.xml  --coverage-clover=coverage.xml
