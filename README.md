@@ -53,27 +53,27 @@ $ composer require --dev codedungeon/phpunit-result-printer:^0.8
 The following options are available (along with their default values):
 
 #### Options ####
----|---|----
-**Property Name** | **Default** | **Description**
-`cd-printer-hide-class` | false | Hides the display of the test class name
-`cd-printer-simple-output`| false | Uses the default PHPUnit markers (but still uses Printer)
-`cd-printer-show-config`| true | Show path to used configuration file
-`cd-printer-hide-namespace`| false |Hide test class namespaces (will only show print class name)
+
+| **Property Name** | **Default** | **Description** | 
+| ----------------- | ----------- | --------------- |
+| `cd-printer-hide-class` | `false` | Hides the display of the test class name
+| `cd-printer-simple-output`| `false` | Uses the default PHPUnit markers (but still uses Printer)
+| `cd-printer-show-config`| `true` | Show path to used configuration file
+| `cd-printer-hide-namespace`| `false` |Hide test class namespaces (will only show print class name)
 
 #### Markers ###
 You can customize the markers which are used for `success`, `fail`, `error`, `skipped`, `incomplete` by modifying the `phpunit-printer.yml` file.
 
----|---
-**Marker** | **Value** *
- 
-  cd-pass | "✓ "
-  cd-fail | "✖ "
-  cd-error | "⚈ "
-  cd-skipped | "→ "
-  cd-incomplete | "∅ "
-  cd-risky | "⌽ "
+| **Marker** | **Value** * |
+| ---------- | --------- |
+| `cd-pass` | `✓ ` |
+| `cd-fail` | `✖ ` |
+| `cd-error` | `⚈ ` |
+| `cd-skipped` | `→ ` |
+| `cd-incomplete` | `∅ ` |
+| `cd-risky` | `⌽ ` |
 
-_* Notice space after each marker.  This makes the output a little more visually appealing, thus keep that in mind when creating your own custom markers_
+_* Notice space after each marker. This makes the output a little more visually appealing, thus keep that in mind when creating your own custom markers_
 
 ## License
 
