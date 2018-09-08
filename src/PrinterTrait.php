@@ -253,6 +253,8 @@ trait PrinterTrait
         $this->simpleOutput  = $this->getConfigOption('cd-printer-simple-output');
         $this->showConfig    = $this->getConfigOption('cd-printer-show-config');
         $this->hideNamespace = $this->getConfigOption('cd-printer-hide-namespace');
+        $this->anyBarEnabled = $this->getConfigOption('cd-printer-anybar');
+        $this->anyBarPort    = $this->getConfigOption('cd-printer-anybar-port');
 
         $this->markers = [
             'pass'         => $this->getConfigMarker('cd-pass'),
@@ -269,7 +271,7 @@ trait PrinterTrait
      *
      * @return mixed
      */
-    private function getConfigOption($marker)
+    private function getConfigOption($marker, $default = "")
     {
         if (isset($this->printerOptions['options'])) {
             if (isset($this->printerOptions['options'][$marker])) {
