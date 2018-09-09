@@ -271,7 +271,7 @@ trait PrinterTrait
      *
      * @return mixed
      */
-    private function getConfigOption($marker, $default = "")
+    private function getConfigOption($marker, $default = '')
     {
         if (isset($this->printerOptions['options'])) {
             if (isset($this->printerOptions['options'][$marker])) {
