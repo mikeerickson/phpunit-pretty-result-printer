@@ -42,11 +42,14 @@ if ($low && $high) {
             if($this->anyBarEnabled) {
                 $phanyBar = new Phanybar();
                 if (sizeof($result->failures())) {
+                    // if errors, we will always show red bar
                     $phanyBar->send('red', $this->anyBarPort);
                 } else {
+                    // if no errors and successful, show green
                     if($result->wasSuccessful()) {
                         $phanyBar->send('green', $this->anyBarPort);
                     } else {
+                        // otherwise show yellow for remaining
                         $phanyBar->send('yellow', $this->anyBarPort);
                     }
                 }

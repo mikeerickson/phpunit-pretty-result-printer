@@ -47,6 +47,15 @@ If you are using PHP 7.0.x, you will need to use a compatible version of PHPUnit
 $ composer require --dev codedungeon/phpunit-result-printer:^0.8
 ```
 
+### AnyBar Integration
+
+If you have AnyBar installed, it will be enabled by default.  You can disable using `cd-printer-anybar-enabled` option (see below)
+
+[https://github.com/tonsky/AnyBar](https://github.com/tonsky/AnyBar)
+
+_NOTE: AnyBar is only available with PHPUnit 7.1 or greater.  
+If you need support for previous versions, please let us know.  We are slowly deprecating versions before 7.1._
+
 ### Configuration Options
 
 * Create a `phpunit-printer.yml` file in your application root to override default (or anywhere use up the parent tree. It will search recursively up the tree until a configuration file is found. If not found, default configuration will be used).
@@ -59,6 +68,8 @@ The following options are available (along with their default values):
 `cd-printer-simple-output`| false | Uses the default PHPUnit markers (but still uses Printer)
 `cd-printer-show-config`| true | Show path to used configuration file
 `cd-printer-hide-namespace`| false |Hide test class namespaces (will only show print class name)
+`cd-printer-anybar`| true |Enable AnyBar (if anybar is not installed, settings will be ignored)
+`cd-printer-anybar-port`| 1738 |Define AnyBar port number
 
 #### Markers ###
 You can customize the markers which are used for `success`, `fail`, `error`, `skipped`, `incomplete` by modifying the `phpunit-printer.yml` file.

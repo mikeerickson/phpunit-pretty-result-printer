@@ -11,3 +11,5 @@ coverage/
 NOTES.md
 tickets/*
 vendor/
+sandbox/
+scripts/
