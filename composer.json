@@ -1,6 +1,6 @@
 {
   "name": "codedungeon/phpunit-result-printer",
-  "version": "0.20.2",
+  "version": "0.20.3",
   "description": "PHPUnit Pretty Result Printer",
   "keywords": [
     "phpunit",
@@ -21,7 +21,7 @@
   "type": "library",
   "require": {
     "php": "^7.1",
-    "hassankhan/config": "^1.1",
+    "hassankhan/config": "^0.11.2",
     "symfony/yaml": "^2.7|^3.0|^4.0",
     "codedungeon/php-cli-colors": "^1.10.2",
     "2bj/phanybar": "^1.0"
