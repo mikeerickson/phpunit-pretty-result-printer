@@ -101,7 +101,7 @@ trait PrinterTrait
      */
     public function getConfigurationFile($configFileName = 'phpunit-printer.yml')
     {
-        $defaultConfigFilename = $this->getPackageRoot() . DIRECTORY_SEPARATOR . $configFileName;
+        $defaultConfigFilename = $this->getPackageRoot() . DIRECTORY_SEPARATOR . 'src/' .$configFileName;
 
         $configPath = getcwd();
         $filename   = '';
@@ -218,7 +218,7 @@ trait PrinterTrait
     private function loadDefaultConfiguration()
     {
         try {
-            $defaultConfig              = new Config($this->getPackageConfigurationFile());
+            $defaultConfig = new Config($this->getPackageConfigurationFile());
             $this->defaultConfigOptions = $defaultConfig->all();
         } catch (EmptyDirectoryException $e) {
             echo $this->colorsTool->red() . 'Unable to locate phpunit-printer.yml configuration file' . PHP_EOL;
@@ -231,13 +231,12 @@ trait PrinterTrait
      */
     private function getPackageConfigurationFile()
     {
-        return $this->getPackageRoot() . DIRECTORY_SEPARATOR . 'phpunit-printer.yml';
+        return $this->getPackageRoot() . DIRECTORY_SEPARATOR . 'src/phpunit-printer.yml';
     }
 
     private function loadUserConfiguration()
     {
         $this->configFileName = $this->getConfigurationFile('phpunit-printer.yml');
-
         try {
             $this->configuration = new Config($this->configFileName);
         } catch (EmptyDirectoryException $e) {

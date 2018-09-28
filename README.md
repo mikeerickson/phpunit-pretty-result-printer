@@ -1,5 +1,5 @@
 # CD PHPUnit Pretty Result Printer 
-#### Version 0.21.0
+#### Version 0.22.0
 
 Extend the default PHPUnit Result Printer with a modern, pretty printer!
 
@@ -21,7 +21,7 @@ The following steps are optional, but will provide zero configuration for implem
 
 
 ```bash
-$ php ./vendor/codedungeon/phpunit-result-printer/init.php
+$ php ./vendor/codedungeon/phpunit-result-printer/src/init.php
 ```
 
 #### Manual Configuration

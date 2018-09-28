@@ -1,6 +1,6 @@
 <?php
 
-require_once 'src/PrinterInit.php';
+require_once 'PrinterInit.php';
 
 $init = new PrinterInit();
 $init->init();

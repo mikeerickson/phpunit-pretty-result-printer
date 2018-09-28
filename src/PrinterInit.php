@@ -56,7 +56,7 @@ class PrinterInit
     private function copy_default_settings($file = 'phpunit-printer.yml')
     {
         $CONFIG_FILE               = $file;
-        $packageDefaultSettingFile = dirname(__FILE__, 2) . DIRECTORY_SEPARATOR . $CONFIG_FILE;
+        $packageDefaultSettingFile = dirname(__FILE__, 2) . DIRECTORY_SEPARATOR . 'src/'. $CONFIG_FILE;
 
         $copySettingFile = $CONFIG_FILE;
         if (file_exists($packageDefaultSettingFile)) {
@@ -67,7 +67,7 @@ class PrinterInit
                 echo self::LWHITE . '    [•••]' . self::LYELLOW . ' Configuration ' . self::CYAN . './' . $CONFIG_FILE . self::LYELLOW . " already exists\n" . self::RESET;
             }
         } else {
-            echo self::LWHITE . '    [••E]' . self::RED . " An error occured preparing configuration file\n" . self::RESET;
+            echo self::LWHITE . '    [••E]' . self::RED . " An error occurred preparing configuration file\n" . self::RESET;
         }
     }
 }
