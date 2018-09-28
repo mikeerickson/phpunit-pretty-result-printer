@@ -1,6 +1,6 @@
 {
   "name": "codedungeon/phpunit-result-printer",
-  "version": "0.20.3",
+  "version": "0.21.0",
   "description": "PHPUnit Pretty Result Printer",
   "keywords": [
     "phpunit",
@@ -33,7 +33,8 @@
   "autoload": {
     "psr-4": {
       "Codedungeon\\PHPUnitPrettyResultPrinter\\": "src/"
-    }
+    },
+    "files": ["init.php","phpunit-printer.yml"]
   },
   "scripts": {
     "coverage-report": "open ./coverage/index.html",

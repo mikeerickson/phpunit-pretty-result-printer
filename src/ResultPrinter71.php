@@ -38,7 +38,7 @@ if ($low && $high) {
                 $phanyBar = new Phanybar();
                 if (sizeof($result->failures())) {
                     // if errors, we will always show red bar
-                    $phanyBar->send('red', $this->anyBarPort);
+                    $phanyBar->send('exclamation', $this->anyBarPort);
                 } else {
                     // if no errors and successful, show green
                     if ($result->wasSuccessful()) {
