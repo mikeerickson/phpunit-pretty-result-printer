@@ -44,12 +44,11 @@ class PrinterTest extends PHPUnit\Framework\TestCase
         $this->assertContains('phpunit-printer.yml', $this->printer->getConfigurationFile());
         $this->assertFileExists($this->printer->getConfigurationFile());
     }
+
     /** @test  */
     public function should_throw_an_error()
     {
         // this is toggled to assure failure testing and reporting
         $this->assertTrue(true);
-
     }
-
 }
