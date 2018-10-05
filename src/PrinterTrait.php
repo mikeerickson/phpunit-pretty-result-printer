@@ -64,7 +64,7 @@ trait PrinterTrait
     /**
      * @var array
      */
-    private $markers = [];
+    public $markers = [];
 
     /**
      * @var array
@@ -430,4 +430,5 @@ trait PrinterTrait
         }
         $this->column += 3;
     }
+
 }

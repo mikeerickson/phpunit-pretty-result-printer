@@ -51,4 +51,49 @@ class PrinterTest extends PHPUnit\Framework\TestCase
         // this is toggled to assure failure testing and reporting
         $this->assertTrue(true);
     }
+
+    /** @test  */
+    public function should_fail()
+    {
+        $this->assertTrue(false);
+
+    }
+
+    /** @test  */
+    public function should_fail_again()
+    {
+        $this->assertTrue(false);
+
+    }
+
+
+    /** @test  */
+    public function should_skip()
+    {
+        $this->markTestSkipped();
+
+    }
+
+    /** @test  */
+    public function should_skip_another()
+    {
+        $this->markTestSkipped();
+
+    }
+
+    /** @test  */
+    public function should_be_incomplete()
+    {
+        $this->markTestIncomplete();
+
+    }
+
+    /** @test  */
+    public function should_be_risky()
+    {
+        $this->markAsRisky();
+
+    }
+
+
 }
