@@ -164,6 +164,10 @@ if ($low && $high) {
                 $marker = "fail";
             }
 
+            // if user turned off colors, reset to white
+            if(!$this->colors) {
+                $color = "37";
+            }
             $testMarker = $this->markers[$marker];
             return "\033[01;{$color}m{$testMarker}{$msg}\033[0m";
         }

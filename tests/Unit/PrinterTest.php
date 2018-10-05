@@ -66,22 +66,21 @@ class PrinterTest extends PHPUnit\Framework\TestCase
 
     }
 
-
-    /** @test  */
+    /** @skip  */
     public function should_skip()
     {
         $this->markTestSkipped();
 
     }
 
-    /** @test  */
+    /** @skip  */
     public function should_skip_another()
     {
         $this->markTestSkipped();
 
     }
 
-    /** @test  */
+    /** @skip  */
     public function should_be_incomplete()
     {
         $this->markTestIncomplete();
@@ -94,6 +93,5 @@ class PrinterTest extends PHPUnit\Framework\TestCase
         $this->markAsRisky();
 
     }
-
 
 }
