@@ -63,23 +63,24 @@ if ($low && $high) {
             $exceptionMessage = str_replace("--- Expected\n", '', $exceptionMessage);
             $exceptionMessage = str_replace('@@ @@', '', $exceptionMessage);
 
-            $marker = $this->markers["fail"];
+            $marker = $this->markers['fail'];
             if ($this->colors) {
                 $exceptionMessage = preg_replace('/^(Exception.*)$/m', "\033[01;31m$1\033[0m", $exceptionMessage);
                 $exceptionMessage = preg_replace('/(Failed.*)$/m', "\033[01;31m %s$1\033[0m", $exceptionMessage);
                 $exceptionMessage = preg_replace("/(\-+.*)$/m", "\033[01;32m$1\033[0m", $exceptionMessage);
                 $exceptionMessage = preg_replace("/(\++.*)$/m", "\033[01;31m$1\033[0m", $exceptionMessage);
             }
-            if(strpos($exceptionMessage,"This test did not perform any assertions") !== false) {
-                $exceptionMessage = $this->setMessageColor("risky","This test did not perform any assertions.");
+            if (strpos($exceptionMessage, 'This test did not perform any assertions') !== false) {
+                $exceptionMessage = $this->setMessageColor('risky', 'This test did not perform any assertions.');
             }
-            $exceptionMessage = "  " . $exceptionMessage;
+            $exceptionMessage = '  ' . $exceptionMessage;
             $exceptionMessage = sprintf($exceptionMessage, $marker);
 
             return $exceptionMessage;
         }
 
-        protected function printDefectTrace(TestFailure $defect):void {
+        protected function printDefectTrace(TestFailure $defect):void
+        {
             $this->write($this->formatExceptionMsg($defect->getExceptionAsString()));
             $trace = Filter::getFilteredStacktrace(
                 $defect->thrownException()
@@ -110,7 +111,7 @@ if ($low && $high) {
                 $this->write("\n--\n\n");
             }
 
-            $msg = \sprintf("There %s %d %s%s:\n",($count == 1) ? 'was' : 'were',$count, $type, ($count == 1) ? '' : 's');
+            $msg = \sprintf("There %s %d %s%s:\n", ($count == 1) ? 'was' : 'were', $count, $type, ($count == 1) ? '' : 's');
             $msg = $this->setMessageColor($type, $msg);
 
             $this->write($msg);
@@ -131,6 +132,7 @@ if ($low && $high) {
         /**
          * @param string $type
          * @param $msg
+         *
          * @return string
          */
         protected function setMessageColor(string $type, $msg): string
@@ -143,30 +145,30 @@ if ($low && $high) {
             // 35m == magenta
             // 36m == cyan
             // 37m == white
-            
-            $color = "37";
-            $marker = "";
+
+            $color  = '37';
+            $marker = '';
 
             if (strpos($type, 'failure') !== false) {
-                $color = "31";
-                $marker = "fail";
+                $color  = '31';
+                $marker = 'fail';
             } elseif (strpos($type, 'incomplete') !== false) {
-                $color = "34";
-                $marker = "incomplete";
+                $color  = '34';
+                $marker = 'incomplete';
             } elseif (strpos($type, 'risky') !== false) {
-                $color = "35";
-                $marker = "risky";
+                $color  = '35';
+                $marker = 'risky';
             } elseif (strpos($type, 'skipped') !== false) {
-                $color = "33";
-                $marker = "skipped";
+                $color  = '33';
+                $marker = 'skipped';
             } elseif (strpos($type, 'failure') !== false) {
-                $color = "31";
-                $marker = "fail";
+                $color  = '31';
+                $marker = 'fail';
             }
 
             $testMarker = $this->markers[$marker];
+
             return "\033[01;{$color}m{$testMarker}{$msg}\033[0m";
         }
-
     }
 }

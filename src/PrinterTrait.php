@@ -430,5 +430,4 @@ trait PrinterTrait
         }
         $this->column += 3;
     }
-
 }
