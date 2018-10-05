@@ -38,53 +38,60 @@ class PrinterTest extends PHPUnit\Framework\TestCase
         $this->assertFileExists($this->printer->getConfigurationFile());
     }
 
-    /** @test */
+    /** @skip */
     public function should_use_configuration_file(): void
     {
         $this->assertContains('phpunit-printer.yml', $this->printer->getConfigurationFile());
         $this->assertFileExists($this->printer->getConfigurationFile());
     }
 
-    /** @test  */
+    /** @skip  */
     public function should_throw_an_error()
     {
         // this is toggled to assure failure testing and reporting
         $this->assertTrue(true);
     }
 
-    /** @test  */
+    /** @skip  */
     public function should_fail()
     {
         $this->assertTrue(false);
+
     }
 
-    /** @test  */
+    /** @skip  */
     public function should_fail_again()
     {
         $this->assertTrue(false);
+
     }
 
     /** @skip  */
     public function should_skip()
     {
         $this->markTestSkipped();
+
     }
 
     /** @skip  */
     public function should_skip_another()
     {
         $this->markTestSkipped();
+
     }
 
     /** @skip  */
     public function should_be_incomplete()
     {
         $this->markTestIncomplete();
+
     }
 
-    /** @test  */
+    /** @skip  */
     public function should_be_risky()
     {
         $this->markAsRisky();
+
     }
+
 }
