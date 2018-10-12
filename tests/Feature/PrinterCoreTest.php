@@ -31,7 +31,6 @@ class PrinterCoreTest extends PHPUnit\Framework\TestCase
         $this->pass();
     }
 
-
     /** @test  */
     public function it_should_fail(): void
     {
