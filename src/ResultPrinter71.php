@@ -149,7 +149,7 @@ if ($low && $high) {
             $color  = '37';
             $marker = '';
 
-            if (strpos($type, 'failure') !== false) {
+            if (strpos($type, 'failure') !== false || strpos($type, 'error') !== false) {
                 $color  = '31';
                 $marker = 'fail';
             } elseif (strpos($type, 'incomplete') !== false) {
@@ -161,16 +161,13 @@ if ($low && $high) {
             } elseif (strpos($type, 'skipped') !== false) {
                 $color  = '33';
                 $marker = 'skipped';
-            } elseif (strpos($type, 'failure') !== false) {
-                $color  = '31';
-                $marker = 'fail';
             }
 
             // if user turned off colors, reset to white
             if (!$this->colors) {
                 $color = '37';
             }
-            $testMarker = $this->markers[$marker];
+            $testMarker = $this->markers[$marker] ?? '';
 
             return "\033[01;{$color}m{$testMarker}{$msg}\033[0m";
         }
