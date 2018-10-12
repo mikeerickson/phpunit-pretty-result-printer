@@ -1,6 +1,6 @@
 {
   "name": "codedungeon/phpunit-result-printer",
-  "version": "0.23.2",
+  "version": "0.23.3",
   "description": "PHPUnit Pretty Result Printer",
   "keywords": [
     "phpunit",
@@ -39,14 +39,13 @@
     "coverage-report": "open ./coverage/index.html",
     "test": "vendor/bin/phpunit --colors=always",
     "test-unit": "vendor/bin/phpunit --colors=always --testsuite=Unit",
+    "test-feature": "vendor/bin/phpunit --colors=always --testsuite=Feature",
     "test-coverage": [
       "./vendor/bin/phpunit --colors=always --testsuite Unit --coverage-html coverage",
       "open ./coverage/index.html"
     ],
     "test-ci": "vendor/bin/phpunit -c phpunit.ci.xml",
-    "test-watch":
-      "vendor/bin/phpunit-watcher watch --testsuite Unit  < /dev/tty",
-    "watch-tickets":
-      "vendor/bin/phpunit-watcher watch --testsuite Tickets  < /dev/tty"
+    "test-watch": "vendor/bin/phpunit-watcher watch --testsuite Unit  < /dev/tty",
+    "watch-tickets": "vendor/bin/phpunit-watcher watch --testsuite Tickets  < /dev/tty"
   }
 }

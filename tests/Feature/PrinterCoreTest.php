@@ -19,6 +19,25 @@ class PrinterCoreTest extends PHPUnit\Framework\TestCase
         $this->printer = new Printer();
     }
 
+    /** @test  */
+    public function it_should_pass(): void
+    {
+        $this->assertTrue(true);
+    }
+
+    /** @test  */
+    public function should_produce_syntax_error()
+    {
+        $this->pass();
+    }
+
+
+    /** @test  */
+    public function it_should_fail(): void
+    {
+        $this->assertTrue(false);
+    }
+
     /** @test */
     public function it_should_display_incomplete(): void
     {
@@ -37,6 +56,5 @@ class PrinterCoreTest extends PHPUnit\Framework\TestCase
     public function it_should_display_risky(): void
     {
         $this->markAsRisky('Risky Test');
-        $this->assertTrue(true);
     }
 }

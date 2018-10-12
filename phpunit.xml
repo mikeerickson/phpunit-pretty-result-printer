@@ -4,6 +4,9 @@
         <testsuite name="Unit">
             <directory>tests/Unit</directory>
         </testsuite>
+        <testsuite name="Feature">
+            <directory>tests/Feature</directory>
+        </testsuite>
         <testsuite name="Tickets">
             <directory>tickets</directory>
         </testsuite>

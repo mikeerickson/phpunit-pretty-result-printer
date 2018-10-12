@@ -91,6 +91,10 @@ trait PrinterTrait
         $this->maxNumberOfColumns = $this->getWidth();
         $this->maxClassNameLength = min((int) ($this->maxNumberOfColumns / 2), $this->maxClassNameLength);
 
+        if($this->hideNamespace) {
+            $this->maxClassNameLength = 32;
+        }
+
         $this->init();
     }
 
