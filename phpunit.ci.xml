@@ -10,9 +10,6 @@
          verbose="true"
 >
     <testsuites>
-        <testsuite name="Unit Tests">
-            <directory>tests</directory>
-        </testsuite>
         <testsuite name="Unit">
             <directory>tests/Unit</directory>
         </testsuite>
