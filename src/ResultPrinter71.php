@@ -59,22 +59,29 @@ if ($low && $high) {
 
         protected function formatExceptionMsg($exceptionMessage): string
         {
+            $exceptionMessage = preg_replace('/%/u', '%%', $exceptionMessage);
+
             $exceptionMessage = str_replace("+++ Actual\n", '', $exceptionMessage);
             $exceptionMessage = str_replace("--- Expected\n", '', $exceptionMessage);
             $exceptionMessage = str_replace('@@ @@', '', $exceptionMessage);
 
-            $marker = $this->markers['fail'];
-            if ($this->colors) {
-                $exceptionMessage = preg_replace('/^(Exception.*)$/m', "\033[01;31m$1\033[0m", $exceptionMessage);
-                $exceptionMessage = preg_replace('/(Failed.*)$/m', "\033[01;31m %s$1\033[0m", $exceptionMessage);
-                $exceptionMessage = preg_replace("/(\-+.*)$/m", "\033[01;32m$1\033[0m", $exceptionMessage);
-                $exceptionMessage = preg_replace("/(\++.*)$/m", "\033[01;31m$1\033[0m", $exceptionMessage);
-            }
             if (strpos($exceptionMessage, 'This test did not perform any assertions') !== false) {
                 $exceptionMessage = $this->setMessageColor('risky', 'This test did not perform any assertions.');
+            } else {
+
+                $marker = $this->markers['fail'];
+
+                if ($this->colors) {
+                    $exceptionMessage = preg_replace('/^(Exception.*)$/m', "\033[01;31m$1\033[0m", $exceptionMessage);
+                    $exceptionMessage = preg_replace('/(Failed.*)$/m', "\033[01;31m %1\$s$1\033[0m", $exceptionMessage);
+                    $exceptionMessage = preg_replace("/(\-+.*)$/m", "\033[01;32m$1\033[0m", $exceptionMessage);
+                    $exceptionMessage = preg_replace("/(\++.*)$/m", "\033[01;31m$1\033[0m", $exceptionMessage);
+                }
+
+                $exceptionMessage = sprintf($exceptionMessage, $marker);
             }
+
             $exceptionMessage = '  ' . $exceptionMessage;
-            $exceptionMessage = sprintf($exceptionMessage, $marker);
 
             return $exceptionMessage;
         }
