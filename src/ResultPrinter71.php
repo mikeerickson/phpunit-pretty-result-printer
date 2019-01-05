@@ -68,7 +68,6 @@ if ($low && $high) {
             if (strpos($exceptionMessage, 'This test did not perform any assertions') !== false) {
                 $exceptionMessage = $this->setMessageColor('risky', 'This test did not perform any assertions.');
             } else {
-
                 $marker = $this->markers['fail'];
 
                 if ($this->colors) {
