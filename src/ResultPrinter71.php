@@ -174,7 +174,8 @@ if ($low && $high) {
 
             // otherwise, we have colors enabled and time to make it pretty
             $testMarker = $this->markers[$marker] ?? '';
-           return "\033[01;{$color}m{$testMarker}{$msg}\033[0m";
+
+            return "\033[01;{$color}m{$testMarker}{$msg}\033[0m";
         }
     }
 }
