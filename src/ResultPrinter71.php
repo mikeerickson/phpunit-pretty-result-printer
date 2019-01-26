@@ -39,7 +39,6 @@ if ($low && $high) {
         protected function printFooter(TestResult $result): void
         {
             parent::printFooter($result);
-
             if ($this->anyBarEnabled) {
                 $phanyBar = new Phanybar();
                 if (sizeof($result->failures())) {
@@ -69,7 +68,6 @@ if ($low && $high) {
                 $exceptionMessage = $this->setMessageColor('risky', 'This test did not perform any assertions.');
             } else {
                 $marker = $this->markers['fail'];
-
                 if ($this->colors) {
                     $exceptionMessage = preg_replace('/^(Exception.*)$/m', "\033[01;31m$1\033[0m", $exceptionMessage);
                     $exceptionMessage = preg_replace('/(Failed.*)$/m', "\033[01;31m %1\$s$1\033[0m", $exceptionMessage);
@@ -82,7 +80,7 @@ if ($low && $high) {
 
             $exceptionMessage = '  ' . $exceptionMessage;
 
-            return $exceptionMessage;
+            return "$exceptionMessage";
         }
 
         protected function printDefectTrace(TestFailure $defect):void
@@ -169,13 +167,14 @@ if ($low && $high) {
                 $marker = 'skipped';
             }
 
-            // if user turned off colors, reset to white
+            // if user turned off colors, return msg as we are down
             if (!$this->colors) {
-                $color = '37';
+                return $msg;
             }
-            $testMarker = $this->markers[$marker] ?? '';
 
-            return "\033[01;{$color}m{$testMarker}{$msg}\033[0m";
+            // otherwise, we have colors enabled and time to make it pretty
+            $testMarker = $this->markers[$marker] ?? '';
+           return "\033[01;{$color}m{$testMarker}{$msg}\033[0m";
         }
     }
 }

@@ -15,8 +15,9 @@ class PrinterInit
     {
     }
 
-    public function init()
+    public function init($use_colors = "never")
     {
+
         $phpunit_xml_file = './phpunit.xml';
         if (!file_exists($phpunit_xml_file)) {
             $phpunit_xml_file = './phpunit.xml.dist';

@@ -95,7 +95,8 @@ trait PrinterTrait
             $this->maxClassNameLength = 32;
         }
 
-        $this->init();
+
+        $this->init($colors);
     }
 
     /**
@@ -151,22 +152,33 @@ trait PrinterTrait
         return '<unknown>';
     }
 
-    protected function init()
+    protected function init($use_color = "always")
     {
         if (!self::$init) {
             $version = $this->version();
             $name    = $this->packageName();
             echo PHP_EOL;
-            echo $this->colorsTool->green() . "${name} ${version} by Codedungeon and contributors." . PHP_EOL;
-            echo $this->colorsTool->reset();
+            if($use_color !== "never") {
+                echo $this->colorsTool->green() . "${name} ${version} by Codedungeon and contributors." . PHP_EOL;
+                echo $this->colorsTool->reset();
+            } else {
+                echo "${name} ${version} by Codedungeon and contributors." . PHP_EOL;
+            }
+
 
             if ($this->showConfig) {
                 $home     = getenv('HOME');
                 $filename = str_replace($home, '~', $this->configFileName);
 
-                echo $this->colorsTool->yellow() . '==> Configuration: ';
-                echo $this->colorsTool->yellow() . $filename;
-                echo $this->colorsTool->reset();
+                if($use_color !== "never")
+                {
+                    echo $this->colorsTool->yellow() . '==> Configuration: ';
+                    echo $this->colorsTool->yellow() . $filename;
+                    echo $this->colorsTool->reset();
+                } else {
+                    echo "'==> Configuration: '";
+                    echo $filename;
+                }
                 echo PHP_EOL . PHP_EOL;
             }
 

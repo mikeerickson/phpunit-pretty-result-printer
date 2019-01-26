@@ -13,3 +13,4 @@ tickets/*
 vendor/
 sandbox/
 scripts/
+*.taskpaper
