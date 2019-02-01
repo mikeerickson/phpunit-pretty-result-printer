@@ -1,6 +1,6 @@
 {
   "name": "codedungeon/phpunit-result-printer",
-  "version": "0.25.0",
+  "version": "0.25.1",
   "description": "PHPUnit Pretty Result Printer",
   "keywords": [
     "phpunit",
@@ -28,7 +28,7 @@
   },
   "require-dev": {
     "spatie/phpunit-watcher": "^1.6",
-    "phpunit/phpunit": "7.4.*"
+    "phpunit/phpunit": "7.5.*"
   },
   "autoload": {
     "psr-4": {

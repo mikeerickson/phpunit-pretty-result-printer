@@ -88,7 +88,7 @@ trait PrinterTrait
         $this->loadDefaultConfiguration();
         $this->loadUserConfiguration();
 
-        $this->maxNumberOfColumns = $this->getWidth();
+        $this->maxNumberOfColumns = $this->getWidth()-5;
         $this->maxClassNameLength = min((int) ($this->maxNumberOfColumns / 2), $this->maxClassNameLength);
 
         if ($this->hideNamespace) {
@@ -405,7 +405,7 @@ trait PrinterTrait
         }
         switch (strtoupper($buffer)) {
             case '.':
-                $color  = 'fg-green,bold';
+                $color  = 'fg-green';
                 $buffer = $this->simpleOutput ? '.' : $this->markers['pass']; // mb_convert_encoding("\x27\x13", 'UTF-8', 'UTF-16BE');
                 $buffer .= (!$this->debug) ? '' : ' Passed';
                 break;

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit backupGLobals="false"
-         colors="false"
+<phpunit colors="false"
          bootstrap="vendor/autoload.php"
          failOnRisky="false"
          processIsolation="false"
