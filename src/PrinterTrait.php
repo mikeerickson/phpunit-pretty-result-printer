@@ -88,7 +88,7 @@ trait PrinterTrait
         $this->loadDefaultConfiguration();
         $this->loadUserConfiguration();
 
-        $this->maxNumberOfColumns = $this->getWidth()-5;
+        $this->maxNumberOfColumns = $this->getWidth() - 5;
         $this->maxClassNameLength = min((int) ($this->maxNumberOfColumns / 2), $this->maxClassNameLength);
 
         if ($this->hideNamespace) {
