@@ -14,15 +14,9 @@ class PrinterTest extends PHPUnit\Framework\TestCase
      */
     protected $printer;
 
-    public function setUp()
+    public function setUp():void
     {
         $this->printer = new Printer();
-    }
-
-    /** @test */
-    public function should_not_have_any_syntax_errors(): void
-    {
-        $this->assertInternalType('object', $this->printer);
     }
 
     /** @test */
@@ -34,14 +28,14 @@ class PrinterTest extends PHPUnit\Framework\TestCase
     /** @test */
     public function should_return_full_pathname_to_config_file(): void
     {
-        $this->assertContains('phpunit-printer.yml', $this->printer->getConfigurationFile());
+        $this->assertStringContainsString('phpunit-printer.yml', $this->printer->getConfigurationFile());
         $this->assertFileExists($this->printer->getConfigurationFile());
     }
 
     /** @skip */
     public function should_use_configuration_file(): void
     {
-        $this->assertContains('phpunit-printer.yml', $this->printer->getConfigurationFile());
+        $this->assertStringContainsString('phpunit-printer.yml', $this->printer->getConfigurationFile());
         $this->assertFileExists($this->printer->getConfigurationFile());
     }
 

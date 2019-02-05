@@ -30,11 +30,21 @@ if ($low && $high) {
 }
 
 $low  = version_compare(Version::series(), '7.1', '>=');
-$high = true; // version_compare(Version::series(),'7.1.99','<=');
+$high = version_compare(Version::series(), '7.99.99', '<=');
 
 if ($low && $high) {
     class Printer extends ResultPrinter71
     {
         use PrinterTrait;
+    }
+}
+
+$low  = version_compare(Version::series(), '8.0', '>=');
+$high = true; // version_compare(Version::series(),'8.99.99','<=');
+
+if ($low && $high) {
+    class Printer extends ResultPrinter80
+    {
+        use PrinterTrait8;
     }
 }

@@ -9,7 +9,7 @@ use Noodlehaus\Exception\EmptyDirectoryException;
 /**
  * Trait PrinterTrait.
  */
-trait PrinterTrait
+trait PrinterTrait8
 {
     /**
      * @var bool
@@ -438,7 +438,7 @@ trait PrinterTrait
 
         $buffer .= ' ';
 
-        echo parent::formatWithColor($color, $buffer);
+        echo parent::colorizeTextBox($color, $buffer);
 
         if ($this->debug) {
             $this->writeNewLine();

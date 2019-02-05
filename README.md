@@ -1,5 +1,5 @@
 # CD PHPUnit Pretty Result Printer 
-#### Version 0.22.0
+#### Version 0.26.0
 
 Extend the default PHPUnit Result Printer with a modern, pretty printer!
 
@@ -72,7 +72,7 @@ The following options are available (along with their default values):
 | `cd-printer-hide-class` | false | Hides the display of the test class name
 | `cd-printer-simple-output`| false | Uses the default PHPUnit markers (but still uses Printer)
 | `cd-printer-show-config`| true | Show path to used configuration file
-| `cd-printer-hide-namespace`| false |Hide test class namespaces (will only show print class name)
+| `cd-printer-hide-namespace`| true |Hide test class namespaces (will only show print class name)
 | `cd-printer-anybar`| true |Enable AnyBar (if anybar is not installed, settings will be ignored)
 | `cd-printer-anybar-port`| 1738 |Define AnyBar port number
 
@@ -81,7 +81,7 @@ You can customize the markers which are used for `success`, `fail`, `error`, `sk
 
 | **Marker** | **Value** *
 |---------------|----------| 
-| cd-pass | "✓ " |
+| cd-pass | "✔ " |
 | cd-fail | "✖ " |
 | cd-error | "⚈ " |
 | cd-skipped | "→ " |
