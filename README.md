@@ -92,7 +92,7 @@ _* Notice space after each marker.  This makes the output a little more visually
 
 ## License
 
-Copyright &copy; 2017-2018 Mike Erickson
+Copyright &copy; 2017-2019 Mike Erickson
 Released under the MIT license
 
 ## Credits
