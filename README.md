@@ -17,7 +17,7 @@ $ composer require --dev codedungeon/phpunit-result-printer
 The following steps are optional, but will provide zero configuration for implementing **phpunit-pretty-result-printer**
 
 - Adds `printerClass="Codedungeon\PHPUnitPrettyResultPrinter\Printer"` to `phpunit.xml` file
-- Copies default `phpunit-printer.xml` to project root for easier customization
+- Copies default `phpunit-printer.yml` to project root for easier customization
 
 
 ```bash
