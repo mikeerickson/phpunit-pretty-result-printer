@@ -75,6 +75,7 @@ The following options are available (along with their default values):
 | `cd-printer-hide-namespace`| true |Hide test class namespaces (will only show print class name)
 | `cd-printer-anybar`| true |Enable AnyBar (if anybar is not installed, settings will be ignored)
 | `cd-printer-anybar-port`| 1738 |Define AnyBar port number
+| `cd-printer-dont-format-classname`| false |Show entire classname or not
 
 #### Markers ###
 You can customize the markers which are used for `success`, `fail`, `error`, `skipped`, `incomplete` by modifying the `phpunit-printer.yml` file.
