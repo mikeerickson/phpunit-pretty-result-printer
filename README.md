@@ -1,6 +1,6 @@
 # CD PHPUnit Pretty Result Printer
 
-Version 0.26
+Version 0.27
 Extend the default PHPUnit Result Printer with a modern, pretty printer!
 
 ---
