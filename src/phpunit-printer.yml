@@ -9,6 +9,6 @@ markers:
   cd-pass: "✔ "
   cd-fail: "✖ "
   cd-error: "⚈ "
-  cd-skipped: "=> "
+  cd-skipped: "⇢ "
   cd-incomplete: "∅ "
   cd-risky: "⌽ "
