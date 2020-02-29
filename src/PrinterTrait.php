@@ -71,6 +71,10 @@ trait PrinterTrait
      */
     private $defaultMarkers = [];
 
+    private $anyBarEnabled = false;
+
+    private $anyBarPort = null;
+
     /**
      * {@inheritdoc}
      */

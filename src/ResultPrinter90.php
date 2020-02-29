@@ -7,14 +7,17 @@ use PHPUnit\Framework\Test;
 use PHPUnit\Runner\Version;
 use Bakyt\Console\Phanybar;
 use PHPUnit\Framework\TestResult;
-use PHPUnit\TextUI\ResultPrinter;
+use PHPUnit\TextUI\DefaultResultPrinter;
 use PHPUnit\Framework\TestFailure;
 
-$low  = version_compare(Version::series(), '8.0', '>=');
+// PHPUnit 9.x requires PHP 7.3 or 7.4
+// https://phpunit.de/supported-versions.html
+
+$low  = version_compare(Version::series(), '9.0', '>=');
 $high = true; // version_compare(Version::series(),'7.1.99','<=');
 
 if ($low && $high) {
-    class ResultPrinter80 extends ResultPrinter
+    class ResultPrinter90 implements DefaultResultPrinter
     {
         private $defectListPrinted = false;
 
@@ -96,8 +99,8 @@ if ($low && $high) {
             while ($exception) {
                 $this->write(
                     "\nCaused by\n" .
-                        TestFailure::exceptionToString($exception) . "\n" .
-                        Filter::getFilteredStacktrace($exception)
+                    TestFailure::exceptionToString($exception) . "\n" .
+                    Filter::getFilteredStacktrace($exception)
                 );
                 $exception = $exception->getPrevious();
             }
