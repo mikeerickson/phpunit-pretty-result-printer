@@ -11,7 +11,11 @@ use PHPUnit\TextUI\ResultPrinter;
 use PHPUnit\Framework\TestFailure;
 
 $low  = version_compare(Version::series(), '8.0', '>=');
+<<<<<<< HEAD
 $high = true; // version_compare(Version::series(),'7.1.99','<=');
+=======
+$high = version_compare(Version::series(),'8.99.99','<=');
+>>>>>>> php74-phpunit9
 
 if ($low && $high) {
     class ResultPrinter80 extends ResultPrinter
