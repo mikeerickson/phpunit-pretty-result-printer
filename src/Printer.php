@@ -40,7 +40,7 @@ if ($low && $high) {
 }
 
 $low  = version_compare(Version::series(), '8.0', '>=');
-$high = version_compare(Version::series(),'8.99.99','<=');
+$high = version_compare(Version::series(), '8.99.99', '<=');
 
 if ($low && $high) {
     class Printer extends ResultPrinter80
