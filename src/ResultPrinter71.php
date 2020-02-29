@@ -83,7 +83,7 @@ if ($low && $high) {
             return "$exceptionMessage";
         }
 
-        protected function printDefectTrace(TestFailure $defect):void
+        protected function printDefectTrace(TestFailure $defect): void
         {
             $this->write($this->formatExceptionMsg($defect->getExceptionAsString()));
             $trace = Filter::getFilteredStacktrace(
