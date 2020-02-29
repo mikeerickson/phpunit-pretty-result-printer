@@ -14,7 +14,7 @@ class PrinterCoreTest extends PHPUnit\Framework\TestCase
      */
     protected $printer;
 
-    public function setUp():void
+    public function setUp(): void
     {
         $this->printer = new Printer();
     }
