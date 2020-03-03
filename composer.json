@@ -21,8 +21,7 @@
   "type": "library",
   "require": {
     "php": "^7.1",
-    "hassankhan/config": "^0.11.2",
-    "symfony/yaml": "^2.7|^3.0|^4.0",
+    "hassankhan/config": "^0.11.2|^1.0|^2.0",
     "codedungeon/php-cli-colors": "^1.10.2",
     "2bj/phanybar": "^1.0",
     "phpunit/phpunit": "^8.0|^9.0"
