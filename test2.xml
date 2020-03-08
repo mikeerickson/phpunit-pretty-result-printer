@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit beStrictAboutOutputDuringTests="false" bootstrap="vendor/autoload.php" colors="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" failOnRisky="false" processIsolation="false" stopOnError="false" stopOnFailure="false" verbose="true" printerClass="Codedungeon\PHPUnitPrettyResultPrinter\Printer">
+<phpunit beStrictAboutOutputDuringTests="false" bootstrap="vendor/autoload.php" colors="true"
+         convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true"
+         failOnRisky="false" processIsolation="false" stopOnError="false" stopOnFailure="false" verbose="true"
+         printerClass="Codedungeon\PHPUnitPrettyResultPrinter\Printer">
     <testsuites>
         <testsuite name="Unit">
             <directory>tests/Unit</directory>
@@ -11,10 +14,10 @@
             <directory>tickets</directory>
         </testsuite>
     </testsuites>
-<listeners>
-        <listener class="NunoMaduro\Collision\Adapters\Phpunit\Listener"/>
-</listeners>
-<filter>
+    <listeners>
+        <listener class=\"NunoMaduro\Collision\Adapters\Phpunit\Listener\"/>
+    </listeners>
+    <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">src</directory>
         </whitelist>

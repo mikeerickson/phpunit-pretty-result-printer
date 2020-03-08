@@ -1,4 +1,4 @@
-# CD PHPUnit Pretty Result Printer
+# CodeDungeon PHPUnit Pretty Result Printer
 
 Version 0.27
 Extend the default PHPUnit Result Printer with a modern, pretty printer!
@@ -24,6 +24,13 @@ The following steps are optional, but will provide zero configuration for implem
 
 ```bash
 > php ./vendor/codedungeon/phpunit-result-printer/src/init.php
+```
+
+#### Collision Listener
+If you wish to activate the [Laravel Collision Listener](https://laravel-news.com/using-the-collision-phpunit-listener-with-laravel) when running tests, you can use the `--collision` flag 
+
+```bash
+> php ./vendor/codedungeon/phpunit-result-printer/src/init.php --collision
 ```
 
 #### Manual Configuration

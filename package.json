@@ -1,0 +1,26 @@
+{
+  "name": "phpunit-pretty-result-printer",
+  "version": "1.0.0",
+  "description": "Version 0.27 Extend the default PHPUnit Result Printer with a modern, pretty printer!",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "coverage-report": "open ./coverage/index.html",
+    "test": "vendor/bin/phpunit --colors=always --testsuite Unit",
+    "test:unit": "vendor/bin/phpunit --colors=always --testsuite=Unit",
+    "test:feature": "vendor/bin/phpunit --colors=always --testsuite=Feature"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mikeerickson/phpunit-pretty-result-printer.git"
+  },
+  "keywords": [],
+  "author": "Mike Erickson <codedungeon@gmail.com> (https://github.com/mikeerickson)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mikeerickson/phpunit-pretty-result-printer/issues"
+  },
+  "homepage": "https://github.com/mikeerickson/phpunit-pretty-result-printer#readme"
+}
