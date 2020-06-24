@@ -139,7 +139,8 @@ trait PrinterTrait8
     /**
      * @return string
      */
-    public function getVersion() {
+    public function getVersion()
+    {
         return $this->version();
     }
 
