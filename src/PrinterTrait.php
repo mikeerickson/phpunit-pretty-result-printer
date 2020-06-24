@@ -143,6 +143,13 @@ trait PrinterTrait
     /**
      * @return string
      */
+    public function getVersion() {
+        return $this->version();
+    }
+
+    /**
+     * @return string
+     */
     public function packageName()
     {
         $content = file_get_contents($this->getPackageRoot() . DIRECTORY_SEPARATOR . 'composer.json');

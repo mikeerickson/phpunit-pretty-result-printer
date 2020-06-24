@@ -16,4 +16,3 @@ scripts/
 *.taskpaper
 NOTES.md
 .phpunit.result.cache
-phpunit-printer.yml
