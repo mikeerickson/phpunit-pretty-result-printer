@@ -2,14 +2,14 @@
 
 class PrinterInit
 {
-    const GREEN = "\e[32m";
-    const RESET = "\e[0m";
-    const CYAN = "\e[36m";
-    const RED = "\e[31m";
-    const YELLOW = "\033[0;33m";
+    const GREEN   = "\e[32m";
+    const RESET   = "\e[0m";
+    const CYAN    = "\e[36m";
+    const RED     = "\e[31m";
+    const YELLOW  = "\033[0;33m";
     const LYELLOW = "\033[33;01m";
-    const WHITE = "\033[0;37m";
-    const LWHITE = "\033[37;01m";
+    const WHITE   = "\033[0;37m";
+    const LWHITE  = "\033[37;01m";
     const MAGENTA = "\033[2;35m";
 
     public function __construct()
@@ -20,7 +20,7 @@ class PrinterInit
     {
         $result = 0;
 
-        $useCollision = in_array("--collision", $options);
+        $useCollision = in_array('--collision', $options);
 
         $phpunit_xml_file = './phpunit.xml';
         if (!file_exists($phpunit_xml_file)) {
@@ -30,7 +30,7 @@ class PrinterInit
         echo "\n    ".self::LWHITE.'[•  ]'.self::GREEN." Gathering installation details\n".self::RESET;
         $result = $this->add_printer_class_to_phpunit_xml($phpunit_xml_file);
         if ($useCollision) {
-            if (is_dir("vendor/nunomaduro/collision")) {
+            if (is_dir('vendor/nunomaduro/collision')) {
                 $result = $this->add_collision_to_phpunit_xml($phpunit_xml_file);
                 if ($result === 0) {
                     echo self::GREEN."          ✔  Collision listener activated\n".self::RESET;
@@ -51,7 +51,7 @@ class PrinterInit
     {
         $PHPUNIT_FILE = $file;
         if (file_exists($PHPUNIT_FILE)) {
-            $data = file_get_contents($PHPUNIT_FILE);
+            $data   = file_get_contents($PHPUNIT_FILE);
             $result = (int) strpos($data, 'printerClass=');
             if ($result > 0) {
                 echo self::LWHITE.'    [•• ]'.self::LYELLOW.' Printer class already configured in '.self::CYAN."{$PHPUNIT_FILE} \n".self::RESET;
@@ -79,13 +79,14 @@ class PrinterInit
 </listeners>
 ';
         $data = file_get_contents($file);
-        $pos = strpos($data, "Collision");
+        $pos  = strpos($data, 'Collision');
         if (!$pos) {
-            $pos = strpos($data, "<filter>");
+            $pos = strpos($data, '<filter>');
             if ($pos > 0) {
                 $data = substr_replace($data, $collisionData, $pos, 0);
                 file_put_contents($file, $data);
-                return 0;//all good, no errors
+
+                return 0; //all good, no errors
             } else {
                 return -43;
             }
@@ -96,7 +97,7 @@ class PrinterInit
 
     private function copy_default_settings(string $file = 'phpunit-printer.yml')
     {
-        $CONFIG_FILE = $file;
+        $CONFIG_FILE               = $file;
         $packageDefaultSettingFile = dirname(__FILE__, 2).DIRECTORY_SEPARATOR.'src/'.$CONFIG_FILE;
 
         $copySettingFile = $CONFIG_FILE;
