@@ -1,6 +1,6 @@
 # CodeDungeon PHPUnit Pretty Result Printer
 
-Version 0.27
+Version 0.28.0
 Extend the default PHPUnit Result Printer with a modern, pretty printer!
 
 ---
@@ -9,7 +9,7 @@ Extend the default PHPUnit Result Printer with a modern, pretty printer!
 
 ## Installation
 
-Installation is provided via composer and can be done with the following command, the current version requires PHP 7.1 or greater:
+Installation provided via composer and can be done with the following command, the current version requires PHP 7.1 or greater:
 
 ```bash
 > composer require --dev codedungeon/phpunit-result-printer
