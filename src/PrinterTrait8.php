@@ -275,12 +275,12 @@ trait PrinterTrait8
 
         $this->printerOptions = array_merge($this->defaultConfigOptions, $this->printerOptions);
 
-        $this->hideClassName = $this->getConfigOption('cd-printer-hide-class');
-        $this->simpleOutput  = $this->getConfigOption('cd-printer-simple-output');
-        $this->showConfig    = $this->getConfigOption('cd-printer-show-config');
-        $this->hideNamespace = $this->getConfigOption('cd-printer-hide-namespace');
-        $this->anyBarEnabled = $this->getConfigOption('cd-printer-anybar');
-        $this->anyBarPort    = $this->getConfigOption('cd-printer-anybar-port');
+        $this->hideClassName       = $this->getConfigOption('cd-printer-hide-class');
+        $this->simpleOutput        = $this->getConfigOption('cd-printer-simple-output');
+        $this->showConfig          = $this->getConfigOption('cd-printer-show-config');
+        $this->hideNamespace       = $this->getConfigOption('cd-printer-hide-namespace');
+        $this->anyBarEnabled       = $this->getConfigOption('cd-printer-anybar');
+        $this->anyBarPort          = $this->getConfigOption('cd-printer-anybar-port');
         $this->dontFormatClassName = $this->getConfigOption('cd-printer-dont-format-classname');
 
         $this->markers = [
