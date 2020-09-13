@@ -6,6 +6,12 @@ Apologies that this starts with version 0.27, but for some reason I did not have
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.29.1] -- 2020.09.16
+
+### Changed
+
+- Updated local `phpunit-printer.yml` to include `cd-printer-dont-format-classname` when package initialized
+
 ## [0.29.0] -- 2020.09.16
 
 ### Added
@@ -48,4 +54,3 @@ E-Mail: [codedungeon@gmail.com](mailto:codedungeon@gmail.com)
 Twitter: [@codedungeon](http://twitter.com/codedungeon)
 
 Website: [https://github.com/mikeerickson](https://github.com/mikeerickson)
-

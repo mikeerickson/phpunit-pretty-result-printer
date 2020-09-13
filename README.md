@@ -1,6 +1,6 @@
 # CodeDungeon PHPUnit Pretty Result Printer
 
-Version 0.28.0
+Version 0.29.1
 Extend the default PHPUnit Result Printer with a modern, pretty printer!
 
 ---
@@ -15,6 +15,16 @@ Installation provided via composer and can be done with the following command, t
 > composer require --dev codedungeon/phpunit-result-printer
 ```
 
+### Upgrading to >= 0.29.x
+
+If you are upgrading from previous verison and have published `phpunit-printer.yml` locally, make sure add the following to the options section
+
+```yml
+  ...
+  cd-printer-dont-format-classname: false
+  ...
+```
+
 ### Execute Initialization Script (Optional)
 
 The following steps are optional, but will provide zero configuration for implementing **phpunit-pretty-result-printer**
@@ -24,13 +34,6 @@ The following steps are optional, but will provide zero configuration for implem
 
 ```bash
 > php ./vendor/codedungeon/phpunit-result-printer/src/init.php
-```
-
-#### Collision Listener
-If you wish to activate the [Laravel Collision Listener](https://laravel-news.com/using-the-collision-phpunit-listener-with-laravel) when running tests, you can use the `--collision` flag
-
-```bash
-> php ./vendor/codedungeon/phpunit-result-printer/src/init.php --collision
 ```
 
 #### Manual Configuration
@@ -65,6 +68,7 @@ If you have AnyBar installed, it will be enabled by default. You can disable usi
 [https://github.com/tonsky/AnyBar](https://github.com/tonsky/AnyBar)
 
 **Anybar is off by default, thus you will need to set the `cd-printer-anybar` option in the `phpunit-printer.yml` to `true` if you wish to use Anybar.
+
 This has been done to address issues with using CI tools such as travis (please see [Issue 122](https://github.com/mikeerickson/phpunit-pretty-result-printer/issues/122) for details) **
 
 _NOTE: AnyBar is only available with PHPUnit 7.1 or greater.
@@ -107,7 +111,7 @@ _\* Notice space after each marker. This makes the output a little more visually
 
 ## License
 
-Copyright &copy; 2017-2019 Mike Erickson
+Copyright &copy; 2017-2021 Mike Erickson
 Released under the MIT license
 
 ## Credits

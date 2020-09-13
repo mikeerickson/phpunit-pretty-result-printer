@@ -5,6 +5,7 @@ options:
   cd-printer-hide-namespace: true
   cd-printer-anybar: false
   cd-printer-anybar-port: 1738
+  cd-printer-dont-format-classname: false
 markers:
   cd-pass: "✔ "
   cd-fail: "✖ "
