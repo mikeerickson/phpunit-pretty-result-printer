@@ -1,10 +1,17 @@
 # php-result-printer Changelog
 
-All notable changes to this project will be documented in this file.  
+All notable changes to this project will be documented in this file.
 Apologies that this starts with version 0.27, but for some reason I did not have one before
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [0.29.0] -- 2020.09.16
+
+### Added
+
+- updated hassankhan/config to latest version at time of release
+- Added `cd-printer-dont-format-classname` option (see `phpunit-printer.yml` file)
 
 ## [0.28.0] - 2020-03-xx
 

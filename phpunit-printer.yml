@@ -2,9 +2,10 @@ options:
   cd-printer-hide-class: false
   cd-printer-simple-output: false
   cd-printer-show-config: true
-  cd-printer-hide-namespace: true
+  cd-printer-hide-namespace: false
   cd-printer-anybar: true
   cd-printer-anybar-port: 1738
+  cd-printer-dont-format-classname: false
 markers:
   cd-pass: "✔ "
   cd-fail: "✖ "

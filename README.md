@@ -27,7 +27,7 @@ The following steps are optional, but will provide zero configuration for implem
 ```
 
 #### Collision Listener
-If you wish to activate the [Laravel Collision Listener](https://laravel-news.com/using-the-collision-phpunit-listener-with-laravel) when running tests, you can use the `--collision` flag 
+If you wish to activate the [Laravel Collision Listener](https://laravel-news.com/using-the-collision-phpunit-listener-with-laravel) when running tests, you can use the `--collision` flag
 
 ```bash
 > php ./vendor/codedungeon/phpunit-result-printer/src/init.php --collision
@@ -85,6 +85,10 @@ If you need support for previous versions, please let us know. We are slowly dep
 | `cd-printer-hide-namespace` | true        | Hide test class namespaces (will only show print class name)         |
 | `cd-printer-anybar`         | true        | Enable AnyBar (if anybar is not installed, settings will be ignored) |
 | `cd-printer-anybar-port`    | 1738        | Define AnyBar port number                                            |
+| `cd-printer-dont-format-classname`| false |Show entire classname*
+
+- If `cd-printer-hide-namespace` set to `false` and `cd-printer-dont-format-classname` to `false` will attempt to keep everyting formatted
+- If `cd-printer-dont-format-classname` nothing will be formatted and full classname will be displayed
 
 #### Markers
 

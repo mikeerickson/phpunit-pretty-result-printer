@@ -62,6 +62,11 @@ trait PrinterTrait8
     private $hideNamespace;
 
     /**
+     * @var bool
+     */
+    private $dontFormatClassName;
+
+    /**
      * @var array
      */
     public $markers = [];
@@ -105,7 +110,7 @@ trait PrinterTrait8
      */
     public function getConfigurationFile($configFileName = 'phpunit-printer.yml')
     {
-        $defaultConfigFilename = $this->getPackageRoot() . DIRECTORY_SEPARATOR . 'src/' .$configFileName;
+        $defaultConfigFilename = $this->getPackageRoot() . DIRECTORY_SEPARATOR . 'src/' . $configFileName;
 
         $configPath = getcwd();
         $filename   = '';
@@ -276,6 +281,7 @@ trait PrinterTrait8
         $this->hideNamespace = $this->getConfigOption('cd-printer-hide-namespace');
         $this->anyBarEnabled = $this->getConfigOption('cd-printer-anybar');
         $this->anyBarPort    = $this->getConfigOption('cd-printer-anybar-port');
+        $this->dontFormatClassName = $this->getConfigOption('cd-printer-dont-format-classname');
 
         $this->markers = [
             'pass'         => $this->getConfigMarker('cd-pass'),
@@ -375,6 +381,11 @@ trait PrinterTrait8
         if ($this->hideNamespace && strrpos($className, '\\')) {
             $className = substr($className, strrpos($className, '\\') + 1);
         }
+
+        if ($this->dontFormatClassName) {
+            return $prefix . $className . $suffix;
+        }
+
         $formattedClassName = $prefix . $className . $suffix;
 
         if (\strlen($formattedClassName) <= $this->maxClassNameLength) {
