@@ -6,7 +6,13 @@ Apologies that this starts with version 0.27, but for some reason I did not have
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.29.1] -- 2020.09.23
+## [0.29.3] -- 2020.09.23
+
+### Changed
+
+- Added opearting system check when initializing AnyBar (should only be available on macOS)
+
+## [0.29.2] -- 2020.09.23
 
 ### Changed
 
