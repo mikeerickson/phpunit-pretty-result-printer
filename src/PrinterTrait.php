@@ -287,7 +287,7 @@ trait PrinterTrait
         $this->anyBarPort          = $this->getConfigOption('cd-printer-anybar-port');
         $this->dontFormatClassName = $this->getConfigOption('cd-printer-dont-format-classname');
 
-        if (!strpos(php_uname(), "Darwin")) {
+        if (!strpos(php_uname(), 'Darwin')) {
             $this->anyBarEnabled = false;
         }
 
