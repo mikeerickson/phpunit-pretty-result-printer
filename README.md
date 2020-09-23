@@ -1,6 +1,6 @@
 # CodeDungeon PHPUnit Pretty Result Printer
 
-Version 0.29.1
+Version 0.29.2
 Extend the default PHPUnit Result Printer with a modern, pretty printer!
 
 ---

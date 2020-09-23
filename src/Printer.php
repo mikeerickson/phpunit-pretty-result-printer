@@ -35,7 +35,8 @@ $high = version_compare(Version::series(), '7.99.99', '<=');
 if ($low && $high) {
     class Printer extends ResultPrinter71
     {
-        use PrinterTrait;
+        // NOTE: Working on a fix for Issue 169
+        // use PrinterTrait;
     }
 }
 

@@ -6,6 +6,16 @@ Apologies that this starts with version 0.27, but for some reason I did not have
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.29.1] -- 2020.09.23
+
+### Changed
+
+- Moved `use PrinterTrait` from `Printer.php` to `ResultPrinter71.php` to address issue [169](https://github.com/mikeerickson/phpunit-pretty-result-printer/issues/169)
+
+### Fixed
+
+- [Issue 169](https://github.com/mikeerickson/phpunit-pretty-result-printer/issues/169)
+
 ## [0.29.1] -- 2020.09.16
 
 ### Changed
