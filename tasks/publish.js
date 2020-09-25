@@ -5,14 +5,14 @@
  * Licensed under the MIT license.  See LICENSE in the project root for license information.
  * -----------------------------------------------------------------------------------------*/
 
-const Messenger = require("@codedungeon/messenger")
-const execSync = require("child_process").execSync
 const fs = require("fs")
 const path = require("path")
+const execSync = require("child_process").execSync
+const Messenger = require("@codedungeon/messenger")
 
 let version = ""
 let name = ""
-let TESTING = true
+let _TESTING = true
 
 let packageFilename = path.join(__dirname, "..", "package.json")
 if (fs.existsSync(packageFilename)) {
@@ -38,9 +38,13 @@ console.log("")
 
 Messenger.success(`✓ Creating Github tag ${version}`)
 
-if (!TESTING) {
+console.log("")
+
+if (!_TESTING) {
     let result = execSync('git tag "${version}" && git push --tags --quiet')
     console.log(result.toString())
+} else {
+    Messenger.note("*** TESTING MODE Publishing Command Skipped ***")
 }
 
 console.log("")
