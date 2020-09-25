@@ -6,6 +6,7 @@
 .php_cs.cache
 .phpunit-watcher.yml
 .vscode/*
+.vscode/
 composer.lock
 coverage/
 NOTES.md
@@ -16,3 +17,6 @@ scripts/
 *.taskpaper
 NOTES.md
 .phpunit.result.cache
+coverage.xml
+node_modules/
+clover.xml

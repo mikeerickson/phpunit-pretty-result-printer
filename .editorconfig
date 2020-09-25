@@ -1,11 +1,15 @@
 # http://editorconfig.org
 root = true
 
-[*.php]
+[*.{php,py,vue}]
 indent_style = space
 indent_size = 4
 
-[*.js]
+[*.{jsx,tsx}]
+indent_size = 4
+indent_style = space
+
+[*.{js,ts}]
 indent_style = space
 indent_size = 2
 end_of_line = lf

@@ -1,14 +1,14 @@
 {
   "name": "phpunit-pretty-result-printer",
-  "version": "0.29.3",
-  "description": "Version 0.29 Extend the default PHPUnit Result Printer with a modern, pretty printer!",
+  "version": "0.29.4",
+  "description": "Extend the default PHPUnit Result Printer with a modern, pretty printer!",
   "main": "index.js",
   "directories": {
     "test": "tests"
   },
   "scripts": {
     "coverage-report": "open ./coverage/index.html",
-    "publish": "./tasks/publish.sh",
+    "publish": "./tasks/publish.js",
     "test": "vendor/bin/phpunit --colors=always --testsuite Unit",
     "test:unit": "vendor/bin/phpunit --colors=always --testsuite=Unit",
     "test:feature": "vendor/bin/phpunit --colors=always --testsuite=Feature"
@@ -23,5 +23,9 @@
   "bugs": {
     "url": "https://github.com/mikeerickson/phpunit-pretty-result-printer/issues"
   },
-  "homepage": "https://github.com/mikeerickson/phpunit-pretty-result-printer#readme"
+  "homepage": "https://github.com/mikeerickson/phpunit-pretty-result-printer#readme",
+  "devDependencies": {
+    "@codedungeon/messenger": "0.7.0",
+    "prettier": "2.1.2"
+  }
 }
