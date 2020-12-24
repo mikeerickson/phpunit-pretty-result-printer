@@ -6,6 +6,12 @@ Apologies that this starts with version 0.27, but for some reason I did not have
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.30.1] -- 2020.12.24
+
+### Changed
+
+-   Added `post-package-install` script to initialize printer and add setting to `phpunit.xml` file
+
 ## [0.30.0] -- 2020.12.02
 
 ### Changed

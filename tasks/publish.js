@@ -12,7 +12,7 @@ const Messenger = require("@codedungeon/messenger")
 
 let version = ""
 let name = ""
-let _TESTING = true
+let _TESTING = false
 
 let packageFilename = path.join(__dirname, "..", "package.json")
 if (fs.existsSync(packageFilename)) {
@@ -41,8 +41,9 @@ Messenger.success(`✓ Creating Github tag ${version}`)
 console.log("")
 
 if (!_TESTING) {
-    let result = execSync('git tag "${version}" && git push --tags --quiet')
+    let result = execSync(`git tag "${version}" && git push --tags --quiet`)
     console.log(result.toString())
+    console.log("")
 } else {
     Messenger.note("*** TESTING MODE Publishing Command Skipped ***")
 }

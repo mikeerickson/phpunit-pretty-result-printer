@@ -1,6 +1,6 @@
 {
   "name": "codedungeon/phpunit-result-printer",
-  "version": "0.30.0",
+  "version": "0.30.1",
   "description": "PHPUnit Pretty Result Printer",
   "keywords": [
     "phpunit",
@@ -35,6 +35,9 @@
     }
   },
   "scripts": {
+    "post-package-install": [
+      "php ./vendor/codedungeon/phpunit-result-printer/src/init.php"
+    ],
     "coverage-report": "open ./coverage/index.html",
     "test": "vendor/bin/phpunit --colors=always --testsuite Unit",
     "test-unit": "vendor/bin/phpunit --colors=always --testsuite=Unit",
