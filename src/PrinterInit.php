@@ -26,23 +26,24 @@ class PrinterInit
         if (!file_exists($phpunit_xml_file)) {
             $phpunit_xml_file = './phpunit.xml.dist';
         }
-        echo self::CYAN."\n==> Configuring phpunit-pretty-result-printer\n".self::RESET;
-        echo "\n    ".self::LWHITE.'[•  ]'.self::GREEN." Gathering installation details\n".self::RESET;
+        echo self::CYAN . "\n==> Configuring phpunit-pretty-result-printer\n" . self::RESET;
+        echo "\n    " . self::LWHITE . '[•  ]' . self::GREEN . " Gathering installation details\n" . self::RESET;
         $result = $this->add_printer_class_to_phpunit_xml($phpunit_xml_file);
         if ($useCollision) {
             if (is_dir('vendor/nunomaduro/collision')) {
                 $result = $this->add_collision_to_phpunit_xml($phpunit_xml_file);
                 if ($result === 0) {
-                    echo self::GREEN."          ✔  Collision listener activated\n".self::RESET;
+                    echo self::GREEN . "          ✔  Collision listener activated\n" . self::RESET;
                 } else {
-                    echo self::MAGENTA."          ⇢  Collision already installed\n".self::RESET;
+                    echo self::MAGENTA . "          ⇢  Collision already installed\n" . self::RESET;
                 }
             } else {
-                echo self::RED."          ✖ Collision package not installed\n".self::RESET;
+                echo self::RED . "          ✖ Collision package not installed\n" . self::RESET;
             }
         }
         $this->copy_default_settings('phpunit-printer.yml');
-        echo self::CYAN."\n==> Configuration Complete\n".self::RESET;
+        echo self::CYAN . "\n==> Configuration Complete\n" . self::RESET;
+        echo "\n";
 
         return $result;
     }
@@ -54,19 +55,19 @@ class PrinterInit
             $data   = file_get_contents($PHPUNIT_FILE);
             $result = (int) strpos($data, 'printerClass=');
             if ($result > 0) {
-                echo self::LWHITE.'    [•• ]'.self::LYELLOW.' Printer class already configured in '.self::CYAN."{$PHPUNIT_FILE} \n".self::RESET;
+                echo self::LWHITE . '    [•• ]' . self::LYELLOW . ' Printer class already configured in ' . self::CYAN . "{$PHPUNIT_FILE} \n" . self::RESET;
 
                 return 0;
             } else {
                 $xml = simplexml_load_file($PHPUNIT_FILE);
                 $xml->addAttribute('printerClass', 'Codedungeon\PHPUnitPrettyResultPrinter\Printer');
                 file_put_contents($PHPUNIT_FILE, $xml->asXML());
-                echo self::LWHITE.'    [•• ]'.self::GREEN.' Printer class successfully added to '.self::CYAN.$PHPUNIT_FILE.self::GREEN." file\n".self::RESET;
+                echo self::LWHITE . '    [•• ]' . self::GREEN . ' Printer class successfully added to ' . self::CYAN . $PHPUNIT_FILE . self::GREEN . " file\n" . self::RESET;
 
                 return 1;
             }
         } else {
-            echo self::RED.'    [•• ] Unable to locate valid '.self::YELLOW.$PHPUNIT_FILE.self::RED.' file, you will need to set '.self::CYAN.'printerClass '.self::RED."manually\n".self::RESET;
+            echo self::RED . '    [•• ] Unable to locate valid ' . self::YELLOW . $PHPUNIT_FILE . self::RED . ' file, you will need to set ' . self::CYAN . 'printerClass ' . self::RED . "manually\n" . self::RESET;
 
             return -43;
         }
@@ -98,18 +99,18 @@ class PrinterInit
     private function copy_default_settings(string $file = 'phpunit-printer.yml')
     {
         $CONFIG_FILE               = $file;
-        $packageDefaultSettingFile = dirname(__FILE__, 2).DIRECTORY_SEPARATOR.'src/'.$CONFIG_FILE;
+        $packageDefaultSettingFile = dirname(__FILE__, 2) . DIRECTORY_SEPARATOR . 'src/' . $CONFIG_FILE;
 
         $copySettingFile = $CONFIG_FILE;
         if (file_exists($packageDefaultSettingFile)) {
             if (!file_exists($copySettingFile)) {
                 copy($packageDefaultSettingFile, $copySettingFile);
-                echo self::LWHITE.'    [•••]'.self::GREEN.' Configuration '.self::CYAN.'./'.$CONFIG_FILE.self::GREEN." copied to project root\n".self::RESET;
+                echo self::LWHITE . '    [•••]' . self::GREEN . ' Configuration ' . self::CYAN . './' . $CONFIG_FILE . self::GREEN . " copied to project root\n" . self::RESET;
             } else {
-                echo self::LWHITE.'    [•••]'.self::LYELLOW.' Configuration '.self::CYAN.'./'.$CONFIG_FILE.self::LYELLOW." already exists\n".self::RESET;
+                echo self::LWHITE . '    [•••]' . self::LYELLOW . ' Configuration ' . self::CYAN . './' . $CONFIG_FILE . self::LYELLOW . " already exists\n" . self::RESET;
             }
         } else {
-            echo self::LWHITE.'    [••E]'.self::RED." An error occurred preparing configuration file\n".self::RESET;
+            echo self::LWHITE . '    [••E]' . self::RED . " An error occurred preparing configuration file\n" . self::RESET;
         }
     }
 }
