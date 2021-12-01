@@ -3,16 +3,21 @@
 namespace Codedungeon\PHPUnitPrettyResultPrinter;
 
 use PHPUnit\Runner\Version;
-use PHPUnit_TextUI_ResultPrinter;
 
-if (class_exists(PHPUnit_TextUI_ResultPrinter::class)) {
+$low  = version_compare(Version::series(), '5.0', '>=');
+$high = version_compare(Version::series(), '5.99.99', '<=');
+
+if ($low && $high) {
     class Printer extends ResultPrinter5
     {
         use PrinterTrait;
     }
 }
 
-if (version_compare(Version::series(), '6.99.99', '<=')) {
+$low  = version_compare(Version::series(), '6.0', '>=');
+$high = version_compare(Version::series(), '6.99.99', '<=');
+
+if ($low && $high) {
     class Printer extends ResultPrinter6
     {
         use PrinterTrait;
