@@ -1,6 +1,6 @@
 {
   "name": "phpunit-pretty-result-printer",
-  "version": "0.31.0",
+  "version": "0.32.0",
   "description": "Extend the default PHPUnit Result Printer with a modern, pretty printer!",
   "main": "index.js",
   "directories": {
