@@ -22,7 +22,7 @@
   "require": {
     "php": "^7.1 | ^8.0",
     "hassankhan/config": "^0.11.2|^1.0|^2.0|^3.0",
-    "symfony/yaml": "^2.7|^3.0|^4.0|^5.0",
+    "symfony/yaml": "^2.7|^3.0|^4.0|^5.0|^6.0",
     "codedungeon/php-cli-colors": "^1.10.2",
     "2bj/phanybar": "^1.0"
   },
