@@ -80,6 +80,16 @@ trait PrinterTrait
      */
     private $dontFormatClassName;
 
+    /**
+     * @var bool
+     */
+    private $showLegend;
+
+    /**
+     * @var int
+     */
+    protected $columnsInLegend;
+
     private $markerColors = [
         'pass' => 'fg-green',
         'skipped' => 'fg-yellow,bold',
@@ -108,6 +118,7 @@ trait PrinterTrait
 
         $this->maxNumberOfColumns = $this->getWidth() - 5;
         $this->maxClassNameLength = min((int) ($this->maxNumberOfColumns / 2), $this->maxClassNameLength);
+        $this->columnsInLegend = min(ceil($this->maxClassNameLength / 18), 3); // 3 columns max;
 
         if ($this->hideNamespace) {
             $this->maxClassNameLength = 32;
@@ -205,6 +216,20 @@ trait PrinterTrait
                 echo PHP_EOL . PHP_EOL;
             }
 
+            if ($this->showLegend) {
+                $col = 1;
+
+                echo ($use_color !== 'never' ? $this->colorsTool->normal() : '').'==> Legend: '.PHP_EOL.'|';
+
+                foreach ($this->markers as $key => $marker) {
+                    echo parent::formatWithColor($this->resolveColor($key), ' '.str_pad("${marker}", 3, " "));
+                    echo $this->colorsTool->reset().str_pad(" - $key", 15, " ");
+                    echo ($col++ % $this->columnsInLegend == 0 ? '|'.PHP_EOL.($col < count($this->markers) ? '|' : '') : '|');
+                }
+                echo $use_color !== 'never' ? $this->colorsTool->reset() : '';
+
+                echo PHP_EOL;
+            }
             self::$init = true;
         }
     }
@@ -295,6 +320,7 @@ trait PrinterTrait
         $this->anyBarEnabled       = $this->getConfigOption('cd-printer-anybar');
         $this->anyBarPort          = $this->getConfigOption('cd-printer-anybar-port');
         $this->dontFormatClassName = $this->getConfigOption('cd-printer-dont-format-classname');
+        $this->showLegend          = $this->getConfigOption('cd-printer-show-legend');
 
         if (!strpos(php_uname(), 'Darwin')) {
             $this->anyBarEnabled = false;
