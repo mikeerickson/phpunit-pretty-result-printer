@@ -80,6 +80,15 @@ trait PrinterTrait
      */
     private $dontFormatClassName;
 
+    private $markerColors = [
+        'pass' => 'fg-green',
+        'skipped' => 'fg-yellow,bold',
+        'incomplete' => 'fg-blue,bold',
+        'fail' => 'fg-red,bold',
+        'error' => 'fg-red,bold',
+        'risky' => 'fg-magenta,bold'
+    ];
+
     /**
      * {@inheritdoc}
      */
@@ -419,6 +428,17 @@ trait PrinterTrait
     }
 
     /**
+     * @param string $text
+     *
+     * @return string
+     */
+    protected function resolveColor($text)
+    {
+        return empty($text) ? $this->colorsTool->normal() : $this->markerColors[$text];
+    }
+
+
+    /**
      * @param string $color
      * @param string $buffer Result of the Test Case => . F S I R
      */
@@ -432,32 +452,32 @@ trait PrinterTrait
         }
         switch (strtoupper($buffer)) {
             case '.':
-                $color  = 'fg-green';
+                $color  = $this->resolveColor('pass');
                 $buffer = $this->simpleOutput ? '.' : $this->markers['pass']; // mb_convert_encoding("\x27\x13", 'UTF-8', 'UTF-16BE');
                 $buffer .= (!$this->debug) ? '' : ' Passed';
                 break;
             case 'S':
-                $color  = 'fg-yellow,bold';
+                $color  = $this->resolveColor('skipped');
                 $buffer = $this->simpleOutput ? 'S' : $this->markers['skipped']; // mb_convert_encoding("\x27\xA6", 'UTF-8', 'UTF-16BE');
                 $buffer .= !$this->debug ? '' : ' Skipped';
                 break;
             case 'I':
-                $color  = 'fg-blue,bold';
+                $color  = $this->resolveColor('incomplete');
                 $buffer = $this->simpleOutput ? 'I' : $this->markers['incomplete']; // 'ℹ';
                 $buffer .= !$this->debug ? '' : ' Incomplete';
                 break;
             case 'F':
-                $color  = 'fg-red,bold';
+                $color  = $this->resolveColor('fail');
                 $buffer = $this->simpleOutput ? 'F' : $this->markers['fail']; // mb_convert_encoding("\x27\x16", 'UTF-8', 'UTF-16BE');
                 $buffer .= (!$this->debug) ? '' : ' Fail';
                 break;
             case 'E':
-                $color  = 'fg-red,bold';
+                $color  = $this->resolveColor('error');
                 $buffer = $this->simpleOutput ? 'E' : $this->markers['error']; // '⚈';
                 $buffer .= !$this->debug ? '' : ' Error';
                 break;
             case 'R':
-                $color  = 'fg-magenta,bold';
+                $color  = $this->resolveColor('risky');
                 $buffer = $this->simpleOutput ? 'R' : $this->markers['risky']; // '⚙';
                 $buffer .= !$this->debug ? '' : ' Risky';
                 break;
