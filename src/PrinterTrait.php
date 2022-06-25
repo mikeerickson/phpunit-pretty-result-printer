@@ -91,12 +91,12 @@ trait PrinterTrait
     protected $columnsInLegend;
 
     private $markerColors = [
-        'pass' => 'fg-green',
-        'skipped' => 'fg-yellow,bold',
+        'pass'       => 'fg-green',
+        'skipped'    => 'fg-yellow,bold',
         'incomplete' => 'fg-blue,bold',
-        'fail' => 'fg-red,bold',
-        'error' => 'fg-red,bold',
-        'risky' => 'fg-magenta,bold'
+        'fail'       => 'fg-red,bold',
+        'error'      => 'fg-red,bold',
+        'risky'      => 'fg-magenta,bold',
     ];
 
     /**
@@ -118,7 +118,7 @@ trait PrinterTrait
 
         $this->maxNumberOfColumns = $this->getWidth() - 5;
         $this->maxClassNameLength = min((int) ($this->maxNumberOfColumns / 2), $this->maxClassNameLength);
-        $this->columnsInLegend = min(ceil($this->maxClassNameLength / 18), 3); // 3 columns max;
+        $this->columnsInLegend    = min(ceil($this->maxClassNameLength / 18), 3); // 3 columns max;
 
         if ($this->hideNamespace) {
             $this->maxClassNameLength = 32;
@@ -219,12 +219,12 @@ trait PrinterTrait
             if ($this->showLegend) {
                 $col = 1;
 
-                echo ($use_color !== 'never' ? $this->colorsTool->normal() : '').'==> Legend: '.PHP_EOL.'|';
+                echo($use_color !== 'never' ? $this->colorsTool->normal() : '').'==> Legend: '.PHP_EOL.'|';
 
                 foreach ($this->markers as $key => $marker) {
-                    echo parent::formatWithColor($this->resolveColor($key), ' '.str_pad("${marker}", 3, " "));
-                    echo $this->colorsTool->reset().str_pad(" - $key", 15, " ");
-                    echo ($col++ % $this->columnsInLegend == 0 ? '|'.PHP_EOL.($col < count($this->markers) ? '|' : '') : '|');
+                    echo parent::formatWithColor($this->resolveColor($key), ' '.str_pad("${marker}", 3, ' '));
+                    echo $this->colorsTool->reset().str_pad(" - $key", 15, ' ');
+                    echo $col++ % $this->columnsInLegend == 0 ? '|'.PHP_EOL.($col < count($this->markers) ? '|' : '') : '|';
                 }
                 echo $use_color !== 'never' ? $this->colorsTool->reset() : '';
 
@@ -462,7 +462,6 @@ trait PrinterTrait
     {
         return empty($text) ? $this->colorsTool->normal() : $this->markerColors[$text];
     }
-
 
     /**
      * @param string $color
