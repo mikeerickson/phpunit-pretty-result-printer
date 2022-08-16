@@ -6,6 +6,7 @@ options:
   cd-printer-anybar: true
   cd-printer-anybar-port: 1738
   cd-printer-dont-format-classname: false
+  cd-printer-show-legend: true
 markers:
   cd-pass: "✔ "
   cd-fail: "✖ "
