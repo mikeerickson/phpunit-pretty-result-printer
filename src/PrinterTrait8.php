@@ -77,6 +77,25 @@ trait PrinterTrait8
     private $defaultMarkers = [];
 
     /**
+     * @var bool
+     */
+    private $showLegend;
+
+    /**
+     * @var int
+     */
+    protected $columnsInLegend;
+
+    private $markerColors = [
+        'pass'       => 'fg-green',
+        'skipped'    => 'fg-yellow,bold',
+        'incomplete' => 'fg-blue,bold',
+        'fail'       => 'fg-red,bold',
+        'error'      => 'fg-red,bold',
+        'risky'      => 'fg-magenta,bold',
+    ];
+
+    /**
      * {@inheritdoc}
      */
     public function __construct(
@@ -95,6 +114,7 @@ trait PrinterTrait8
 
         $this->maxNumberOfColumns = $this->getWidth() - 5;
         $this->maxClassNameLength = min((int) ($this->maxNumberOfColumns / 2), $this->maxClassNameLength);
+        $this->columnsInLegend    = min(ceil($this->maxClassNameLength / 18), 3); // 3 columns max;
 
         if ($this->hideNamespace) {
             $this->maxClassNameLength = 32;
@@ -192,6 +212,21 @@ trait PrinterTrait8
                 echo PHP_EOL . PHP_EOL;
             }
 
+            if ($this->showLegend) {
+                $col = 1;
+
+                echo($use_color !== 'never' ? $this->colorsTool->normal() : '').'==> Legend: '.PHP_EOL.'|';
+
+                foreach ($this->markers as $key => $marker) {
+                    echo parent::colorizeTextBox($this->resolveColor($key), ' '.str_pad("${marker}", 3, ' '));
+                    echo $this->colorsTool->reset().str_pad(" - $key", 15, ' ');
+                    echo $col++ % $this->columnsInLegend == 0 ? '|'.PHP_EOL.($col < count($this->markers) ? '|' : '') : '|';
+                }
+                echo $use_color !== 'never' ? $this->colorsTool->reset() : '';
+
+                echo PHP_EOL;
+                echo PHP_EOL;
+            }
             self::$init = true;
         }
     }
@@ -282,6 +317,7 @@ trait PrinterTrait8
         $this->anyBarEnabled       = $this->getConfigOption('cd-printer-anybar');
         $this->anyBarPort          = $this->getConfigOption('cd-printer-anybar-port');
         $this->dontFormatClassName = $this->getConfigOption('cd-printer-dont-format-classname');
+        $this->showLegend          = $this->getConfigOption('cd-printer-show-legend');
 
         if (!strpos(php_uname(), 'Darwin')) {
             $this->anyBarEnabled = false;
@@ -415,6 +451,16 @@ trait PrinterTrait8
     }
 
     /**
+     * @param string $text
+     *
+     * @return string
+     */
+    protected function resolveColor($text)
+    {
+        return empty($text) ? $this->colorsTool->normal() : $this->markerColors[$text];
+    }
+
+    /**
      * @param string $color
      * @param string $buffer Result of the Test Case => . F S I R
      */
@@ -428,32 +474,32 @@ trait PrinterTrait8
         }
         switch (strtoupper($buffer)) {
             case '.':
-                $color  = 'fg-green';
+                $color  = $this->resolveColor('pass');
                 $buffer = $this->simpleOutput ? '.' : $this->markers['pass']; // mb_convert_encoding("\x27\x13", 'UTF-8', 'UTF-16BE');
                 $buffer .= (!$this->debug) ? '' : ' Passed';
                 break;
             case 'S':
-                $color  = 'fg-yellow,bold';
+                $color  = $this->resolveColor('skipped');
                 $buffer = $this->simpleOutput ? 'S' : $this->markers['skipped']; // mb_convert_encoding("\x27\xA6", 'UTF-8', 'UTF-16BE');
                 $buffer .= !$this->debug ? '' : ' Skipped';
                 break;
             case 'I':
-                $color  = 'fg-blue,bold';
+                $color  = $this->resolveColor('incomplete');
                 $buffer = $this->simpleOutput ? 'I' : $this->markers['incomplete']; // 'ℹ';
                 $buffer .= !$this->debug ? '' : ' Incomplete';
                 break;
             case 'F':
-                $color  = 'fg-red,bold';
+                $color  = $this->resolveColor('fail');
                 $buffer = $this->simpleOutput ? 'F' : $this->markers['fail']; // mb_convert_encoding("\x27\x16", 'UTF-8', 'UTF-16BE');
                 $buffer .= (!$this->debug) ? '' : ' Fail';
                 break;
             case 'E':
-                $color  = 'fg-red,bold';
+                $color  = $this->resolveColor('error');
                 $buffer = $this->simpleOutput ? 'E' : $this->markers['error']; // '⚈';
                 $buffer .= !$this->debug ? '' : ' Error';
                 break;
             case 'R':
-                $color  = 'fg-magenta,bold';
+                $color  = $this->resolveColor('risky');
                 $buffer = $this->simpleOutput ? 'R' : $this->markers['risky']; // '⚙';
                 $buffer .= !$this->debug ? '' : ' Risky';
                 break;
