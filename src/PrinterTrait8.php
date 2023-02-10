@@ -456,8 +456,6 @@ trait PrinterTrait8
                 break;
         }
 
-        $buffer .= '';
-
         echo parent::colorizeTextBox($color, $buffer);
 
         if ($this->debug) {
