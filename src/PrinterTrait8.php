@@ -96,10 +96,6 @@ trait PrinterTrait8
         $this->maxNumberOfColumns = $this->getWidth() - 5;
         $this->maxClassNameLength = min((int) ($this->maxNumberOfColumns / 2), $this->maxClassNameLength);
 
-        if ($this->hideNamespace) {
-            $this->maxClassNameLength = 32;
-        }
-
         $this->init($colors);
     }
 
@@ -282,6 +278,7 @@ trait PrinterTrait8
         $this->anyBarEnabled       = $this->getConfigOption('cd-printer-anybar');
         $this->anyBarPort          = $this->getConfigOption('cd-printer-anybar-port');
         $this->dontFormatClassName = $this->getConfigOption('cd-printer-dont-format-classname');
+        $this->maxClassNameLength  = $this->getConfigOption('cd-printer-max-class-name-length');
 
         if (!strpos(php_uname(), 'Darwin')) {
             $this->anyBarEnabled = false;
@@ -459,7 +456,7 @@ trait PrinterTrait8
                 break;
         }
 
-        $buffer .= ' ';
+        $buffer .= '';
 
         echo parent::colorizeTextBox($color, $buffer);
 
