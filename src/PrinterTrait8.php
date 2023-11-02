@@ -31,7 +31,6 @@ trait PrinterTrait8
      * @var Color
      */
     private $colorsTool;
-
     /**
      * @var array|null
      */
