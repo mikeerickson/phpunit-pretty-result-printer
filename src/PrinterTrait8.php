@@ -20,6 +20,22 @@ trait PrinterTrait8
      */
     public $className = '';
     /**
+     * @var int
+     */
+    private $anyBarPort;
+    /**
+     * @var bool
+     */
+    private $anyBarEnabled;
+    /**
+     * @var Color
+     */
+    private $colorsTool;
+    /**
+     * @var array|null
+     */
+    private $defaultConfigOptions;
+    /**
      * @var string
      */
     private $lastClassName = '';
@@ -171,10 +187,10 @@ trait PrinterTrait8
             $name    = $this->packageName();
             echo PHP_EOL;
             if ($use_color !== 'never') {
-                echo $this->colorsTool->green() . "${name} ${version} by Codedungeon and contributors." . PHP_EOL;
+                echo $this->colorsTool->green() . "{$name} {$version} by Codedungeon and contributors." . PHP_EOL;
                 echo $this->colorsTool->reset();
             } else {
-                echo "${name} ${version} by Codedungeon and contributors." . PHP_EOL;
+                echo "{$name} {$version} by Codedungeon and contributors." . PHP_EOL;
             }
 
             if ($this->showConfig) {
