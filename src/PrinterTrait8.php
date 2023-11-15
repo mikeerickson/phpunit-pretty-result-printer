@@ -6,78 +6,30 @@ use Noodlehaus\Config;
 use Codedungeon\PHPCliColors\Color;
 use Noodlehaus\Exception\EmptyDirectoryException;
 
-/**
- * Trait PrinterTrait.
- */
 trait PrinterTrait8
 {
-    /**
-     * @var bool
-     */
-    protected static $init = false;
-    /**
-     * @var string
-     */
-    public $className = '';
-    /**
-     * @var string
-     */
-    private $lastClassName = '';
-    /**
-     * @var int
-     */
-    private $maxClassNameLength = 50;
-    /**
-     * @var int
-     */
-    private $maxNumberOfColumns;
-    /**
-     * @var
-     */
-    private $hideClassName;
-    /**
-     * @var
-     */
-    private $simpleOutput;
-    /**
-     * @var Config
-     */
-    private $configuration;
-    /**
-     * @var string
-     */
-    private $configFileName;
-    /**
-     * @var array|null
-     */
-    private $printerOptions;
-    /**
-     * @var mixed|null
-     */
-    private $showConfig;
+    protected static bool $init = false;
+    public string $className = '';
+    private string $lastClassName = '';
+    private int $maxClassNameLength = 50;
+    private int $maxNumberOfColumns = 0;
+    private bool $hideClassName = false;
+    private bool $simpleOutput = false;
+    private Config $configuration;
+    private string $configFileName = 'phpunit-printer.yml';
+    private array|null $printerOptions;
+    private mixed $showConfig = true;
+    private bool $hideNamespace = false;
+    private bool $dontFormatClassName = false;
+    public array $markers = [];
+    private array $defaultMarkers = [];
+    public Color $colorsTool;
+    private array $defaultConfigOptions = [];
+    private bool $anyBarEnabled = false;
+    private int $anyBarPort = 0;
 
     /**
-     * @var
-     */
-    private $hideNamespace;
-
-    /**
-     * @var bool
-     */
-    private $dontFormatClassName;
-
-    /**
-     * @var array
-     */
-    public $markers = [];
-
-    /**
-     * @var array
-     */
-    private $defaultMarkers = [];
-
-    /**
-     * {@inheritdoc}
+     * @throws EmptyDirectoryException
      */
     public function __construct(
         $out = null,
@@ -99,12 +51,7 @@ trait PrinterTrait8
         $this->init($colors);
     }
 
-    /**
-     * @param string $configFileName
-     *
-     * @return string
-     */
-    public function getConfigurationFile($configFileName = 'phpunit-printer.yml')
+    public function getConfigurationFile($configFileName = 'phpunit-printer.yml'): string
     {
         $defaultConfigFilename = $this->getPackageRoot() . DIRECTORY_SEPARATOR . 'src/' . $configFileName;
 
@@ -124,78 +71,49 @@ trait PrinterTrait8
         return $filename;
     }
 
-    /**
-     * @return string
-     */
-    public function version()
+    private function packageName(): string
     {
         $content = file_get_contents($this->getPackageRoot() . DIRECTORY_SEPARATOR . 'composer.json');
         if ($content) {
             $content = json_decode($content, true);
-
-            return isset($content['version']) ? $content['version'] : '<unknown>';
+            return $content['description'] ?? '<unknown>';
         }
-    }
-
-    /**
-     * @return string
-     */
-    public function getVersion()
-    {
-        return $this->version();
-    }
-
-    /**
-     * @return string
-     */
-    public function packageName()
-    {
-        $content = file_get_contents($this->getPackageRoot() . DIRECTORY_SEPARATOR . 'composer.json');
-        if ($content) {
-            $content = json_decode($content, true);
-
-            return isset($content['description']) ? $content['description'] : '<unknown>';
-        }
-
         return '<unknown>';
     }
 
-    protected function init($use_color = 'always')
+    protected function init($use_color = 'always'): void
     {
-        if (!self::$init) {
-            $version = $this->version();
-            $name    = $this->packageName();
-            echo PHP_EOL;
+        if (self::$init) return;
+
+        $name = $this->packageName();
+
+        echo PHP_EOL;
+        if ($use_color !== 'never') {
+            echo $this->colorsTool->green() . "${name} by Codedungeon and contributors." . PHP_EOL;
+            echo $this->colorsTool->reset();
+        } else {
+            echo "${name} by Codedungeon and contributors." . PHP_EOL;
+        }
+
+        if ($this->showConfig) {
+            $home     = getenv('HOME');
+            $filename = str_replace($home, '~', $this->configFileName);
+
             if ($use_color !== 'never') {
-                echo $this->colorsTool->green() . "${name} ${version} by Codedungeon and contributors." . PHP_EOL;
+                echo $this->colorsTool->yellow() . '==> Configuration: ';
+                echo $this->colorsTool->yellow() . $filename;
                 echo $this->colorsTool->reset();
             } else {
-                echo "${name} ${version} by Codedungeon and contributors." . PHP_EOL;
+                echo "'==> Configuration: '";
+                echo $filename;
             }
-
-            if ($this->showConfig) {
-                $home     = getenv('HOME');
-                $filename = str_replace($home, '~', $this->configFileName);
-
-                if ($use_color !== 'never') {
-                    echo $this->colorsTool->yellow() . '==> Configuration: ';
-                    echo $this->colorsTool->yellow() . $filename;
-                    echo $this->colorsTool->reset();
-                } else {
-                    echo "'==> Configuration: '";
-                    echo $filename;
-                }
-                echo PHP_EOL . PHP_EOL;
-            }
-
-            self::$init = true;
+            echo PHP_EOL . PHP_EOL;
         }
+
+        self::$init = true;
     }
 
-    /**
-     * @param $progress
-     */
-    protected function writeProgressEx($progress)
+    protected function writeProgressEx($progress): void
     {
         if (!$this->debug) {
             $this->printClassName();
@@ -203,17 +121,10 @@ trait PrinterTrait8
         $this->printTestCaseStatus('', $progress);
     }
 
-    /**
-     * Prints the Class Name if it has changed.
-     */
-    protected function printClassName()
+    protected function printClassName(): void
     {
-        if ($this->hideClassName) {
-            return;
-        }
-        if ($this->lastClassName === $this->className) {
-            return;
-        }
+        if ($this->hideClassName) return;
+        if ($this->lastClassName === $this->className) return;
 
         echo PHP_EOL;
         $className = $this->formatClassName($this->className);
@@ -222,10 +133,7 @@ trait PrinterTrait8
         $this->lastClassName = $this->className;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function writeProgressWithColorEx($color, $buffer)
+    protected function writeProgressWithColorEx($color, $buffer): void
     {
         if (!$this->debug) {
             $this->printClassName();
@@ -237,7 +145,7 @@ trait PrinterTrait8
     /**
      * @throws EmptyDirectoryException
      */
-    private function loadDefaultConfiguration()
+    private function loadDefaultConfiguration(): void
     {
         try {
             $defaultConfig              = new Config($this->getPackageConfigurationFile());
@@ -248,17 +156,14 @@ trait PrinterTrait8
         }
     }
 
-    /**
-     * @return string
-     */
-    private function getPackageConfigurationFile()
+    private function getPackageConfigurationFile(): string
     {
         return $this->getPackageRoot() . DIRECTORY_SEPARATOR . 'src/phpunit-printer.yml';
     }
 
-    private function loadUserConfiguration()
+    private function loadUserConfiguration(): void
     {
-        $this->configFileName = $this->getConfigurationFile('phpunit-printer.yml');
+        $this->configFileName = $this->getConfigurationFile();
 
         try {
             $this->configuration = new Config($this->configFileName);
@@ -294,12 +199,7 @@ trait PrinterTrait8
         ];
     }
 
-    /**
-     * @param $marker
-     *
-     * @return mixed
-     */
-    private function getConfigOption($marker, $default = '')
+    private function getConfigOption($marker, $default = ''): mixed
     {
         if (isset($this->printerOptions['options'])) {
             if (isset($this->printerOptions['options'][$marker])) {
@@ -310,12 +210,7 @@ trait PrinterTrait8
         return $this->defaultConfigOptions['options'][$marker];
     }
 
-    /**
-     * @param $marker
-     *
-     * @return mixed
-     */
-    private function getConfigMarker($marker)
+    private function getConfigMarker($marker): mixed
     {
         if (isset($this->printerOptions['markers'])) {
             if (isset($this->printerOptions['markers'][$marker])) {
@@ -326,28 +221,17 @@ trait PrinterTrait8
         return $this->defaultConfigOptions['markers'][$marker];
     }
 
-    /**
-     * @return string | returns package root
-     */
-    private function getPackageRoot()
+    private function getPackageRoot(): string
     {
         return \dirname(__FILE__, 2);
     }
 
-    /**
-     * @return bool
-     */
-    private function isWindows()
+    private function isWindows(): bool
     {
         return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
     }
 
-    /**
-     * Gets the terminal width.
-     *
-     * @return int
-     */
-    private function getWidth()
+    private function getWidth(): int
     {
         $width = 0;
         if ($this->isWindows()) {
@@ -369,12 +253,7 @@ trait PrinterTrait8
         return $width;
     }
 
-    /**
-     * @param string $className
-     *
-     * @return string
-     */
-    private function formatClassName($className)
+    private function formatClassName(string $className): string
     {
         $prefix   = ' ==> ';
         $ellipsis = '...';
@@ -401,12 +280,7 @@ trait PrinterTrait8
         return $prefix . $ellipsis . substr($className, \strlen($className) - $maxLength, $maxLength) . $suffix;
     }
 
-    /**
-     * @param string $className
-     *
-     * @return string;
-     */
-    private function fillWithWhitespace($className)
+    private function fillWithWhitespace(string $className): string
     {
         return str_pad($className, $this->maxClassNameLength);
     }
@@ -415,7 +289,7 @@ trait PrinterTrait8
      * @param string $color
      * @param string $buffer Result of the Test Case => . F S I R
      */
-    private function printTestCaseStatus($color, $buffer)
+    private function printTestCaseStatus(string $color, string $buffer): void
     {
         if ($this->column >= $this->maxNumberOfColumns) {
             $this->writeNewLine();

@@ -1,5 +1,4 @@
 <?php
-
 require_once 'PrinterInit.php';
 
-(new PrinterInit())->init('always', $_SERVER['argv']);
+(new \Codedungeon\PHPUnitPrettyResultPrinter\PrinterInit())->init($_SERVER['argv']);

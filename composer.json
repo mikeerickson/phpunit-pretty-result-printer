@@ -1,6 +1,5 @@
 {
   "name": "sophie-kuehn/phpunit-result-printer",
-  "version": "0.32.0",
   "description": "PHPUnit Pretty Result Printer",
   "keywords": [
     "phpunit",
@@ -20,14 +19,16 @@
   ],
   "type": "library",
   "require": {
-    "php": "^7.1 | ^8.0",
+    "php": "^8.0",
+    "ext-simplexml": "*",
     "hassankhan/config": "^0.11.2|^1.0|^2.0|^3.0",
-    "symfony/yaml": "^2.7|^3.0|^4.0|^5.0",
+    "symfony/yaml": "^2.7|^3.0|^4.0|^5.0|^6.0",
     "codedungeon/php-cli-colors": "^1.10.2",
     "2bj/phanybar": "^1.0"
   },
   "require-dev": {
-    "spatie/phpunit-watcher": "^1.6"
+    "spatie/phpunit-watcher": "^1.6",
+    "phpunit/phpunit": "^9"
   },
   "autoload": {
     "psr-4": {

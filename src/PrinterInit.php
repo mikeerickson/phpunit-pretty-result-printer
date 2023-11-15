@@ -1,4 +1,5 @@
 <?php
+namespace Codedungeon\PHPUnitPrettyResultPrinter;
 
 class PrinterInit
 {
@@ -16,10 +17,8 @@ class PrinterInit
     {
     }
 
-    public function init(string $use_colors = 'never', array $options = []): int
+    public function init(array $options = []): int
     {
-        $result = 0;
-
         $useCollision = in_array('--collision', $options);
 
         $phpunit_xml_file = './phpunit.xml';
@@ -28,10 +27,10 @@ class PrinterInit
         }
         echo self::CYAN . "\n==> Configuring phpunit-pretty-result-printer\n" . self::RESET;
         echo "\n    " . self::LWHITE . '[•  ]' . self::GREEN . " Gathering installation details\n" . self::RESET;
-        $result = $this->add_printer_class_to_phpunit_xml($phpunit_xml_file);
+        $result = $this->addPrinterClassToPhpUnitXml($phpunit_xml_file);
         if ($useCollision) {
             if (is_dir('vendor/nunomaduro/collision')) {
-                $result = $this->add_collision_to_phpunit_xml($phpunit_xml_file);
+                $result = $this->addCollisionToPhpUnitXml($phpunit_xml_file);
                 if ($result === 0) {
                     echo self::GREEN . "          ✔  Collision listener activated\n" . self::RESET;
                 } else {
@@ -41,14 +40,14 @@ class PrinterInit
                 echo self::RED . "          ✖ Collision package not installed\n" . self::RESET;
             }
         }
-        $this->copy_default_settings('phpunit-printer.yml');
+        $this->copyDefaultSettings();
         echo self::CYAN . "\n==> Configuration Complete\n" . self::RESET;
         echo "\n";
 
         return $result;
     }
 
-    private function add_printer_class_to_phpunit_xml(string $file = './phpunit.xml'): int
+    private function addPrinterClassToPhpUnitXml(string $file = './phpunit.xml'): int
     {
         $PHPUNIT_FILE = $file;
         if (file_exists($PHPUNIT_FILE)) {
@@ -73,7 +72,7 @@ class PrinterInit
         }
     }
 
-    private function add_collision_to_phpunit_xml(string $file = './phpunit.xml'): int
+    private function addCollisionToPhpUnitXml(string $file = './phpunit.xml'): int
     {
         $collisionData = '<listeners>
         <listener class="NunoMaduro\Collision\Adapters\Phpunit\Listener"/>
@@ -96,7 +95,7 @@ class PrinterInit
         }
     }
 
-    private function copy_default_settings(string $file = 'phpunit-printer.yml')
+    private function copyDefaultSettings(string $file = 'phpunit-printer.yml'): void
     {
         $CONFIG_FILE               = $file;
         $packageDefaultSettingFile = dirname(__FILE__, 2) . DIRECTORY_SEPARATOR . 'src/' . $CONFIG_FILE;

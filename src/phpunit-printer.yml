@@ -6,6 +6,7 @@ options:
   cd-printer-anybar: false
   cd-printer-anybar-port: 1738
   cd-printer-dont-format-classname: false
+  cd-printer-max-class-name-length: 32
 markers:
   cd-pass: "✔ "
   cd-fail: "✖ "

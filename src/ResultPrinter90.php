@@ -16,9 +16,10 @@ $high = true; // version_compare(Version::series(),'7.1.99','<=');
 if ($low && $high) {
     class ResultPrinter90 extends DefaultResultPrinter
     {
-        private $defectListPrinted = false;
+        use PrinterTrait8;
 
-        private $reverse = true;
+        private bool $defectListPrinted = false;
+        private bool $reverse = true;
 
         public function startTest(Test $test): void
         {
@@ -31,9 +32,9 @@ if ($low && $high) {
             $this->writeProgressEx($progress);
         }
 
-        protected function writeProgressWithColor(string $progress, string $buffer): void
+        protected function writeProgressWithColor(string $color, string $buffer): void
         {
-            $this->writeProgressWithColorEx($progress, $buffer);
+            $this->writeProgressWithColorEx($color, $buffer);
         }
 
         protected function printFooter(TestResult $result): void
@@ -64,7 +65,7 @@ if ($low && $high) {
             $exceptionMessage = str_replace("--- Expected\n", '', $exceptionMessage);
             $exceptionMessage = str_replace('@@ @@', '', $exceptionMessage);
 
-            if (strpos($exceptionMessage, 'This test did not perform any assertions') !== false) {
+            if (str_contains($exceptionMessage, 'This test did not perform any assertions') !== false) {
                 $exceptionMessage = $this->setMessageColor('risky', 'This test did not perform any assertions.');
             } else {
                 $marker = $this->markers['fail'];
@@ -153,16 +154,16 @@ if ($low && $high) {
             $color  = '37';
             $marker = '';
 
-            if (strpos($type, 'failure') !== false || strpos($type, 'error') !== false) {
+            if (str_contains($type, 'failure') !== false || str_contains($type, 'error') !== false) {
                 $color  = '31';
                 $marker = 'fail';
-            } elseif (strpos($type, 'incomplete') !== false) {
+            } elseif (str_contains($type, 'incomplete') !== false) {
                 $color  = '34';
                 $marker = 'incomplete';
-            } elseif (strpos($type, 'risky') !== false) {
+            } elseif (str_contains($type, 'risky') !== false) {
                 $color  = '35';
                 $marker = 'risky';
-            } elseif (strpos($type, 'skipped') !== false) {
+            } elseif (str_contains($type, 'skipped') !== false) {
                 $color  = '33';
                 $marker = 'skipped';
             }
