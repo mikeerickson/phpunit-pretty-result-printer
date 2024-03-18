@@ -76,6 +76,14 @@ trait PrinterTrait8
      */
     private $defaultMarkers = [];
 
+    private Color $colorsTool;
+
+    private $defaultConfigOptions = [];
+
+    protected $anyBarEnabled = false;
+
+    protected $anyBarPort = null;
+
     /**
      * {@inheritdoc}
      */
@@ -171,10 +179,10 @@ trait PrinterTrait8
             $name    = $this->packageName();
             echo PHP_EOL;
             if ($use_color !== 'never') {
-                echo $this->colorsTool->green() . "${name} ${version} by Codedungeon and contributors." . PHP_EOL;
+                echo $this->colorsTool->green() . "{$name} {$version} by Codedungeon and contributors." . PHP_EOL;
                 echo $this->colorsTool->reset();
             } else {
-                echo "${name} ${version} by Codedungeon and contributors." . PHP_EOL;
+                echo "{$name} {$version} by Codedungeon and contributors." . PHP_EOL;
             }
 
             if ($this->showConfig) {
